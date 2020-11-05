@@ -18,6 +18,8 @@ class CreateOfferedCoursesTable extends Migration
             $table->uuid('course_id');
             $table->string('run_id', 15);
             $table->string('coordinator');
+            $table->string('email');
+            $table->string('initials');
             $table->string('rerun')->nullable();
             $table->boolean('is_lab')->default(false);
             $table->boolean('has_lab')->default(false);

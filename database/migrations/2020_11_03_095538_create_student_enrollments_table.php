@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStudentMapsTable extends Migration
+class CreateStudentEnrollmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateStudentMapsTable extends Migration
      */
     public function up()
     {
-        Schema::create('student_maps', function (Blueprint $table) {
+        Schema::create('student_enrollments', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->unsignedInteger('student_id');
-            $table->string('email')->unique();
-            $table->string('username')->nullable();
+            $table->string('run_id', 15);
+            $table->string('student_id', 10);
+            $table->uuid('');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateStudentMapsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_maps');
+        Schema::dropIfExists('student_enrollments');
     }
 }
