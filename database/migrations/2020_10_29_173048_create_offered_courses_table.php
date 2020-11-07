@@ -20,7 +20,8 @@ class CreateOfferedCoursesTable extends Migration
             $table->string('coordinator');
             $table->string('email');
             $table->string('initials');
-            $table->string('rerun')->nullable();
+            $table->boolean('is_rerun')->default(false);
+            $table->string('bux_code')->nullable();
             $table->boolean('is_lab')->default(false);
             $table->boolean('has_lab')->default(false);
             $table->timestamps();

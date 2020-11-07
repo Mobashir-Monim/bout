@@ -17,7 +17,7 @@ class CreateStudentEnrollmentsTable extends Migration
             $table->uuid('id')->primary();
             $table->string('run_id', 15);
             $table->string('student_id', 10);
-            $table->uuid('');
+            $table->uuid('offered_course_id');
             $table->timestamps();
         });
     }
