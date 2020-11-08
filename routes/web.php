@@ -17,6 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/init/seed', [App\Http\Controllers\InitController::class, 'seederIndex'])->name('student-map-seeder');
+Route::post('/init/seed', [App\Http\Controllers\InitController::class, 'seedPart'])->name('student-map-seeder');
+
 Route::get('/gc', function() {
     return view('gsuite-consolidate');
 });
@@ -24,6 +27,14 @@ Route::get('/gc', function() {
 Route::get('/gbc', function() {
     return view('gsuite-bux-consolidate');
 });
+
+Route::post('test', function () {
+    return response()->json([
+        'success' => true,
+        'req' => request()->data[0]['gsuite'],
+        'type' => gettype(request()->data)
+    ]);
+})->name('tester');
 
 Auth::routes();
 

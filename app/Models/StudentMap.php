@@ -9,4 +9,11 @@ class StudentMap extends Model
 {
     use HasFactory;
     use \App\Models\Concerns\UsesUuid;
+
+    protected $guarded = [];
+
+    public function student()
+    {
+        return $this->belongsTo('App\Models\Student');
+    }
 }
