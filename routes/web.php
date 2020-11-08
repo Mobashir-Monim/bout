@@ -21,6 +21,10 @@ Route::get('/gc', function() {
     return view('gsuite-consolidate');
 });
 
+Route::get('/gbc', function() {
+    return view('gsuite-bux-consolidate');
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
