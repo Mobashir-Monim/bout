@@ -10,7 +10,7 @@
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-md-6 text-center my-2">
-                            <input type="file" name="username_file" id="username_file" class="form-control">
+                            <input type="file" name="username_file" id="username_file" class="form-control" accept=".xlsx, .xls, .csv">
                             <button class="btn btn-dark my-2 r-25" type="button" data-toggle="tooltip" data-placement="right" title="Click me to map the selected file!" onclick="mapStudentIDs()">
                                 <i class="fas fa-project-diagram"></i>
                             </button>
