@@ -104,23 +104,26 @@
         }
 
         const continueMapOperation = () => {
-            let mappableState = usernameFileHeaders.includes('email') || usernameFileHeaders.includes('username'), mappable;
+            let mappableState = usernameFileHeaders.includes('email') || usernameFileHeaders.includes('username'), mappable, objName = 'username';
             
-            if (mappableState) {
-                mappable = collectMapData();
-            } else {
-                alert('The file does not contain usernames or email addresses 😶😶😶');
-                changeStatus('username', 'Waiting to be run 🙃');
+            if (!mappableState) {
+                if (usernameFileHeaders.includes('Username')) {
+                    objName = 'Username';
+                } else {
+                    alert('The file does not contain usernames or email addresses 😶😶😶');
+                    changeStatus('username', 'Waiting to be run 🙃');
+                }
             }
 
+            mappable = collectMapData(objName);
             changeStatus('username', 'Fetching data from servers 📡🎛');
 
             setTimeout(() => {
-                fetchMapData(mappable);
+                fetchMapData(mappable, objName);
             }, 100);
         }
 
-        const fetchMapData = mappable => {
+        const fetchMapData = (mappable, objName) => {
             fetch("{{ route('student-map') }}", {
                 headers: {
                     "Content-Type": "application/json",
@@ -140,15 +143,16 @@
 
                 for (u in usernameFileData) {
                     let row = usernameFileData[u];
-                    row.username = data.filter(r => { return r.username == row.username })[0].id;
+                    row[objName] = data.filter(r => { return r.username == row[objName] })[0].id;
                 }
 
                 let filename = `mapped-${ getFilename(document.getElementById('username_file').value) }`.replace('.csv', '').replace('.xls', '').replace('.xlsx', '');
                 document.getElementById('username-output').innerHTML = `<a href="#/" class="text-primary stretched-link" onclick="downloadCrunchedData(usernameFileData, '${ filename }')">${ filename }</a>`;
                 changeStatus('username', 'Completed! 💪😎😇✌');
-                altert('Completed! 💪😎😇✌');
+                alert('Completed! 💪😎😇✌');
             }).catch(error => {
                 console.log(error);
+                alert('Whoops! Something went wrong. Please try again')
             });
         }
 
@@ -161,19 +165,11 @@
             return filename
         }
 
-        const collectMapData = () => {
-            let mapID = [], temp = [];
-            if (usernameFileHeaders.includes('username')) { mapID.push('username'); }
-            if (usernameFileHeaders.includes('email')) { mapID.push('email'); }
+        const collectMapData = (objName) => {
+            let temp = [];
 
             usernameFileData.forEach(row => {
-                let imm = {};
-
-                mapID.forEach(id => {
-                    imm[id] = row[id];
-                });
-
-                temp.push(imm);
+                temp.push({'username': row[objName]});
             });
 
             return temp;
