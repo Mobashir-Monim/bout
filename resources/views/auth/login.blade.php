@@ -2,12 +2,29 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+    <div class="row" style="height: 80vh">
+        <div class="col-md-12 text-center my-auto">
+            <div class="row">
+                <div class="col-12 col-md-6 offset-md-3">
+                    <div class="card">
+                        <div class="card-body p-0" onclick="window.location.href = '{{ route('initiate-login') }}'">
+                            <div class="row">
+                                <div class="col-6 col-md-5">
+                                    <a href="{{ route('initiate-login') }}" class="btn btn-light align-middle w-100 py-3 px-2" style="border-top-right-radius: 0;border-bottom-right-radius: 0"><img src="/img/google-logo.svg" class="img-fluid w-50" alt=""></a>
+                                </div>
+                                <div class="col-6 col-md my-auto text-left">
+                                    <h1 class="ml-2 mb-0 font-weight-bold">Login</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                <div class="card-body">
+            {{-- <div class="card">
+                <div class="card-header bg-dark text-white">{{ __('Login') }}</div>
+
+                <div class="card-body text-center">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
@@ -66,7 +83,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

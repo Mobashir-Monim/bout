@@ -31,7 +31,9 @@ Route::get('/gbc', function() {
     return view('gsuite-bux-consolidate');
 });
 
-Route::post('test', function () {
+Route::get('test', function () {
+    $var = (object) ['l1' => (object) ['l2' => 'val']];
+    dd("$var->l1->l2");
     return response()->json([
         'success' => true,
         'req' => request()->data[0]['gsuite'],
@@ -42,3 +44,5 @@ Route::post('test', function () {
 Auth::routes(['register' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('auth/google', [App\Http\Controllers\Auth\GoogleAuthController::class, 'redirectToGoogle'])->name('initiate-login');
+Route::get('auth/google/callback', [App\Http\Controllers\Auth\GoogleAuthController::class, 'handleGoogleCallback'])->name('confirm-login');
