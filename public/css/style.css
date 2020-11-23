@@ -53,3 +53,7 @@ input[type=file] {
 .r-25 {
     border-radius: 25px;
 }
+
+.min-h {
+    min-height: 80vh;
+}

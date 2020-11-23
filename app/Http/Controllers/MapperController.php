@@ -22,4 +22,9 @@ class MapperController extends Controller
             'data' => $data,
         ]);
     }
+
+    public function savedResponseFormat()
+    {
+        return view('saved-response-format.index');
+    }
 }

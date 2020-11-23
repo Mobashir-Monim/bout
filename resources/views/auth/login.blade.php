@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row" style="height: 80vh">
+    <div class="row min-h">
         <div class="col-md-12 text-center my-auto">
             <div class="row">
                 <div class="col-12 col-md-6 offset-md-3">
