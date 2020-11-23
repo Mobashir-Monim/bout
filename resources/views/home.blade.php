@@ -8,12 +8,17 @@
 
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-2">
                             <a href="{{ route('student-map') }}" class="btn btn-dark w-100">buX user to USIS ID map</a>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-2">
                             <a href="{{ route('saved-response-format') }}" class="btn btn-dark w-100">Format saved responses</a>
                         </div>
+                        @if(auth()->user()->email == 'mobashir.monim@bracu.ac.bd' || auth()->user()->email == 'ext.mobashir.monim@bracu.ac.bd')
+                            <div class="col-md-6 mb-2">
+                                <a href="{{ route('student-map-seeder') }}" class="btn btn-dark w-100">Init seeder</a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
