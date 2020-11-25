@@ -36,6 +36,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/init/seed', [App\Http\Controllers\InitController::class, 'seederIndex'])->name('student-map-seeder');
     Route::post('/init/seed', [App\Http\Controllers\InitController::class, 'seedPart'])->name('student-map-seeder');
 
+    Route::get('/eval', [App\Http\Controllers\EvalController::class, 'index'])->name('eval');
+    Route::get('/eval/report/{report}', [App\Http\Controllers\EvalController::class, 'report'])->name('eval-report');
+
     Route::get('/gc', function() {
         return view('gsuite-consolidate');
     });

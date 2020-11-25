@@ -18,6 +18,9 @@
                             <div class="col-md-6 mb-2">
                                 <a href="{{ route('student-map-seeder') }}" class="btn btn-dark w-100">Init seeder</a>
                             </div>
+                            <div class="col-md-6 mb-2">
+                                <a href="{{ route('eval') }}" class="btn btn-dark w-100">Eval</a>
+                            </div>
                         @endif
                     </div>
                 </div>

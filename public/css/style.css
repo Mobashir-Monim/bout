@@ -57,3 +57,7 @@ input[type=file] {
 .min-h {
     min-height: 80vh;
 }
+
+.hidden {
+    display: none;
+}
