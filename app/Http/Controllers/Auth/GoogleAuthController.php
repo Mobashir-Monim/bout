@@ -19,6 +19,7 @@ class GoogleAuthController extends Controller
         $helper = new GAH;
 
         try {
+            dd(Socialite::driver('google'));
             $user = Socialite::driver('google')->user();
 
             if(!$helper->userExists($user->id) && $helper->belongsToOrg($user->email)){
