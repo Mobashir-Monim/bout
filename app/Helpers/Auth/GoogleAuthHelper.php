@@ -15,7 +15,7 @@ class GoogleAuthHelper extends Helper
 
     public function userExists($email)
     {
-        $this->user = User::where('google_id', $email)->first();
+        $this->user = User::where('email', $email)->first();
         $this->will_login = !is_null($this->user);
 
         return $this->will_login;
