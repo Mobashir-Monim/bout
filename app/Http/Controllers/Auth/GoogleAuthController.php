@@ -11,7 +11,7 @@ class GoogleAuthController extends Controller
 {
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->with(['hd' => 'bracu.ac.bd'])->redirect();
+        return Socialite::driver('google')->stateless()->with(['hd' => 'bracu.ac.bd'])->redirect();
     }
 
     public function handleGoogleCallback()
@@ -19,8 +19,7 @@ class GoogleAuthController extends Controller
         $helper = new GAH;
 
         try {
-            dd(Socialite::driver('google'));
-            $user = Socialite::driver('google')->user();
+            $user = Socialite::driver('google')->stateless()->user();
 
             if(!$helper->userExists($user->id) && $helper->belongsToOrg($user->email)){
                 $helper->createUser($user);
