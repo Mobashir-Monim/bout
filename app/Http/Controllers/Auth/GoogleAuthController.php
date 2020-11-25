@@ -11,6 +11,7 @@ class GoogleAuthController extends Controller
 {
     public function redirectToGoogle()
     {
+        dd(Socialite::driver('google')->with(['hd' => 'bracu.ac.bd']));
         return Socialite::driver('google')->with(['hd' => 'bracu.ac.bd'])->redirect();
     }
 
