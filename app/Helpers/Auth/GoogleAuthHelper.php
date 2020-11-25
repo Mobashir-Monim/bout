@@ -13,9 +13,9 @@ class GoogleAuthHelper extends Helper
     private $user_authorized_route = 'home';
     private $user_unauthorized_route = 'login';
 
-    public function userExists($google_id)
+    public function userExists($email)
     {
-        $this->user = User::where('google_id', $google_id)->first();
+        $this->user = User::where('google_id', $email)->first();
         $this->will_login = !is_null($this->user);
 
         return $this->will_login;

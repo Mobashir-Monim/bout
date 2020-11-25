@@ -21,7 +21,7 @@ class GoogleAuthController extends Controller
         try {
             $user = Socialite::driver('google')->stateless()->user();
 
-            if(!$helper->userExists($user->id) && $helper->belongsToOrg($user->email)){
+            if(!$helper->userExists($user->email) && $helper->belongsToOrg($user->email)){
                 $helper->createUser($user);
             }
 
