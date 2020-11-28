@@ -1,5 +1,6 @@
 <script>
     window.onload = () => {
+        console.log(JSON.stringify(factorsMatrix))
         for (const question in questionMatrix) {
             if (!questionMatrix[question].calc.includes('non-eval')) {
                 const temp = stripCatVals(questionMatrix[question]);
@@ -186,6 +187,20 @@
             minVal: 0,
             diff: 0,
         },
+        ii: {
+            name: "Irresponsibility Indicator",
+            description: "quantitative measure of irresponsibility index based on evaluation",
+            maxVal: 0,
+            minVal: 0,
+            diff: 0,
+        },
+        ei: {
+            name: "Excellence Indicator",
+            description: "quantitative measure of excellence index based on evaluation",
+            maxVal: 0,
+            minVal: 0,
+            diff: 0,
+        }
         // w: {
         //     name: "Student Sincerity Factor",
         //     description: "The sincerity factor of the student by which all of the values are multiplied to get a more correct approximation",
@@ -200,50 +215,50 @@
             type: 'radio',
             calc: 'course-section qAg',
             options: {
-                'Excellent': { ta: 2 },
-                'Poor (audible/ watchable)': { ta: 1 },
-                'Very Poor (inaudible/ unwatchable)': { ta: 0 }
+                'Excellent': { ta: 2, ii: 0, ei: 1 },
+                'Poor (audible/ watchable)': { ta: 1, ii: 1, ei: 0 },
+                'Very Poor (inaudible/ unwatchable)': { ta: 0, ii: 3, ei: 0 }
             }
         },
         'How was the audio and video quality for most of the videos in this course? [Video]': {
             type: 'radio',
             calc: 'course-section qAg',
             options: {
-                'Excellent': { ta: 2 },
-                'Poor (audible/ watchable)': { ta: 1 },
-                'Very Poor (inaudible/ unwatchable)': { ta: 0 }
+                'Excellent': { ta: 2, ii: 0, ei: 1 },
+                'Poor (audible/ watchable)': { ta: 1, ii: 1, ei: 0 },
+                'Very Poor (inaudible/ unwatchable)': { ta: 0, ii: 3, ei: 0 }
             }
         },
         'How much effort do you think instructors gave to produce good video lectures?': {
             type: 'radio',
             calc: 'course-section qAg',
             options: {
-                'They tried really hard to produce good video lectures': { lq: 2, le: 2 },
-                'Some of the lectures were good and some were not good.': { lq: 1, le: 1 },
-                'Lectures were bad. Minimal effort was given.': { lq: 0, le: 0 }
+                'They tried really hard to produce good video lectures': { lq: 2, le: 2, ei: 1, ii: 0 },
+                'Some of the lectures were good and some were not good.': { lq: 1, le: 1, ei: 0, ii: 1 },
+                'Lectures were bad. Minimal effort was given.': { lq: 0, le: 0, ei: 0, ii: 3 }
             }
         },
         'How long were video lectures uploaded before live discussion sessions?': {
             type: 'radio',
             calc: 'course-section',
             options: {
-                'More than 2 days before the discussion session': { le: 3, ca: 3, sp: 0 },
-                'One day before': { le: 2, ca: 2, sp: 0 },
-                'A few hours before': { le: 1, ca: 1, sp: 1 },
-                'Right before the discussion session': { le: 0, ca: 0, sp: 2 },
-                'After the discussion session': { le: -1, ca: -1, sp: 2 }
+                'More than 2 days before the discussion session': { le: 3, ca: 3, sp: 0, ei: 1, rf: 0, ii: 0 },
+                'One day before': { le: 2, ca: 2, sp: 0, ei: 0, rf: 0, ii: 0 },
+                'A few hours before': { le: 1, ca: 1, sp: 1, ei: 0, rf: 0, ii: 0 },
+                'Right before the discussion session': { le: 0, ca: 0, sp: 2, ei: 0, rf: 1, ii: 1 },
+                'After the discussion session': { le: -1, ca: -1, sp: 2, ei: 0, rf: 2, ii: 2 }
             }
         },
         'What was the course\'s video style? Choose all that apply.': {
             type: 'checkbox',
             calc: 'course-section',
             options: {
-                'Just reading the slides out loud': { lq: -1, le: -1, lx: 0, ta: 0 },
-                'Reading the slides and explaining the slides': { lq: 1, le: 1, lx: 0, ta: 1, ta: 0 },
-                'Lecturer can be seen in the videos': { lq: 1, le: 0, lx: 1, ta: 0 },
-                'Whiteboard based lecture': { lq: 1, le: 1, lx: 1, ta: 0 },
-                'Instructor used a tablet effectively in the Khan Academy style.': { lq: 1, le: 1, lx: 1, ta: 2 },
-                'Faculty appears like s/he is talking to the students directly (Zoom style conversation)': { lq: 2, le: 1, lx: 2, ta: 0 },
+                'Just reading the slides out loud': { lq: -1, le: -1, lx: 0, ta: 0, ei: 0 },
+                'Reading the slides and explaining the slides': { lq: 1, le: 1, lx: 0, ta: 1, ta: 0, ei: 0 },
+                'Lecturer can be seen in the videos': { lq: 1, le: 0, lx: 1, ta: 0, ei: 0 },
+                'Whiteboard based lecture': { lq: 1, le: 1, lx: 1, ta: 0, ei: 1 },
+                'Instructor used a tablet effectively in the Khan Academy style.': { lq: 1, le: 1, lx: 1, ta: 2, ei: 0 },
+                'Faculty appears like s/he is talking to the students directly (Zoom style conversation)': { lq: 2, le: 1, lx: 2, ta: 0, ei: 1 },
                 'Animated videos': { lq: 2, le: 2, lx: 2, ta: 2 }
             }
         },
@@ -251,60 +266,60 @@
             type: 'radio',
             calc: 'course-section',
             options: {
-                '1': { ca: 0, sp: 0, ae: 0 },
-                '2': { ca: 0, sp: 0, ae: 0 },
-                '3': { ca: 2, sp: 1, ae: 2 },
-                '4': { ca: 2, sp: 1, ae: 2 },
-                '5': { ca: 2, sp: 1, ae: 2 },
-                '6': { ca: 2, sp: 1, ae: 2 },
-                '7': { ca: 1, sp: 2, ae: 3 },
-                '8': { ca: 1, sp: 2, ae: 3 },
-                '9': { ca: 1, sp: 2, ae: 3 },
-                'more than 9': { ca: 0, sp: 4, ae: 4 }
+                '1': { ca: 0, sp: 0, ae: 0, ii: 3, rf: 2, ei: 0 },
+                '2': { ca: 0, sp: 0, ae: 0, ii: 2, rf: 0, ei: 0 },
+                '3': { ca: 2, sp: 1, ae: 2, ii: 1, rf: 0, ei: 0 },
+                '4': { ca: 2, sp: 1, ae: 2, ii: 0, rf: 0, ei: 0 },
+                '5': { ca: 2, sp: 1, ae: 2, ii: 0, rf: 0, ei: 0 },
+                '6': { ca: 2, sp: 1, ae: 2, ii: 0, rf: 0, ei: 0 },
+                '7': { ca: 1, sp: 2, ae: 3, ii: 0, rf: 0, ei: 1 },
+                '8': { ca: 1, sp: 2, ae: 3, ii: 0, rf: 0, ei: 1 },
+                '9': { ca: 1, sp: 2, ae: 3, ii: 0, rf: 0, ei: 1 },
+                'more than 9': { ca: 0, sp: 4, ae: 4, ii: 0, rf: 0, ei: 1 }
             }
         },
         'How many graded homework assignments and quizzes were assigned during the semester? [Graded Quizzes]': {
             type: 'radio',
             calc: 'course-section',
             options: {
-                '1': { ca: 0, sp: 0, ae: 0 },
-                '2': { ca: 1, sp: 0, ae: 1 },
-                '3': { ca: 2, sp: 1, ae: 2 },
-                '4': { ca: 2, sp: 1, ae: 2 },
-                '5': { ca: 2, sp: 1, ae: 2 },
-                '6': { ca: 2, sp: 1, ae: 2 },
-                '7': { ca: 1, sp: 2, ae: 3 },
-                '8': { ca: 1, sp: 2, ae: 3 },
-                '9': { ca: 1, sp: 2, ae: 3 },
-                'more than 9': { ca: 0, sp: 4, ae: 4 }
+                '1': { ca: 0, sp: 0, ae: 0, ei: 0 },
+                '2': { ca: 1, sp: 0, ae: 1, ei: 0 },
+                '3': { ca: 2, sp: 1, ae: 2, ei: 1 },
+                '4': { ca: 2, sp: 1, ae: 2, ei: 0 },
+                '5': { ca: 2, sp: 1, ae: 2, ei: 0 },
+                '6': { ca: 2, sp: 1, ae: 2, ei: 0 },
+                '7': { ca: 1, sp: 2, ae: 3, ei: 0 },
+                '8': { ca: 1, sp: 2, ae: 3, ei: 0 },
+                '9': { ca: 1, sp: 2, ae: 3, ei: 0 },
+                'more than 9': { ca: 0, sp: 4, ae: 4, ei: 0 }
             }
         },
         'How many graded homework assignments and quizzes were assigned during the semester? [Ungraded Quizzes]': {
             type: 'radio',
             calc: 'course-section',
             options: {
-                '1': { ca: 0, sp: 0, ae: 0 },
-                '2': { ca: 0, sp: 0, ae: 0 },
-                '3': { ca: 1, sp: 0, ae: 1 },
-                '4': { ca: 2, sp: 1, ae: 2 },
-                '5': { ca: 2, sp: 1, ae: 2 },
-                '6': { ca: 2, sp: 1, ae: 2 },
-                '7': { ca: 2, sp: 1, ae: 2 },
-                '8': { ca: 2, sp: 1, ae: 2 },
-                '9': { ca: 1, sp: 2, ae: 3 },
-                'more than 9': { ca: 0, sp: 4, ae: 4 }
+                '2': { ca: 0, sp: 0, ae: 0, ii: 3, rf: 3, ei: 0 },
+                '3': { ca: 1, sp: 0, ae: 1, ii: 2, rf: 2, ei: 0 },
+                '1': { ca: 0, sp: 0, ae: 0, ii: 1, rf: 1, ei: 0 },
+                '4': { ca: 2, sp: 1, ae: 2, ii: 0, rf: 0, ei: 0 },
+                '5': { ca: 2, sp: 1, ae: 2, ii: 0, rf: 0, ei: 0 },
+                '6': { ca: 2, sp: 1, ae: 2, ii: 0, rf: 0, ei: 0 },
+                '7': { ca: 2, sp: 1, ae: 2, ii: 0, rf: 0, ei: 0 },
+                '8': { ca: 2, sp: 1, ae: 2, ii: 0, rf: 0, ei: 1 },
+                '9': { ca: 1, sp: 2, ae: 3, ii: 0, rf: 0, ei: 1 },
+                'more than 9': { ca: 0, sp: 4, ae: 4, ii: 0, rf: 0, ei: 1 }
             }
         },
         'What supplementary material was provided? Choose all that apply.': {
             type: 'checkbox',
             calc: 'course-section',
             options: {
-                'Bangla lecture videos': { le: 1, lx: 1, cq: 1, sp: 0 },
-                'Problem solving videos': { le: 1, lx: 1, cq: 1, sp: 0 },
-                'Additional course or topic related videos': { le: 0, lx: 1, cq: 1, sp: 0 },
-                'Course notes': { le: 2, lx: 0, cq: 1, sp: 0 },
-                'Additional examples': { le: 2, lx: 2, cq: 2, sp: 0 },
-                'Extra problem sets to challenge students': { le: 1, lx: 1, cq: 2, sp: 2 },
+                'Bangla lecture videos': { le: 1, lx: 1, cq: 1, sp: 0, ei: 1 },
+                'Problem solving videos': { le: 1, lx: 1, cq: 1, sp: 0, ei: 1 },
+                'Additional course or topic related videos': { le: 0, lx: 1, cq: 1, sp: 0, ei: 1 },
+                'Course notes': { le: 2, lx: 0, cq: 1, sp: 0, ei: 1 },
+                'Additional examples': { le: 2, lx: 2, cq: 2, sp: 0, ei: 1 },
+                'Extra problem sets to challenge students': { le: 1, lx: 1, cq: 2, sp: 2, ei: 1 },
                 'No supplementary provided': {},
             }
         },
@@ -312,36 +327,36 @@
             type: 'radio',
             calc: 'course-section',
             options: {
-                'Yes': { ta: 2, rf: 0 },
-                'No': { rf: 1, ta: 0 }
+                'Yes': { ta: 2, rf: 0, ei: 1, ii: 0 },
+                'No': { rf: 1, ta: 0, ei: 0, ii: 1 }
             }
         },
         'Did the instructor use a forum to answer questions? If so, what platform(s)?': {
             type: 'checkbox',
             calc: 'course-section',
             options: {
-                'No': { rf: 1, ta: 0 },
-                'Slack': { ta: 1, rf: 0 },
-                'buX\'s native forum': { ta: 2, rf: 0 },
-                'Google Classroom': { ta: 1, rf: 0 },
-                'Discord': { ta: 2, rf: 0 },
-                'Facebook Group': { ta: 0.5, rf: 0 },
-                'Whatsapp': { ta: 0.5, rf: 0 },
-                'Gmail': { ta: 0, rf: 0 },
+                'No': { rf: 2, ta: 0, ii: 2, ei: 0 },
+                'Slack': { ta: 1, rf: 0, ii: 0, ei: 1 },
+                'buX\'s native forum': { ta: 2, rf: 0, ii: 0, ei: 1 },
+                'Google Classroom': { ta: 1, rf: 0, ii: 0, ei: 0 },
+                'Discord': { ta: 2, rf: 0, ii: 0, ei: 1 },
+                'Facebook Group': { ta: 0.5, rf: 0, ii: 0, ei: 0 },
+                'Whatsapp': { ta: 0.5, rf: 0, ii: 0, ei: 0 },
+                'Gmail': { ta: 0, rf: 0, ii: 0, ei: 0 },
             }
         },
         'How long did it take on average for your section instructor to respond to your questions on Slack or email or other forums?': {
             type: 'radio',
             calc: 'course-section',
             options: {
-                'Within 6 hours': { lx: 3, sp: 0 },
-                'Within 1 day': { lx: 2, sp: 0 },
-                'Within 2 days': { lx: 1, sp: 0.5 },
-                'Within 3 days': { lx: 0, sp: 1 },
-                'Within 4 days': { lx: -.5, sp: 1.5 },
-                'Within 1 week': { lx: -1, sp: 2 },
-                'Within 2 weeks': { lx: -2, sp: 4 },
-                'Teacher did not respond regularly to questions': { lx: -4, sp: 6 }
+                'Within 6 hours': { lx: 3, sp: 0, ii: 0, rf: 0, ei: 2 },
+                'Within 1 day': { lx: 2, sp: 0, ii: 0, rf: 0, ei: 1 },
+                'Within 2 days': { lx: 1, sp: 0.5, ii: 0, rf: 0, ei: 0 },
+                'Within 3 days': { lx: 0, sp: 1, ii: 0, rf: 0, ei: 0 },
+                'Within 4 days': { lx: -.5, sp: 1.5, ii: 0, rf: 0, ei: 0 },
+                'Within 1 week': { lx: -1, sp: 2, ii: 1, rf: 0, ei: 0 },
+                'Within 2 weeks': { lx: -2, sp: 4, ii: 2, rf: 0, ei: 0 },
+                'Teacher did not respond regularly to questions': { lx: -4, sp: 6, ii: 3, rf: 0, ei: 0 }
             }
         },
         'Were the digital platforms used appropriate for smooth student-teacher communication?': {
@@ -356,28 +371,28 @@
             type: 'radio',
             calc: 'course-section qAg',
             options: {
-                'Yes': { lx: 1, ae: 2, ca: 2 },
-                'They tried to be fair, but were not really successful.': { lx: 1, ae: 1, ca: 1 },
-                'They didn\'t care about my exam submission issues.': { lx: -1, ae: -1, ca: -2 }
+                'Yes': { lx: 1, ae: 2, ca: 2, ei: 1, ii: 0 },
+                'They tried to be fair, but were not really successful.': { lx: 1, ae: 1, ca: 1, ei: 0, ii: 0 },
+                'They didn\'t care about my exam submission issues.': { lx: -1, ae: -1, ca: -2, ei: 0, ii: 2 }
             }
         },
         'Getting online exams right was hard for everybody.  Did your course instructors try hard to ensure that you could successfully complete your midterm and finals?  [Final Exam]': {
             type: 'radio',
             calc: 'course-section qAg',
             options: {
-                'Yes': { lx: 1, ae: 2, ca: 2 },
-                'They tried to be fair, but were not really successful.': { lx: 1, ae: 1, ca: 1 },
-                'They didn\'t care about my exam submission issues.': { lx: -1, ae: -1, ca: -2 }
+                'Yes': { lx: 1, ae: 2, ca: 2, ei: 1, ii: 0 },
+                'They tried to be fair, but were not really successful.': { lx: 1, ae: 1, ca: 1, ei: 0, ii: 0 },
+                'They didn\'t care about my exam submission issues.': { lx: -1, ae: -1, ca: -2, ei: 0, ii: 2 }
             }
         },
         'Did the online lectures cover the course content on the midterm?': {
             type: 'radio',
             calc: 'course-section qAg',
             options: {
-                'Yes': { cq: 3, lq: 3, sp: 0, ae: 2 },
-                'They were mostly covered by the lectures': { cq: 1, lq: 2, sp: 1, ae: 1 },
-                'Only a few materials were covered by the lectures': { cq: 1, lq: 1, sp: 2, ae: 0 },
-                'No. The midterm and video lectures were disconnected.': { cq: 0, lq: 0, sp: 3 }
+                'Yes': { cq: 3, lq: 3, sp: 0, ae: 2, ii: 0, ei: 1 },
+                'They were mostly covered by the lectures': { cq: 1, lq: 2, sp: 1, ae: 1, ii: 0, ei: 0 },
+                'Only a few materials were covered by the lectures': { cq: 1, lq: 1, sp: 2, ae: 0, ii: 1, ei: 0 },
+                'No. The midterm and video lectures were disconnected.': { cq: 0, lq: 0, sp: 3, ii: 2, ei: 0 }
             }
         },
         'Graded quizzes were [Administered fairly]': {

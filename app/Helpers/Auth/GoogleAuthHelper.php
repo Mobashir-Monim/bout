@@ -43,7 +43,7 @@ class GoogleAuthHelper extends Helper
         if ($this->will_login) {
             Auth::login($this->user);
 
-            return (object) ['route' => $this->user_authorized_route, 'message' => 'Welcome ' . $this->user->name . '!', 'status' => 'success'];
+            return (object) ['route' => redirect()->intended()->getTargetUrl(), 'message' => 'Welcome ' . $this->user->name . '!', 'status' => 'success'];
         }
 
         return (object) ['route' => $this->user_unauthorized_route, 'message' => 'This application can only be accessed with emails of @bracu.ac.bd domain.', 'status' => 'error'];

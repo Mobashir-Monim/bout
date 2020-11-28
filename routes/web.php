@@ -37,7 +37,19 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/init/seed', [App\Http\Controllers\InitController::class, 'seedPart'])->name('student-map-seeder');
 
     Route::get('/eval', [App\Http\Controllers\EvalController::class, 'index'])->name('eval');
+    Route::get('/evaluate', [App\Http\Controllers\EvalController::class, 'evaluate'])->name('evaluate');
     Route::get('/eval/report/{report}', [App\Http\Controllers\EvalController::class, 'report'])->name('eval-report');
+
+    Route::post('/eval/semester-confirm', [App\Http\Controllers\EvalController::class, 'semesterConfirm'])->name('course-eval.semester-confirm');
+    Route::get('/eval/factors-config/{year}/{semester}', [App\Http\Controllers\EvalController::class, 'factorsConfig'])->name('course-eval.factors-config');
+    Route::post('/eval/factors-config/{year}/{semester}', [App\Http\Controllers\EvalController::class, 'factorsConfigSave'])->name('course-eval.factors-config');
+    Route::post('/eval/factors-config/{year}/{semester}/copy', [App\Http\Controllers\EvalController::class, 'copyFromPrev'])->name('course-eval.factors-config.copy');
+    Route::post('/eval/factors-config/{year}/{semester}/bulk', [App\Http\Controllers\EvalController::class, 'bulkUpload'])->name('course-eval.factors-config.upload');
+    Route::get('/eval/matrix-config/{year}/{semester}', [App\Http\Controllers\EvalController::class, 'matrixConfig'])->name('course-eval.matrix-config');
+    Route::get('/eval/evaluate/{year}/{semester}', [App\Http\Controllers\EvalController::class, 'evaluate'])->name('course-eval.evaluate');
+
+    Route::get('/role', [App\Http\Controllers\RoleController::class, 'index'])->name('role');
+    Route::get('/role/users/{role}', [App\Http\Controllers\RoleController::class, 'roleUsers'])->name('role-users');
 
     Route::get('/gc', function() {
         return view('gsuite-consolidate');

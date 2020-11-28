@@ -79,13 +79,13 @@
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.0/jszip.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.0/xlsx.js"></script>
-    @include('eval.scripts.eval-matrix')
-    @include('eval.scripts.preprocessor')
-    @include('eval.scripts.course-list')
-    @include('eval.scripts.templates')
-    @include('eval.scripts.helpers')
-    @include('eval.scripts.analyzer')
-    @include('eval.scripts.aggregator')
-    @include('eval.scripts.eval-segregator')
-    @include('eval.scripts.report-generator')
+    @include('course-eval.scripts.eval-matrix')
+    @include('course-eval.scripts.preprocessor')
+    @include('course-eval.scripts.course-list')
+    @include('course-eval.scripts.templates')
+    @include('course-eval.scripts.helpers')
+    @include('course-eval.scripts.analyzer')
+    @include('course-eval.scripts.aggregator')
+    @include('course-eval.scripts.eval-segregator')
+    @include('course-eval.scripts.report-generator')
 @endsection

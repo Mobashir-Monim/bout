@@ -28,7 +28,7 @@ class GoogleAuthController extends Controller
             $redirect_info = $helper->getRedirectInfo();
             $this->flashMessage($redirect_info->status, $redirect_info->message);
 
-            return redirect(route($redirect_info->route))->with($redirect_info->status, $redirect_info->message);
+            return redirect($redirect_info->route)->with($redirect_info->status, $redirect_info->message);
         } catch (Exception $e) {
             dd($e->getMessage());
             $helper->showErrorPage();
