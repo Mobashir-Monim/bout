@@ -3,8 +3,8 @@
 @section('content')
     <div class="row my-4 align-items-center">
         <div class="col-md-8">
-            <h2 class="border-bottom d-none d-sm-block">Course Evaluator</h2>
-            <h5 class="border-bottom d-block d-sm-none">Course Evaluator</h5>
+            <h3 class="border-bottom d-none d-sm-block"><b>Course Evaluator {{ $helper->eval->id }}</b></h3>
+            <h5 class="border-bottom d-block d-sm-none"><b>Course Evaluator {{ $helper->eval->id }}</b></h5>
         </div>
     </div>
 
@@ -79,13 +79,13 @@
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.0/jszip.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.0/xlsx.js"></script>
-    @include('course-eval.scripts.eval-matrix')
-    @include('course-eval.scripts.preprocessor')
-    @include('course-eval.scripts.course-list')
-    @include('course-eval.scripts.templates')
-    @include('course-eval.scripts.helpers')
-    @include('course-eval.scripts.analyzer')
-    @include('course-eval.scripts.aggregator')
-    @include('course-eval.scripts.eval-segregator')
-    @include('course-eval.scripts.report-generator')
+    @include('course-eval.evaluate.scripts.eval-matrix')
+    @include('course-eval.evaluate.scripts.preprocessor')
+    @include('course-eval.evaluate.scripts.course-list')
+    @include('course-eval.evaluate.scripts.templates')
+    @include('course-eval.evaluate.scripts.helpers')
+    @include('course-eval.evaluate.scripts.analyzer')
+    @include('course-eval.evaluate.scripts.aggregator')
+    @include('course-eval.evaluate.scripts.eval-segregator')
+    @include('course-eval.evaluate.scripts.report-generator')
 @endsection

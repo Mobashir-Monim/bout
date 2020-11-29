@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CourseEvalSemesterConfirm as CESC;
 use App\Helpers\CourseEvaluationHelpers\FactorsHelper;
 use App\Helpers\CourseEvaluationHelpers\MatrixHelper;
+use App\Helpers\CourseEvaluationHelpers\EvaluationHelper;
 use App\Imports\CourseEvaluationFactorsImport as CEFI;
 use Excel;
 
@@ -16,9 +17,11 @@ class EvalController extends Controller
         return view('course-eval.index');
     }
 
-    public function evaluate()
+    public function evaluate($year, $semester)
     {
-        return view('course-eval.evaluate');
+        $helper = new EvaluationHelper($year, $semester);
+
+        return view('course-eval.evaluate.index', ['helper' => $helper]);
     }
 
     public function report($report)

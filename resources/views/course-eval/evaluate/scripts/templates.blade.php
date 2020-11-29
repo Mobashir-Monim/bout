@@ -13,6 +13,8 @@
             ta: 0,
             cr: 0,
             lr: 0,
+            ei: 0,
+            ii: 0,
         },
         students: 0,
         respondents: 0,
@@ -33,6 +35,8 @@
             ta: 0,
             cr: 0,
             lr: 0,
+            ei: 0,
+            ii: 0,
         },
         students: 0,
         respondents: 0,
@@ -55,6 +59,8 @@
             ta: 0,
             cr: 0,
             dk: 0,
+            ei: 0,
+            ii: 0,
         },
         students: 0,
         respondents: 0,
@@ -88,6 +94,8 @@
         ta: 0,
         cr: 0,
         dk: 0,
+        ei: 0,
+        ii: 0,
         w: 0,
     };
 
@@ -103,6 +111,8 @@
         ta: 0,
         cr: 0,
         lr: 0,
+        ei: 0,
+        ii: 0,
         r: 0,
     }
 

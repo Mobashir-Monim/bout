@@ -55,10 +55,10 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header bg-dark text-white">Evaluation Configurations</div>
-                    <div class="card-body" id="eval-config">
-                        <button onclick="configFactors()" class="btn btn-dark">Configure Factors</button>
-                        <button onclick="configMatrix()" class="btn btn-dark">Configure Matrix and Questions</button>
-                        <a href="{{ route('course-eval.evaluate', ['year' => '2020', 'semester' => 'summer']) }}" class="btn btn-dark">Evaluate</a>
+                    <div class="card-body text-center" id="eval-config">
+                        <button onclick="configFactors()" class="btn btn-dark d-inline-block m-1">Configure Factors</button>
+                        <button onclick="configMatrix()" class="btn btn-dark d-inline-block m-1">Configure Matrix</button>
+                        <button onclick="evaluateCourses()" class="btn btn-dark d-inline-block m-1">Evaluate</button>
                     </div>
                 </div>
             </div>

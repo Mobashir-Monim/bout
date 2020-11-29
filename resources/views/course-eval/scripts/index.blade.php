@@ -37,4 +37,8 @@
     const configMatrix = () => {
         window.location.href = "{{ route('course-eval.matrix-config', ['year' => 'year', 'semester' => 'semester']) }}".replace('semester', document.getElementById('semester').value).replace('year', document.getElementById('year').value)
     }
+
+    const evaluateCourses = () => {
+        window.location.href = "{{ route('evaluate', ['year' => 'year', 'semester' => 'semester']) }}".replace('semester', document.getElementById('semester').value).replace('year', document.getElementById('year').value)
+    }
 </script>

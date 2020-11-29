@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
+    <div class="row curbed-font-size">
         <div class="col-md-12">
             <h3 class="border-bottom"><b>Factors Matrix of {{ $helper->eval->id }}</b></h3>
 

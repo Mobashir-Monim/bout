@@ -112,9 +112,13 @@
     }
 
     const optionValsAdd = (temp, vals) => {
-        Object.keys(vals).forEach(key => {
+        for (key in vals) {
             temp[key] += vals[key];
-        })
+        }
+
+        // Object.keys(vals).forEach(key => {
+        //     temp[key] += vals[key];
+        // })
     }
 
     const factorWeight = (temp, templ) => {

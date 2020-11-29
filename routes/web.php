@@ -37,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/init/seed', [App\Http\Controllers\InitController::class, 'seedPart'])->name('student-map-seeder');
 
     Route::get('/eval', [App\Http\Controllers\EvalController::class, 'index'])->name('eval');
-    Route::get('/evaluate', [App\Http\Controllers\EvalController::class, 'evaluate'])->name('evaluate');
+    Route::get('/evaluate/{year}/{semester}', [App\Http\Controllers\EvalController::class, 'evaluate'])->name('evaluate');
     Route::get('/eval/report/{report}', [App\Http\Controllers\EvalController::class, 'report'])->name('eval-report');
 
     Route::post('/eval/semester-confirm', [App\Http\Controllers\EvalController::class, 'semesterConfirm'])->name('course-eval.semester-confirm');

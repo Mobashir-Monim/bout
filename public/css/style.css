@@ -61,3 +61,7 @@ input[type=file] {
 .hidden {
     display: none;
 }
+
+.curbed-font-size {
+    font-size: 0.8em !important;
+}

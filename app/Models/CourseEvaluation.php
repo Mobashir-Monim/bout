@@ -21,4 +21,15 @@ class CourseEvaluation extends Model
     {
         return $this->hasMany('App\Models\CourseEvaluationResult');
     }
+
+    public function getCompiledMatricesAttribute()
+    {
+        $matrix = '';
+
+        foreach ($this->matrices->sortBy('part') as $key => $m) {
+            $matrix .= $m->value;
+        }
+
+        return $matrix == '' ? [] : json_decode($matrix);
+    }
 }

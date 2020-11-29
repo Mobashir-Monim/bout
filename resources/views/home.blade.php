@@ -21,9 +21,9 @@
                             <div class="col-md-6 mb-2">
                                 <a href="{{ route('eval') }}" class="btn btn-dark w-100">Eval</a>
                             </div>
-                            <div class="col-md-6 mb-2">
+                            {{-- <div class="col-md-6 mb-2">
                                 <a href="{{ route('evaluate') }}" class="btn btn-dark w-100">Evaluate</a>
-                            </div>
+                            </div> --}}
                             <div class="col-md-6 mb-2">
                                 <a href="{{ route('role') }}" class="btn btn-dark w-100">Roles</a>
                             </div>
