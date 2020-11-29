@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\CourseEvalSemesterConfirm as CESC;
 use App\Helpers\CourseEvaluationHelpers\FactorsHelper;
+use App\Helpers\CourseEvaluationHelpers\MatrixHelper;
 use App\Imports\CourseEvaluationFactorsImport as CEFI;
 use Excel;
 
@@ -66,5 +67,23 @@ class EvalController extends Controller
         $helper->addFactors($rows->pluck('name'), $rows->pluck('short_hand'), $rows->pluck('description'));
 
         return redirect(route('course-eval.matrix-config', ['year' => $year, 'semester' => $semester]));
+    }
+
+    public function matrixConfig($year, $semester)
+    {
+        $helper = new MatrixHelper($year, $semester);
+        
+        return view('course-eval.matrix.index', ['helper' => $helper]);
+    }
+
+    public function matrixConfigSave($year, $semester, Request $request)
+    {
+        $helper = new MatrixHelper($year, $semester);
+        $helper->storeMatrix($request->parts, $request->starting_index);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Ready for next package'
+        ]);
     }
 }

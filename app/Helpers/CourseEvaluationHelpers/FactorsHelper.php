@@ -50,9 +50,4 @@ class FactorsHelper extends Helper
         $this->eval->factors = json_encode($factors);
         $this->eval->save();
     }
-
-    public function bulkUpload()
-    {
-        
-    }
 }

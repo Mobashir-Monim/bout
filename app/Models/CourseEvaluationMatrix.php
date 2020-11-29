@@ -9,6 +9,8 @@ class CourseEvaluationMatrix extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function eval()
     {
         return $this->belongsTo('App\Models\CourseEvaluation');
