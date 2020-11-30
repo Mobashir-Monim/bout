@@ -210,6 +210,7 @@
         'ECE305': [{frac: "DEPARTMENT OF ELECTRICAL & ELECTRONIC ENGINEERING", sections: ""}],
         'ECE411': [{frac: "DEPARTMENT OF ELECTRICAL & ELECTRONIC ENGINEERING", sections: ""}],
         'ECE481': [{frac: "DEPARTMENT OF ELECTRICAL & ELECTRONIC ENGINEERING", sections: ""}],
+        'EEE362': [{frac: "DEPARTMENT OF ELECTRICAL & ELECTRONIC ENGINEERING", sections: ""}],
         'ECO101': [{frac: "DEPARTMENT OF ECONOMICS & SOCIAL SCIENCES", sections: ""}],
         'ECO102': [{frac: "DEPARTMENT OF ECONOMICS & SOCIAL SCIENCES", sections: ""}],
         'ECO104': [{frac: "DEPARTMENT OF ARCHITECTURE", sections: ""}],
