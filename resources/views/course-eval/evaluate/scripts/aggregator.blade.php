@@ -1,21 +1,24 @@
 <script>
     const aggregateDeptCourseScores = () => {
-        for (d in deptList) { aggregateContParts(deptList[d].courses, 'sections', true); }
-        aggregateContParts(deptList, 'courses');
+        for (d in evaluationResults) { aggregateContParts(evaluationResults[d].courses, 'sections', true); }
+        aggregateContParts(evaluationResults, 'courses');
 
-        for (d in deptList) {
-            averageValues(deptList[d]);
+        for (d in evaluationResults) {
+            averageValues(evaluationResults[d]);
 
-            for (c in deptList[d].courses) {
-                averageValues(deptList[d].courses[c]);
+            for (c in evaluationResults[d].courses) {
+                averageValues(evaluationResults[d].courses[c]);
                 
-                for (s in deptList[d].courses[c].sections) {
-                    averageValues(deptList[d].courses[c].sections[s]);
+                for (s in evaluationResults[d].courses[c].sections) {
+                    averageValues(evaluationResults[d].courses[c].sections[s]);
                 }
             }
         }
 
-        showReportGenOptions();
+        rankAll();
+        // showReportGenOptions();
+        segregateParts();
+        storeResults();
     }
 
     const aggregateContParts = (cL, contName, flag = false) => {

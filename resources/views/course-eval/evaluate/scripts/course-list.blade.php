@@ -1,6 +1,6 @@
 <script>
     let courseList = {};
-    let deptList = {};
+    let evaluationResults = {};
 
     const getCourse = (name) => {
         if (!courseList.hasOwnProperty(name)) {
@@ -31,11 +31,11 @@
     }
 
     const getDepartment = name => {
-        if (!deptList.hasOwnProperty(name)) {
-            deptList[name] = createDepartment(name);
+        if (!evaluationResults.hasOwnProperty(name)) {
+            evaluationResults[name] = createDepartment(name);
         }
 
-        return deptList[name];
+        return evaluationResults[name];
     }
 
     const createCourse = (name) => {

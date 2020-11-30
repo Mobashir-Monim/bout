@@ -9,7 +9,7 @@
     }
 
     const populateDeptSelectList = () => {
-        for (d in deptList) {
+        for (d in evaluationResults) {
             dsl.innerHTML += `<option value="${ d }">${ d }</option>`;
         }
     }
@@ -45,7 +45,7 @@
     const showDeptCourseList = () => {
         csl.innerHTML = `<option value="">Please select a course</option>`
 
-        for (c in deptList[dsl.value].courses) {
+        for (c in evaluationResults[dsl.value].courses) {
             csl.innerHTML += `<option value="${ c }">${ c }</option>`;
         }
     }
@@ -53,7 +53,7 @@
     const showCourseSectionList = () => {
         ssl.innerHTML = `<option value="">Please select a section</option>`
 
-        for (s in deptList[dsl.value].courses[csl.value].sections) {
+        for (s in evaluationResults[dsl.value].courses[csl.value].sections) {
             ssl.innerHTML += `<option value="${ s }">Section ${ s }</option>`;
         }
     }

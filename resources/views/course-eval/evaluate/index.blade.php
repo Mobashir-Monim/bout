@@ -88,4 +88,6 @@
     @include('course-eval.evaluate.scripts.aggregator')
     @include('course-eval.evaluate.scripts.eval-segregator')
     @include('course-eval.evaluate.scripts.report-generator')
+    @include('course-eval.evaluate.scripts.ranker')
+    @include('course-eval.evaluate.scripts.uploader')
 @endsection

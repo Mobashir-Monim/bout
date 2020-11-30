@@ -32,4 +32,15 @@ class CourseEvaluation extends Model
 
         return $matrix == '' ? [] : json_decode($matrix);
     }
+
+    public function getCompiledResultsAttribute()
+    {
+        $results = '';
+
+        foreach ($this->results->sortBy('part') as $key => $m) {
+            $results .= $m->value;
+        }
+
+        return $matrix == '' ? [] : json_decode($matrix);
+    }
 }

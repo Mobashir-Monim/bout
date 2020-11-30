@@ -9,6 +9,9 @@ class CourseEvaluationResult extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $guarded = [];
+
     public function eval()
     {
         return $this->belongsTo('App\Models\CourseEvaluation');

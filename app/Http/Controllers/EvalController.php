@@ -24,6 +24,17 @@ class EvalController extends Controller
         return view('course-eval.evaluate.index', ['helper' => $helper]);
     }
 
+    public function storeResults($year, $semester, Request $request)
+    {
+        $helper = new EvaluationHelper($year, $semester);
+        $helper->storeResults($request->parts, $request->starting_index);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Completed storing parts'
+        ]);
+    }
+
     public function report($report)
     {
         if ($report != 'dept' && $report != 'course' && $report != 'section') {

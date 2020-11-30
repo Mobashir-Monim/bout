@@ -3,11 +3,11 @@
         for (const question in questionMatrix) {
             if (!questionMatrix[question].calc.includes('non-eval')) {
                 const temp = stripCatVals(questionMatrix[question]);
-                
+
                 if (questionMatrix[question].type.includes('radio')) {
                     radioEval(temp);
                 } else {
-                    checkBoxEval(temp, question);
+                    checkBoxEval(temp);
                 }
             }
         }
@@ -46,14 +46,14 @@
             if (cat != 'w') {
                 if (temp[cat][temp[cat].length - 1] > 0) {
                     factorsMatrix[cat].maxVal += temp[cat][temp[cat].length - 1];
-                }
+                } 
         
                 factorsMatrix[cat].minVal += temp[cat][0];
             }
         })
     }
 
-    const checkBoxEval = (temp, question) => {
+    const checkBoxEval = temp => {  
         Object.keys(temp).forEach(cat => {
             if (cat != 'w') {
                 let flag = true;

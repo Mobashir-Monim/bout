@@ -86,7 +86,7 @@
     }
 
     const segregateParts = () => {
-        parts = JSON.stringify(questionMatrix).match(/.{1,65535}/g);
+        parts = JSON.stringify(questionMatrix).match(/.{1,65000}/g);
     }
 
     const storeMatrix = () => {
