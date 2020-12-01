@@ -10,17 +10,32 @@
                     <div class="row">
                         <div class="col-md-6 my-1">
                             <select name="semester" id="semester" class="form-control">
-                                <option value="">Please select a semester</option>
-                                <option value="spring">Spring</option>
-                                <option value="summer">Summer</option>
-                                <option value="fall">Fall</option>
+                                @if (!isset(request()->semester))
+                                    <option value="">Please select a semester</option>
+                                    <option value="spring">Spring</option>
+                                    <option value="summer">Summer</option>
+                                    <option value="fall">Fall</option>
+                                @else
+                                    <option value="{{ request()->semester }}">{{ ucfirst(request()->semester) }}</option>
+                                    @foreach (['spring', 'summer', 'fall'] as $item)
+                                        @if (request()->semester != $item)
+                                            <option value="{{ $item }}">{{ ucfirst($item) }}</option>
+                                        @endif
+                                    @endforeach
+                                @endif
                             </select>
                         </div>
                         <div class="col-md-6 my-1">
                             <select name="year" id="year" class="form-control">
-                                <option value="">Please select a year</option>
+                                @if (isset(request()->year))
+                                    <option value="{{ request()->year }}">{{ request()->year }}</option>
+                                @else
+                                    <option value="">Please select a year</option>
+                                @endif
                                 @for ($i = Carbon\Carbon::now()->diffInYears(Carbon\Carbon::parse('2020')); $i >= 0; $i--)
-                                    <option value="{{ 2020 + $i }}">{{ 2020 + $i }}</option>
+                                    @if (request()->year != $i + 2020)
+                                        <option value="{{ 2020 + $i }}">{{ 2020 + $i }}</option>
+                                    @endif
                                 @endfor
                             </select>
                         </div>

@@ -29,7 +29,7 @@
                 if (startingIndex < parts.length) {
                     storeResults();
                 } else {
-                    window.location.href = "{{ route('eval') . '?year=' . $helper->year . '&semester=' . $helper->semester }}";
+                    window.location.href = "{!! route('eval') . '?year=' . $helper->year . '&semester=' . $helper->semester !!}";
                 }
             }).catch(error => {
                 console.log(error);
