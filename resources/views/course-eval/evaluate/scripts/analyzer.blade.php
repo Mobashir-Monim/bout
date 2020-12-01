@@ -3,15 +3,19 @@
     const clq = Object.filter(questionMatrix, 'calc', 'lab-section');
     const clfq = Object.filter(questionMatrix, 'calc', 'lab-ini');
     const cfq = [Object.filter(questionMatrix, 'calc', 'lf1'), Object.filter(questionMatrix, 'calc', 'lf2')];
+    const csc = Object.filter(questionMatrix, 'calc', 'course-section-comment');
+    const lsc = Object.filter(questionMatrix, 'calc', 'lab-section-comment');
 
     const analyzeCourseSection = () => {
         evals.forEach(row => {
             let temp = cst(), q, templ = null, cs = gcs(row["Course"], row["Section Number"]), cl = null;
             evalCSRow(q, temp, row, cs);
+            aggregateSectionComments(cs, row, csc);
 
             if (labCourses.includes(row["Course"])) {
                 cl = gcl(row["Course"], findLabSection(row));
                 templ = evalCLRow(q, row, cl);
+                aggregateSectionComments(cl, row, lsc);
             }
 
             // factorWeight(temp, templ);

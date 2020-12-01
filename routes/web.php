@@ -14,13 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
-    $var = (object) ['l1' => (object) ['l2' => 'val']];
-    dd("$var->l1->l2");
-    return response()->json([
-        'success' => true,
-        'req' => request()->data[0]['gsuite'],
-        'type' => gettype(request()->data)
-    ]);
+    dd('testing nothing');
 })->name('tester');
 
 Auth::routes(['register' => false]);

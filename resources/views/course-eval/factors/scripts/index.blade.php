@@ -1,6 +1,6 @@
 <script>
     let fCont = document.getElementById('factors-cont');
-    let factors = JSON.parse('{!! $helper->eval->factors !!}');
+    let factors = '{!! is_null($helper->eval->factors) ? null : "JSON.parse(" . $helper->eval->factors . ")" !!}';
     let count = 0;
 
     const removeFactor = id => {

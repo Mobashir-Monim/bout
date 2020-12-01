@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Run extends Model
 {
     use HasFactory;
+
+    public $incrementing = false;
+    protected $guarded = [];
 }

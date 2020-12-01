@@ -101,7 +101,13 @@
         }
     }
 
-    const qAgComment = q => {
-        
+    const aggregateSectionComments = (cont, row, qCont) => {
+        for (q in qCont) {
+            if (const.comments.hasOwnProperty(q)) {
+                cont.comments[q] = [];
+            }
+
+            cont.comments[q].push(row[q]);
+        }
     }
 </script>

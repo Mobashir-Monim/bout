@@ -75,7 +75,7 @@
                         <div class="col-md-6 my-2">
                             <div class="row">
                                 <div class="col-md-8"><h5 class="border-bottom">Bulk upload</h5></div>
-                                <div class="col-md-4 text-right"><a href="/sample-files/factors-sample-file.xlsx" target="_blank">Sample Format</a></div>
+                                <div class="col-md-4 text-right"><a href="/sample-files/Eval Uploadables - factors.xlsx" target="_blank">Sample Format</a></div>
                             </div>
                             <form action="{{ route('course-eval.factors-config.upload', ['year' => $helper->year, 'semester' => $helper->semester]) }}" method="POST" enctype="multipart/form-data">
                                 @csrf

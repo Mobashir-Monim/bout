@@ -41,6 +41,6 @@ class CourseEvaluation extends Model
             $results .= $m->value;
         }
 
-        return $matrix == '' ? [] : json_decode($matrix);
+        return $results == '' ? [] : json_decode($results);
     }
 }

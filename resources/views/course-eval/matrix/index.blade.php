@@ -48,7 +48,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6 my-auto">
-                            <a href="/sample-files/question-matrix-sample.xlsx">Sample File</a>
+                            <a href="/sample-files/Eval Uploadables - matrix.xlsx">Sample File</a>
                             <input type="file" name="bulk_upload" id="bulk_upload" class="form-control">
                         </div>
                         <div class="col-md-4 my-auto"></div>

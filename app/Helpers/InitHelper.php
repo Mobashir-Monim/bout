@@ -41,12 +41,16 @@ class InitHelper extends Helper
     {
         $student = Student::create(['id' => $row['id'], 'name' => $row['name']]);
 
-        if (!is_null($row['gsuite-username'])) {
-            $map = StudentMap::create(['student_id' => $student->id, 'email' => $row['gsuite'], 'username' => $row['gsuite-username']]);
+        if (!is_null($row['gsuite_username'])) {
+            if (is_null(StudentMap::where('email', $row['gsuite'])->first())) {
+                $map = StudentMap::create(['student_id' => $student->id, 'email' => $row['gsuite'], 'username' => $row['gsuite_username']]);
+            }
         }
 
-        if (!is_null($row['nongsuite-username'])) {
-            $map = StudentMap::create(['student_id' => $student->id, 'email' => $row['non-gsuite'], 'username' => $row['nongsuite-username']]);
+        if (!is_null($row['nongsuite_username'])) {
+            if (is_null(StudentMap::where('email', $row['non_gsuite'])->first())) {
+                $map = StudentMap::create(['student_id' => $student->id, 'email' => $row['non_gsuite'], 'username' => $row['nongsuite_username']]);
+            }
         }
     }
 

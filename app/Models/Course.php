@@ -9,4 +9,6 @@ class Course extends Model
 {
     use HasFactory;
     use \App\Models\Concerns\UsesUuid;
+
+    protected $guarded = [];
 }
