@@ -32,7 +32,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/eval', [App\Http\Controllers\EvalController::class, 'index'])->name('eval');
     Route::get('/evaluate/{year}/{semester}', [App\Http\Controllers\EvalController::class, 'evaluate'])->name('evaluate');
-    Route::get('/eval/report/{report}', [App\Http\Controllers\EvalController::class, 'report'])->name('eval-report');
+    Route::post('/eval/report/{type}/{year}/{semester}', [App\Http\Controllers\EvalController::class, 'report'])->name('eval-report');
 
     Route::post('/eval/semester-confirm', [App\Http\Controllers\EvalController::class, 'semesterConfirm'])->name('course-eval.semester-confirm');
     Route::get('/eval/factors-config/{year}/{semester}', [App\Http\Controllers\EvalController::class, 'factorsConfig'])->name('course-eval.factors-config');

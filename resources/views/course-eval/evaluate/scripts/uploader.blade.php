@@ -4,7 +4,7 @@
 
     const segregateParts = () => {
         startingIndex = 0;
-        parts = JSON.stringify(evaluationResults).match(/.{1,65000}/g);
+        parts = JSON.stringify(evaluationResults).match(/.{1,64000}/g);
     }
 
     const storeResults = () => {

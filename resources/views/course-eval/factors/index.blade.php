@@ -36,12 +36,14 @@
                 <div class="card my-3">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6">
-                                <a href="#/" class="btn btn-dark w-100" onclick="addFactor()">Add Factor</a>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 my-2">
                                 <button class="btn btn-dark w-100" type="submit">Save</button>
                             </div>
+                            @if (!is_null($helper->eval->factors))
+                                <div class="col-md-6 my-2">
+                                    <a href="{{ route('course-eval.matrix-config', ['year' => $helper->year, 'semester' => $helper->semester]) }}" class="btn btn-dark w-100" onclick="addFactor()">Configure Matrix</a>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

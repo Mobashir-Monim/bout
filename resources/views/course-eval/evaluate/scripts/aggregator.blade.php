@@ -103,7 +103,7 @@
 
     const aggregateSectionComments = (cont, row, qCont) => {
         for (q in qCont) {
-            if (const.comments.hasOwnProperty(q)) {
+            if (!cont.comments.hasOwnProperty(q)) {
                 cont.comments[q] = [];
             }
 

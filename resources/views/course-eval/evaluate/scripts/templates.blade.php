@@ -66,7 +66,7 @@
         respondents: 0,
         section: null,
         qStat: {},
-        comments = {},
+        comments: {},
     };
 
     const labTemplate = {
@@ -80,7 +80,7 @@
         respondents: 0,
         lfs: [],
         qStat: {},
-        comments = {},
+        comments: {},
     };
 
     const sectionTempEvalTemplate = {

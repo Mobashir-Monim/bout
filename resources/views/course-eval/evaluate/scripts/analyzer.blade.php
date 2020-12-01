@@ -1,6 +1,6 @@
 <script>
-    const csq = Object.filter(questionMatrix, 'calc', 'course-section');
-    const clq = Object.filter(questionMatrix, 'calc', 'lab-section');
+    const csq = Object.filter(questionMatrix, 'calc', 'course-section ');
+    const clq = Object.filter(questionMatrix, 'calc', 'lab-section ');
     const clfq = Object.filter(questionMatrix, 'calc', 'lab-ini');
     const cfq = [Object.filter(questionMatrix, 'calc', 'lf1'), Object.filter(questionMatrix, 'calc', 'lf2')];
     const csc = Object.filter(questionMatrix, 'calc', 'course-section-comment');

@@ -29,7 +29,7 @@ class CourseEvalSemesterConfirm extends FormRequest
                 'required',
                 Rule::in(['spring', 'summer', 'fall'])
             ],
-            'year' => 'require|integer|min:2020'
+            'year' => 'required|integer|min:2020'
         ];
     }
 

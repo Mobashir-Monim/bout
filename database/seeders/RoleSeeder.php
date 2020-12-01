@@ -15,7 +15,7 @@ class RoleSeeder extends Seeder
     public function run()
     {
         $roles = [
-            ['name' => 'super-admin', 'display_name' => 'Super Admin', 'limit' => 1],
+            ['name' => 'super-admin', 'display_name' => 'Super Admin', 'limit' => 2],
             ['name' => 'admin', 'display_name' => 'Admin', 'limit' => 10],
             ['name' => 'trustee-member', 'display_name' => 'Trustee Member', 'limit' => 15],
             ['name' => 'vc', 'display_name' => 'Vice Chancellor', 'limit' => 1],

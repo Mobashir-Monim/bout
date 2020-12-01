@@ -41,7 +41,7 @@
         let cfb = XLSX.read(data, {type: 'binary'});
             
         cfb.SheetNames.forEach(function(sheetName) {   
-            let oJS = XLS.utils.sheet_to_json(cfb.Sheets[sheetName]);
+            let oJS = XLS.utils.sheet_to_json(cfb.Sheets[sheetName], {defval: ""});
             let result = [];
             let headers = Object.keys(oJS[0]);
 

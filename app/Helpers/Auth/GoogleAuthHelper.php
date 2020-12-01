@@ -38,10 +38,14 @@ class GoogleAuthHelper extends Helper
         $this->will_login = !is_null($this->user);
     }
 
-    public function getRedirectInfo()
+    public function getRedirectInfo($google_user)
     {
         if ($this->will_login) {
             Auth::login($this->user);
+            if ($google_user->name != $this->user->name) {
+                $this->user->name = $google_user->name;
+                $this->user->save();
+            }
 
             return (object) ['route' => redirect()->intended()->getTargetUrl(), 'message' => 'Welcome ' . $this->user->name . '!', 'status' => 'success'];
         }

@@ -35,9 +35,9 @@ class EvalController extends Controller
         ]);
     }
 
-    public function report($report)
+    public function report($type, $year, $semester, Request $report)
     {
-        if ($report != 'dept' && $report != 'course' && $report != 'section') {
+        if ($type != 'dept' && $type != 'course' && $type != 'section') {
             $this->flashMessage('error', 'The report that you are trying to access does not exist 👽👽👽');
             return back();
         }
@@ -49,6 +49,8 @@ class EvalController extends Controller
     {
         // implement retrieving reports
         // implement altering reports fetch by filter if too many reports
+
+        return redirect(route('eval') . '?year=' . $request->year . '&semester=' . $request->semester);
     }
 
     public function factorsConfig($year, $semester)
@@ -80,7 +82,7 @@ class EvalController extends Controller
         $rows = Excel::toCollection(new CEFI, $request->file('factors_file'))[0];
         $helper->addFactors($rows->pluck('name'), $rows->pluck('short_hand'), $rows->pluck('description'));
 
-        return redirect(route('course-eval.matrix-config', ['year' => $year, 'semester' => $semester]));
+        return redirect(route('course-eval.factors-config', ['year' => $year, 'semester' => $semester]));
     }
 
     public function matrixConfig($year, $semester)
