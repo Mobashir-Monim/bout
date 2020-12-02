@@ -22,9 +22,6 @@ class ReportHelper extends Helper
         $this->eval = CE::find("$year-$semester");
         $this->results = $this->getResults();
         $this->data = $this->getReports();
-        // $dept = "DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING";
-        // $c = 'CSE490.1';
-        // dd($this->results->$dept->courses);
     }
 
     public function getReports()

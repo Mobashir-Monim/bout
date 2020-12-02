@@ -50,17 +50,19 @@
 
                 if (file == "usis-registrations") {
                     headers.forEach(key => {
-                        if (key == 'section') {
-                            imm[key] = oJS[index][key] != undefined ? parseInt(oJS[index][key].toString().replace(/\D/g,'')) : oJS[index][key];
-                        } else if (key == 'Course_ID') {
-                            imm[key] = oJS[index][key] != undefined ? oJS[index][key].toString().substring(0, 6) : oJS[index][key];
+                        if (key == "section") {
+                            imm[key] = oJS[index][key] != undefined ? parseInt(oJS[index][key].toString().replace(/\s+/g,' ').trim().replace(/\D/g,'')) : oJS[index][key];
                         } else {
-                            imm[key] = oJS[index][key] != undefined ? oJS[index][key].toString() : oJS[index][key];
+                            imm[key] = oJS[index][key] != undefined ? oJS[index][key].toString().replace(/\s+/g,' ').trim() : oJS[index][key];
                         }
                     });
                 } else {
                     headers.forEach(key => {
-                        imm[key] = oJS[index][key] != undefined ? oJS[index][key].toString() : oJS[index][key];
+                        if (file == "eval-response" && key == "Course") {
+                            imm[key] = oJS[index][key] != undefined ? oJS[index][key].toString().replace(/\s+/g,' ').trim().replaceAll(/\s/g, '').replaceAll('-', '.') : oJS[index][key];
+                        } else {
+                            imm[key] = oJS[index][key] != undefined ? oJS[index][key].toString().replace(/\s+/g,' ').trim() : oJS[index][key];
+                        }
                     });
                 }
 
@@ -96,7 +98,7 @@
 
     function setEvalSections() {
         evals.forEach(eRow => {
-            row = idMap.find(r => { return (eRow["Email Address"] == r.email && eRow["Course"] == r.course) });
+            row = idMap.find(r => { return (eRow["Email Address"] == r.email && eRow["Course"].includes(r.course)) });
             
             if (row != undefined) {
                 eRow["Section Number"] = row.section;
