@@ -13,7 +13,7 @@ use Excel;
 
 class EvalController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         return view('course-eval.index');
     }
@@ -53,11 +53,10 @@ class EvalController extends Controller
         return view('course-eval.index', ['helper' => $helper]);
     }
 
-    public function publishReport()
+    public function publishReport(Request $request)
     {
         $helper = new ReportHelper($request->year, $request->semester);
-        $helper->eval->is_published = !$helper->eval->is_published;
-        $helper->eval->save();
+        $helper->togglePublishStatus();
         
         return view('course-eval.index', ['helper' => $helper]);
     }

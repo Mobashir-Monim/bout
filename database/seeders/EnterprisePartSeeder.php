@@ -34,6 +34,7 @@ class EnterprisePartSeeder extends Seeder
             ['name' => 'BRAC Institute of Education and Development', 'user_id' => $this->getUserID('erum.m@brac.net')],
             ['name' => 'School of General Education', 'user_id' => $this->getUserID('shuq@bracu.ac.bd')],
             ['name' => 'School of Humanities and Social Sciences', 'user_id' => $this->getUserID('pforet@bracu.ac.bd')],
+            ['name' => 'Super Admin', 'user_id' => $this->getUserID('mobashir.monim@bracu.ac.bd')]
         ];
 
         $connections = [
@@ -41,6 +42,7 @@ class EnterprisePartSeeder extends Seeder
             2 => [3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
             3 => [4,5],
             17 => [8,9],
+            18 => [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]
         ];
 
         foreach ($parts as $key => $part) {

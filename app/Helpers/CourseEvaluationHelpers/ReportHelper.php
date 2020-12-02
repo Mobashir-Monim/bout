@@ -14,6 +14,7 @@ class ReportHelper extends Helper
     public $semester = null;
     public $results = null;
     public $data = null;
+    public $depts = null;
 
     public function __construct($year, $semester)
     {
@@ -22,13 +23,20 @@ class ReportHelper extends Helper
         $this->eval = CE::find("$year-$semester");
         $this->results = $this->getResults();
         $this->data = $this->getReports();
+        // dd($this->data);
+    }
+
+    public function togglePublishStatus()
+    {
+        $this->eval->is_published = !$this->eval->is_published;
+        $this->eval->save();
+        $this->data = $this->getReports();
     }
 
     public function getReports()
     {
         if ($this->isReportable()) {
             if (auth()->user()->isHead) {
-                return $this->generateReports();
                 return $this->generateReportFilter();
             } else {
                 return $this->generateReports();
@@ -71,6 +79,34 @@ class ReportHelper extends Helper
         }
 
         return false;
+    }
+
+    public function generateReportFilter()
+    {
+        $depts = [];
+        
+        foreach (auth()->user()->headOf as $part) {
+            $depts = array_unique(array_merge($depts, $this->iterateChildrenParts($part)), SORT_REGULAR);
+        }
+
+        $this->depts = $depts;
+        
+        return ['available' => true, 'type' => 'filter'];
+    }
+
+    public function iterateChildrenParts($part)
+    {
+        if ($part->hasChildren) {
+            $children = [];
+
+            foreach ($part->children as $key => $child) {
+                $children = array_unique(array_merge($children, $this->iterateChildrenParts($child)), SORT_REGULAR);
+            }
+
+            return $children;
+        } else {
+            return [$part->name];
+        }
     }
 
     public function generateReports()
@@ -135,6 +171,32 @@ class ReportHelper extends Helper
         } else {
             return route('eval-report', ['year' => $this->year, 'semester' => $this->semester]);
         }
+    }
+
+    public function createSelectionList()
+    {
+        $list = [];
+        
+        foreach ($this->depts as $dept) {
+            $dept = strtoupper($dept);
+            $list[$dept] = [];
+
+            if (property_exists($this->results, $dept)) {
+                foreach ($this->results->$dept->courses as $course => $courseData) {
+                    $list[$dept][$course] = ['sections' => [], 'labs' => []];
+    
+                    foreach ($this->results->$dept->courses->$course->sections as $section => $sectionData) {
+                        $list[$dept][$course]['sections'][] = $section;
+                    }
+    
+                    foreach ($this->results->$dept->courses->$course->labs as $lab => $labData) {
+                        $list[$dept][$course]['labs'][] = $lab;
+                    }
+                }
+            }
+        }
+
+        return $list;
     }
 
     public function encrypt($key, $string)

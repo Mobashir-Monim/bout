@@ -47,16 +47,16 @@
                 <div class="card-header bg-dark text-white">Evaluation Matrix Bulk Upload</div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6 my-auto">
+                        <div class="col-md-6 my-2">
                             <a href="/sample-files/Eval Uploadables - matrix.xlsx">Sample File</a>
                             <input type="file" name="bulk_upload" id="bulk_upload" class="form-control">
                         </div>
-                        <div class="col-md-4 my-2">
+                        <div class="col-md-4 mb-2 mt-auto">
                             @if (sizeof((array) $helper->questionMatrix()) > 0)
                                 <a href="{{ route('evaluate', ['year' => $helper->year, 'semester' => $helper->semester]) }}" class="btn btn-dark w-100">Evaluate</a>
                             @endif
                         </div>
-                        <div class="col-md-2 my-auto text-right" id="spinner"></div>
+                        <div class="col-md-2 mt-auto text-right" id="spinner"></div>
                     </div>
                 </div>
             </div>

@@ -53,6 +53,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Permission');
     }
 
+    public function headOf()
+    {
+        return $this->hasMany('App\Models\EnterprisePart', 'user_id');
+    }
+
     public function getIsHeadAttribute()
     {
         foreach ($this->roles as $key => $role) {

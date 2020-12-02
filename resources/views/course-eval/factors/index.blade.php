@@ -41,7 +41,7 @@
                             </div>
                             @if (!is_null($helper->eval->factors))
                                 <div class="col-md-6 my-2">
-                                    <a href="{{ route('course-eval.matrix-config', ['year' => $helper->year, 'semester' => $helper->semester]) }}" class="btn btn-dark w-100" onclick="addFactor()">Configure Matrix</a>
+                                    <a href="{{ route('course-eval.matrix-config', ['year' => $helper->year, 'semester' => $helper->semester]) }}" class="btn btn-dark w-100">Configure Matrix</a>
                                 </div>
                             @endif
                         </div>
