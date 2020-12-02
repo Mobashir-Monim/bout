@@ -11,4 +11,11 @@ class Course extends Model
     use \App\Models\Concerns\UsesUuid;
 
     protected $guarded = [];
+
+    public function offered()
+    {
+        return $this->hasMany('App\Models\OfferedCourse');
+    }
+
+    
 }

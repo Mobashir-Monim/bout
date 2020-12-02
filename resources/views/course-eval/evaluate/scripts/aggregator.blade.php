@@ -18,7 +18,7 @@
         rankAll();
         // showReportGenOptions();
         segregateParts();
-        storeResults();
+        // storeResults();
     }
 
     const aggregateContParts = (cL, contName, flag = false) => {

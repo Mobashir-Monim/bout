@@ -7,6 +7,7 @@ use App\Http\Requests\CourseEvalSemesterConfirm as CESC;
 use App\Helpers\CourseEvaluationHelpers\FactorsHelper;
 use App\Helpers\CourseEvaluationHelpers\MatrixHelper;
 use App\Helpers\CourseEvaluationHelpers\EvaluationHelper;
+use App\Helpers\CourseEvaluationHelpers\ReportHelper;
 use App\Imports\CourseEvaluationFactorsImport as CEFI;
 use Excel;
 
@@ -47,10 +48,18 @@ class EvalController extends Controller
 
     public function semesterConfirm(CESC $request)
     {
-        // implement retrieving reports
-        // implement altering reports fetch by filter if too many reports
+        $helper = new ReportHelper($request->year, $request->semester);
 
-        return redirect(route('eval') . '?year=' . $request->year . '&semester=' . $request->semester);
+        return view('course-eval.index', ['helper' => $helper]);
+    }
+
+    public function publishReport()
+    {
+        $helper = new ReportHelper($request->year, $request->semester);
+        $helper->eval->is_published = !$helper->eval->is_published;
+        $helper->eval->save();
+        
+        return view('course-eval.index', ['helper' => $helper]);
     }
 
     public function factorsConfig($year, $semester)

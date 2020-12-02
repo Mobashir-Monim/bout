@@ -20,8 +20,8 @@ class OfferedCourse extends Model
         return $this->belongsTo('App\Models\Run');
     }
 
-    public function section()
+    public function sections()
     {
-        return $this->hasMany('App\Models\OfferedCourseSection');
+        return $this->hasMany('App\Models\OfferedCourseSection', 'offered_course_id');
     }
 }

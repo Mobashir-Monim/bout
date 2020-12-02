@@ -52,4 +52,15 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Models\Permission');
     }
+
+    public function getIsHeadAttribute()
+    {
+        foreach ($this->roles as $key => $role) {
+            if ($role->is_head) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEnterprisePartRelationTable extends Migration
+class CreateEnterprisePartRelationshipsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateEnterprisePartRelationTable extends Migration
      */
     public function up()
     {
-        Schema::create('enterprise_part_relation', function (Blueprint $table) {
+        Schema::create('enterprise_part_relationships', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('parent_id');
             $table->unsignedInteger('child_id');
@@ -29,6 +29,6 @@ class CreateEnterprisePartRelationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('enterprise_part_relation');
+        Schema::dropIfExists('enterprise_part_relationships');
     }
 }

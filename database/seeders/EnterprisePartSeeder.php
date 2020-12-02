@@ -49,7 +49,7 @@ class EnterprisePartSeeder extends Seeder
 
         foreach ($connections as $key => $rels) {
             foreach ($rels as $k => $rel) {
-                DB::table('enterprise_part_relation')->insert([
+                DB::table('enterprise_part_relationships')->insert([
                     'parent_id' => $key,
                     'child_id' => $rel,
                 ]);

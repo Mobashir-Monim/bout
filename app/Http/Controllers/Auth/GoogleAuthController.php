@@ -25,7 +25,7 @@ class GoogleAuthController extends Controller
                 $helper->createUser($user);
             }
 
-            $redirect_info = $helper->getRedirectInfo();
+            $redirect_info = $helper->getRedirectInfo($user);
             $this->flashMessage($redirect_info->status, $redirect_info->message);
 
             return redirect($redirect_info->route)->with($redirect_info->status, $redirect_info->message);

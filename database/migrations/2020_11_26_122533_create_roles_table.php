@@ -18,6 +18,7 @@ class CreateRolesTable extends Migration
             $table->string('name')->unique();
             $table->string('display_name');
             $table->unsignedSmallInteger('limit')->default(1);
+            $table->boolean('is_head')->default(false);
             $table->timestamps();
         });
     }

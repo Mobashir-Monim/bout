@@ -12,11 +12,11 @@ class EnterprisePart extends Model
 
     public function children()
     {
-        return $this->belongsToMany('App\Models\EnterprisePart', 'parent_id', 'child_id');
+        return $this->belongsToMany('App\Models\EnterprisePart','enterprise_part_relationships', 'parent_id', 'child_id');
     }
 
     public function parents()
     {
-        return $this->belongsToMany('App\Models\EnterprisePart', 'child_id', 'parent_id');
+        return $this->belongsToMany('App\Models\EnterprisePart','enterprise_part_relationships', 'child_id', 'parent_id');
     }
 }

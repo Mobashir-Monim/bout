@@ -17,7 +17,6 @@ class RoleController extends Controller
 
     public function roleUsers(Role $role)
     {
-        dd($role);
         $role = Role::find($role);
         
         if (is_null($role)) {

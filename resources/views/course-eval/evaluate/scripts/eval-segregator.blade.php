@@ -185,6 +185,7 @@
         'CSE470': [{frac: "DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING", sections: ""}],
         'CSE471': [{frac: "DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING", sections: ""}],
         'CSE474': [{frac: "DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING", sections: ""}],
+        'CSE490': [{frac: "DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING", sections: ""}],
         'CSE491': [{frac: "DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING", sections: ""}],
         'CSE705': [{frac: "DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING", sections: ""}],
         'CSE708': [{frac: "DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING", sections: ""}],
