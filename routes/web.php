@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
+    $a= array(
+        // 'one',
+        'two',
+        'three',
+        'four'
+    );
+       
+    dd( preg_grep( "/ONe/i" , $a ) );
     dd('testing nothing');
 })->name('tester');
 

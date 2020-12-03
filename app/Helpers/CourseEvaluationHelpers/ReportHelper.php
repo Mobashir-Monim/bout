@@ -14,7 +14,6 @@ class ReportHelper extends Helper
     public $semester = null;
     public $results = null;
     public $data = null;
-    public $depts = null;
 
     public function __construct($year, $semester)
     {
@@ -88,10 +87,8 @@ class ReportHelper extends Helper
         foreach (auth()->user()->headOf as $part) {
             $depts = array_unique(array_merge($depts, $this->iterateChildrenParts($part)), SORT_REGULAR);
         }
-
-        $this->depts = $depts;
         
-        return ['available' => true, 'type' => 'filter'];
+        return ['available' => true, 'type' => 'filter', 'depts' => $depts];
     }
 
     public function iterateChildrenParts($part)
@@ -177,7 +174,7 @@ class ReportHelper extends Helper
     {
         $list = [];
         
-        foreach ($this->depts as $dept) {
+        foreach ($this->data['depts'] as $dept) {
             $dept = strtoupper($dept);
             $list[$dept] = [];
 
@@ -197,6 +194,69 @@ class ReportHelper extends Helper
         }
 
         return $list;
+    }
+
+    public function hasPermission($dept = null, $course = null, $section = null, $lab = false)
+    {
+        if (auth()->user()->isHead) {
+            $flag = false;
+
+            foreach (auth()->user()->headOf as $part) {
+                $flag = $flag || $this->validateHeadPermission($dept, $part);
+            }
+
+            return $flag;
+        } else {
+            return $this->validateFacultyPermission($dept, $course, $section, $lab);
+        }
+    }
+
+    public function validateHeadPermission($dept, $part)
+    {
+        if ($part->hasChildren) {
+            $flag = false;
+
+            foreach ($part->children as $child) {
+                $flag = $flag || $this->validateHeadPermission($dept, $child);
+            }
+
+            return $flag;
+        } else {
+            return sizeof(preg_grep("/$part->name/i" , $this->data['depts'])) > 0;
+        }
+    }
+
+    public function validateFacultyPermission($dept, $course, $section, $lab)
+    {
+        if (array_key_exists($dept, $this->data['reports'])) {
+            if (array_key_exists($course, $this->data['reports'][$dept])) {
+                return in_array($section, $this->data['reports'][$dept][$course][$lab ? 'labs' : 'sections']);
+            }
+        }
+
+        return false;
+    }
+
+    public function reportExists($dept = null, $course = null, $section = null, $lab = false)
+    {
+        return property_exists($this->results, $dept) &&
+        (!is_null($course) ? property_exists($this->results->$dept->courses, $course) : true) &&
+        (!is_null($section) ? property_exists(
+            ($lab ? $this->results->$dept->courses->$course->labs : $this->results->$dept->courses->$course->sections)
+        , $section) : true);
+    }
+
+    public function validateReportRequest($dept = null, $course = null, $section = null, $lab = false)
+    {
+        if (!$this->isReportable()) {
+            return ['error' => true, 'message' => 'The requested report is not available yet'];
+        } elseif (!$this->reportExists($dept, $course, $section, $lab)) {
+            return ['error' => true, 'message' => 'The requested report does not exist'];
+        } elseif (!$this->hasPermission($dept, $course, $section, $lab)) {
+            return ['error' => true, 'message' => 'You do not have view access to the requested report'];
+        }
+
+        return ['error' => false, 'message' => 'Generating report'];
     }
 
     public function encrypt($key, $string)

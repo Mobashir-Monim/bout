@@ -1,11 +1,11 @@
 <div class="row">
     <div class="col-md-6 my-2">
         <h6 class="mb-0"><b>Department</b></h6>
-        @if (sizeof($helper->depts) > 1)
+        @if (sizeof($helper->data['depts']) > 1)
             <select name="dept" id="dept" class="form-control" onchange="showCourses()">
                 <option value="">Please select a department</option>
 
-                @foreach ($helper->depts as $dept)
+                @foreach ($helper->data['depts'] as $dept)
                     <option value="{{ strtoupper($dept) }}">{{ $dept }}</option>
                 @endforeach
             </select>
@@ -14,7 +14,7 @@
         @endif
     </div>
     <div class="col-md-6 my-2 mt-auto">
-        <a href="{{ sizeof($helper->depts) > 1 ? '#/' : $helper->buildRoute($depts[0]) }}" {{ sizeof($helper->depts) > 1 ? "onclick=openReport('dept')" : '' }} id="dept-btn" class="btn btn-dark w-100 {{ sizeof($helper->depts) > 1 ? 'hidden' : '' }}">Generate Department Report</a>
+        <a href="{{ sizeof($helper->data['depts']) > 1 ? '#/' : $helper->buildRoute($depts[0]) }}" {{ sizeof($helper->data['depts']) > 1 ? "onclick=openReport('dept')" : '' }} id="dept-btn" class="btn btn-dark w-100 {{ sizeof($helper->data['depts']) > 1 ? 'hidden' : '' }}">Generate Department Report</a>
     </div>
 </div>
 
