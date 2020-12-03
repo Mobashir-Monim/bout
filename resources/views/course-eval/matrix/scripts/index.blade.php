@@ -120,13 +120,13 @@
     }
 
     const generateParts = () => {
-        let temp = [], max = 16;
+        let temp = [], max = 32;
 
         for (let i = 0; (i + startingIndex) < parts.length && max > 0; i++, max--) {
             temp.push(parts[i + startingIndex]);
         }
 
-        startingIndex += 16;
+        startingIndex += 32;
         
         return temp;
     }
