@@ -16,9 +16,9 @@
         }
 
         rankAll();
-        // showReportGenOptions();
         segregateParts();
         storeResults();
+        console.log('done')
     }
 
     const aggregateContParts = (cL, contName, flag = false) => {

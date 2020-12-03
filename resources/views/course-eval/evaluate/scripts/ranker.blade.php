@@ -26,6 +26,7 @@
 
     const sorter = (list, store) => {
         let m = {};
+        if (store.hasOwnProperty('max')) { m = store.max; }
 
         for (l in list) {
             for (c in list[l].cats) {
@@ -59,6 +60,7 @@
         makeDeptSectionScores();
         addDeptReport();
         findExtremeScoringCourses();
+        findExtremeScoringSections();
         roundFigures();
     }
 
@@ -170,8 +172,6 @@
                     let hLim = resultingRank.depts[d].cats[cat][getLimIndex(false, resultingRank.depts[d].cats[cat])];
 
                     for (c in evaluationResults[d].courses) {
-                        findExtremeScoringSections(d, c);
-
                         if (evaluationResults[d].courses[c].cats[cat] <= lLim) {
                             lowest[cat].push(c);
                         }
@@ -181,18 +181,8 @@
                         }
                     }
                     
-                    try {
-                        lowest[cat] = lowest[cat].join(', ');
-                        highest[cat] = highest[cat].join(', ');
-                    } catch (error) {
-                        if (cat != 'max') {
-                            lowest[cat] = '';
-                            highest[cat] = '';
-                        } else {
-                            delete lowest[cat];
-                            delete highest[cat];
-                        }
-                    }
+                    lowest[cat] = lowest[cat].join(', ');
+                    highest[cat] = highest[cat].join(', ');
                 }
             }
 
@@ -201,45 +191,39 @@
         }
     }
 
-    const findExtremeScoringSections = (d, c) => {
-        let lowest = {}, highest = {};
+    const findExtremeScoringSections = () => {
+        for (d in evaluationResults) {
+            for (c in evaluationResults[d].courses) {
+                let lowest = {}, highest = {};
 
-        for (cat in resultingRank.depts[d].courses[c].cats) {
-            if (cat != 'max' && cat != 'courseMax' && cat != 'sectionMax' && cat != 'r' && resultingRank.depts[d].courses[c].cats[cat] != NaN) {
-                if (!lowest.hasOwnProperty(cat)) { lowest[cat] = []; }
-                if (!highest.hasOwnProperty(cat)) { highest[cat] = []; }
+                for (cat in resultingRank.depts[d].courses[c].cats) {
+                    if (cat != 'max' && cat != 'courseMax' && cat != 'sectionMax' && cat != 'r' && resultingRank.depts[d].courses[c].cats[cat] != NaN) {
+                        if (!lowest.hasOwnProperty(cat)) { lowest[cat] = []; }
+                        if (!highest.hasOwnProperty(cat)) { highest[cat] = []; }
 
-                resultingRank.depts[d].courses[c].cats[cat] = resultingRank.depts[d].courses[c].cats[cat].sort((a, b) => { return a - b; });
-                let lLim = resultingRank.depts[d].courses[c].cats[cat][getLimIndex(true, resultingRank.depts[d].courses[c].cats[cat])];
-                let hLim = resultingRank.depts[d].courses[c].cats[cat][getLimIndex(false, resultingRank.depts[d].courses[c].cats[cat])];
+                        resultingRank.depts[d].courses[c].cats[cat] = resultingRank.depts[d].courses[c].cats[cat].sort((a, b) => { return a - b; });
+                        let lLim = resultingRank.depts[d].courses[c].cats[cat][getLimIndex(true, resultingRank.depts[d].courses[c].cats[cat])];
+                        let hLim = resultingRank.depts[d].courses[c].cats[cat][getLimIndex(false, resultingRank.depts[d].courses[c].cats[cat])];
 
-                for (s in evaluationResults[d].courses[c].sections) {
-                    if (evaluationResults[d].courses[c].sections[s].cats[cat] <= lLim) {
-                        lowest[cat].push(s);
-                    }
+                        for (s in evaluationResults[d].courses[c].sections) {
+                            if (evaluationResults[d].courses[c].sections[s].cats[cat] <= lLim) {
+                                lowest[cat].push(s);
+                            }
 
-                    if (evaluationResults[d].courses[c].sections[s].cats[cat] >= hLim) {
-                        highest[cat].push(s);
-                    }
-                }
+                            if (evaluationResults[d].courses[c].sections[s].cats[cat] >= hLim) {
+                                highest[cat].push(s);
+                            }
+                        }
 
-                try {
-                    lowest[cat] = lowest[cat].join(', ');
-                    highest[cat] = highest[cat].join(', ');
-                } catch (error) {
-                    if (cat != 'max') {
-                        lowest[cat] = '';
-                        highest[cat] = '';
-                    } else {
-                        delete lowest[cat];
-                        delete highest[cat];
+                        lowest[cat] = lowest[cat].join(', ');
+                        highest[cat] = highest[cat].join(', ');
                     }
                 }
+
+                evaluationResults[d].courses[c].lowest = lowest;
+                evaluationResults[d].courses[c].highest = highest;
             }
         }
-
-        evaluationResults[d].courses[c].lowest = lowest;
-        evaluationResults[d].courses[c].highest = highest;
     }
 
     const getLimIndex = (i, arr) => {
