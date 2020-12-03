@@ -14,7 +14,7 @@ class Course extends Model
 
     public function offered()
     {
-        return $this->hasMany('App\Models\OfferedCourse');
+        return $this->hasMany('App\Models\OfferedCourse', 'course_id');
     }
 
     

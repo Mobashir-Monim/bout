@@ -10,6 +10,8 @@ class OfferedCourseSection extends Model
     use HasFactory;
     use \App\Models\Concerns\UsesUuid;
 
+    protected $guarded = [];
+
     public function sectionOf()
     {
         return $this->belongsTo('App\Models\OfferedCourse', 'offered_course_id');

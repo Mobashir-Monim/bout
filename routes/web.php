@@ -14,14 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
-    $a= array(
-        // 'one',
-        'two',
-        'three',
-        'four'
-    );
-       
-    dd( preg_grep( "/ONe/i" , $a ) );
     dd('testing nothing');
 })->name('tester');
 
@@ -36,6 +28,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/map/students-to-buX-username', [App\Http\Controllers\MapperController::class, 'mapStudents'])->name('student-map');
 
     Route::get('/init/seed', [App\Http\Controllers\InitController::class, 'seederIndex'])->name('student-map-seeder');
+    Route::get('/init/seed/ofs', [App\Http\Controllers\InitController::class, 'seedOFS'])->name('ofs-seeder');
     Route::post('/init/seed', [App\Http\Controllers\InitController::class, 'seedPart'])->name('student-map-seeder');
 
     Route::get('/eval', [App\Http\Controllers\EvalController::class, 'index'])->name('eval');

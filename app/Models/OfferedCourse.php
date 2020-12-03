@@ -10,9 +10,11 @@ class OfferedCourse extends Model
     use HasFactory;
     use \App\Models\Concerns\UsesUuid;
 
+    protected $guarded = [];
+
     public function course()
     {
-        return $this->belongsTo('App\Models\Course');
+        return $this->belongsTo('App\Models\Course', 'course_id');
     }
 
     public function sem()

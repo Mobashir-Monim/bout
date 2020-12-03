@@ -46,7 +46,7 @@ class EnterprisePartSeeder extends Seeder
         ];
 
         foreach ($parts as $key => $part) {
-            EnterprisePart::create($part);
+            EnterprisePart::create(['name' => strtoupper($part['name']), 'user_id' => $part['user_id']]);
         }
 
         foreach ($connections as $key => $rels) {

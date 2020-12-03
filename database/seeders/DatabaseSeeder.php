@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             RunSeeder::class,
             StudentMapSeeder::class,
             CourseSeeder::class,
+            CourseSectionSeeder::class,
         ]);
     }
 }
