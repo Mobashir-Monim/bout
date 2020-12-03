@@ -27,6 +27,11 @@ class EvaluationHelper extends Helper
     {
         if ($index == 0) {
             $this->pruneResults();
+
+            if ($this->eval->is_published) {
+                $this->eval->is_published = false;
+                $this->eval->save();
+            }
         }
 
         foreach ($parts as $key => $part) {

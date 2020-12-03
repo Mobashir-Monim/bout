@@ -34,18 +34,10 @@
                     </div>
                     <div class="row">
                         <div class="col-md">
-                            <!-- <div class="row border-bottom">
-                                <div class="col-md-8"><p>Course Offered</p></div>
-                                <div class="col-md text-right"><p>30</p></div>
-                            </div> -->
                             <div class="row border-bottom">
-                                <div class="col-md-8"><p>Sections</p></div>
+                                <div class="col-md-8"><p>Sections Evaluated</p></div>
                                 <div class="col-md text-right"><p>{{ $helper->results['overall']['sectionCount'] }}</p></div>
                             </div>
-                            <!-- <div class="row border-bottom">
-                                <div class="col-md-8"><p>Respondent-Registration ratio</p></div>
-                                <div class="col-md text-right"><p>0.4</p></div>
-                            </div> -->
                         </div>
                         <div class="col-md-2"></div>
                     </div>
@@ -83,7 +75,7 @@
                         <thead>
                             <tr>
                                 <th scope="col"><p>Assessment Item</p></th>
-                                <th scope="col"><p class="text-center">Average</p></th>
+                                <th scope="col"><p class="text-center">Score</p></th>
                                 <th scope="col"><p class="text-center">Percentile</p></th>
                                 <th scope="col"><p class="text-center">Section Highest<br>(course)</p></th>
                                 <th scope="col"><p class="text-center">University Highest<br>(courses)</p></th>
@@ -198,8 +190,8 @@
                         <thead>
                             <tr>
                                 <th scope="col"><p>Assessment Item</p></th>
-                                <th scope="col"><p class="text-center">5 Lowest Scoring Sections</p></th>
-                                <th scope="col"><p class="text-center">5 Highest Scoring Sections</p></th>
+                                <th scope="col"><p class="text-center">Lowest Scoring Sections</p></th>
+                                <th scope="col"><p class="text-center">Highest Scoring Sections</p></th>
                             </tr>
                         </thead>
                         <tbody>

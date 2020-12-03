@@ -27,7 +27,7 @@
     }
 
     const evalCSRow = (q, temp, row, cs) => {
-        for (q in csq) {
+        for (let q in csq) {
             if (csq[q].type.includes('radio')) {
                 optionValsAdd(temp, csq[q].options[row[q]]);
                 
@@ -44,7 +44,7 @@
         let templ = clt(), pointer = 0;
         templ.section = findLabSection(row);
 
-        for (q in clq) {
+        for (let q in clq) {
             if (row[q] != "NADA BADA") {
                 if (clq[q].type.includes('radio')) {
                     optionValsAdd(templ.cats, clq[q].options[row[q]]);
@@ -74,9 +74,9 @@
             Object.keys(cfq[pointer]).forEach(q => {
                 if (row[q] != 'NADA BADA' && row[q] != '' && row[q] != undefined) {
                     if (cfq[pointer][q].type.includes('radio')) {
-                        optionValsAdd(templf, cfq[pointer][q].options[row[q]]);
+                        optionValsAdd(templf.cats, cfq[pointer][q].options[row[q]]);
                     } else {
-                        evalCheckbox(cfq[pointer], q, row, templf);
+                        evalCheckbox(cfq[pointer], q, row, templf.cats);
                     }
                 }
             })
@@ -116,7 +116,7 @@
     }
 
     const optionValsAdd = (temp, vals) => {
-        for (key in vals) {
+        for (let key in vals) {
             temp[key] += vals[key];
         }
 
@@ -147,7 +147,7 @@
     }
 
     const compileDeptCourses = () => {
-        for (c in courseList) {
+        for (let c in courseList) {
             if (fractions[c].length > 1) {
                 fractions[c].forEach(f => {
                     let tempC = createCourse(c), secs = f.sections.split(',');

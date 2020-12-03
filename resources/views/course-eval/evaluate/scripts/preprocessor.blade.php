@@ -89,6 +89,7 @@
                 setEvalSections();
                 findDuplicates();
                 analyzeCourseSection();
+                document.getElementById('ranker').classList.remove('hidden');
             }
 
 

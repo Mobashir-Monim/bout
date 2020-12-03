@@ -21,50 +21,11 @@
             <input type="file" name="bux-users" id="gsuite" class="form-control mb-1" accept=".xlsx, .xls">
             <label for="gsuite" class="col-form-label text-right col-12 pt-0">Gsuite List</label>
         </div>
-        <div class="col-md-4 mb-3 text-right" id="status"></div>
-        <div class="col-md-2 mb-3 text-right" id="spinner"></div>
-    </div>
-
-    <div class="row hidden" id="report-options">
-        <div class="col-md-12">
-            <h2 class="border-bottom d-none d-sm-block">Generate Eval Report</h2>
-            <h5 class="border-bottom d-block d-sm-none">Generate Eval Report</h5>
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="row mb-2">
-                        <div class="col-md-4 my-auto"><h5 class="my-auto">Report Type</h5></div>
-                        <div class="col-md my-auto">
-                            <select name="report_type" id="report_type" class="form-control" onchange="showRepFields()">
-                                <option value="">Please select report type</option>
-                                <option value="dept">Department Overall Report</option>
-                                <option value="course">Course Overall Report</option>
-                                <option value="section">Section Overall Report</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-4 my-auto"><h5 class="my-auto">Department</h5></div>
-                        <div class="col-md my-auto">
-                            <select name="department" id="department" class="form-control" onchange="showDeptCourseList()">
-                                <option value="">Please select a department</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-4 my-auto"><h5 class="my-auto">Course</h5></div>
-                        <div class="col-md my-auto">
-                            <select name="course" id="course" class="form-control" onchange="showCourseSectionList()"></select>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-4 my-auto"><h5 class="my-auto">Section</h5></div>
-                        <div class="col-md my-auto">
-                            <select name="section" id="section" class="form-control"></select>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-4 mb-3 text-right" id="status">
+            <button class="btn btn-dark w-100 hidden" id="ranker" onclick="rankAll()">Rank All</button>
+            <button class="btn btn-dark w-100 hidden" id="uploader" onclick="segregateParts()">Store Results</button>
         </div>
+        <div class="col-md-2 mb-3 text-right" id="spinner"></div>
     </div>
 
     <div class="row">
@@ -87,7 +48,6 @@
     @include('course-eval.evaluate.scripts.analyzer')
     @include('course-eval.evaluate.scripts.aggregator')
     @include('course-eval.evaluate.scripts.eval-segregator')
-    @include('course-eval.evaluate.scripts.report-generator')
     @include('course-eval.evaluate.scripts.ranker')
     @include('course-eval.evaluate.scripts.uploader')
 @endsection

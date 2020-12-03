@@ -82,11 +82,28 @@
 
     const openReport = type => {
         let link = links[type];
+        let flag = true;
 
-        for (let index = 0; index <= types.indexOf(type); index++) {
-            link = link.replaceAll(types[index], locations[index].value);
+        if (type == 'lab') {
+            if (lab.value != null && lab.value != "" && lab.value != undefined) {
+                link = link.replaceAll('section', lab.value);
+            } else {
+                flag = false;
+                alert('Please select a lab section before generating the lab report');
+            }
         }
 
-        window.open(link, '_blank')
+        for (let index = 0; index <= types.indexOf(type) - (type == 'lab' ? 2 : 0) && flag; index++) {
+            if (locations[index].value != null && locations[index].value != "" && locations[index].value != undefined) {
+                link = link.replaceAll(types[index], locations[index].value);
+            } else {
+                flag = false;
+                alert(`Please select a ${ types[index] } before generating the ${ types[index] } report.`);
+            }
+        }
+
+        if (flag) {
+            window.open(link, '_blank');
+        }
     }
 </script>

@@ -74,7 +74,7 @@
                         <thead>
                             <tr>
                                 <th scope="col"><p>Assessment Item</p></th>
-                                <th scope="col"><p class="text-center">Average</p></th>
+                                <th scope="col"><p class="text-center">Score</p></th>
                                 <th scope="col"><p class="text-center">Percentile<br>(course)</p></th>
                                 <th scope="col"><p class="text-center">Section Highest<br>(course)</p></th>
                                 <th scope="col"><p class="text-center">Percentile<br>(department)</p></th>

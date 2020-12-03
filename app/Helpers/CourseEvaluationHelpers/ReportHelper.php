@@ -23,7 +23,6 @@ class ReportHelper extends Helper
         $this->eval = CE::find("$year-$semester");
         $this->results = $this->getResults();
         $this->data = $this->getReports();
-        // dd($this->data);
     }
 
     public function togglePublishStatus()
@@ -31,6 +30,7 @@ class ReportHelper extends Helper
         $this->eval->is_published = !$this->eval->is_published;
         $this->eval->save();
         $this->data = $this->getReports();
+        $this->results = $this->getResults();
     }
 
     public function getReports()

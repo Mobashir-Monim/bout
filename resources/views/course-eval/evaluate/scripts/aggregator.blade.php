@@ -1,32 +1,31 @@
 <script>
     const aggregateDeptCourseScores = () => {
-        for (d in evaluationResults) { aggregateContParts(evaluationResults[d].courses, 'sections', true); }
+        for (let d in evaluationResults) { aggregateContParts(evaluationResults[d].courses, 'sections', true); }
         aggregateContParts(evaluationResults, 'courses');
 
-        for (d in evaluationResults) {
+        for (let d in evaluationResults) {
             averageValues(evaluationResults[d]);
 
-            for (c in evaluationResults[d].courses) {
+            for (let c in evaluationResults[d].courses) {
                 averageValues(evaluationResults[d].courses[c]);
                 
                 for (s in evaluationResults[d].courses[c].sections) {
                     averageValues(evaluationResults[d].courses[c].sections[s]);
                 }
+
+                for (let l in evaluationResults[d].courses[c].labs) {
+                    averageValues(evaluationResults[d].courses[c].labs[l]);
+                }
             }
         }
-
-        rankAll();
-        segregateParts();
-        storeResults();
-        console.log('done')
     }
 
     const aggregateContParts = (cL, contName, flag = false) => {
-        for (c in cL) {
+        for (let c in cL) {
             let temp = cct(), segment = cL[c];
 
-            for (part in segment[contName]) {
-                for (cat in segment.cats) { temp[cat] += segment[contName][part].cats[cat]; }
+            for (let part in segment[contName]) {
+                for (let cat in segment.cats) { temp[cat] += segment[contName][part].cats[cat]; }
                 segment.respondents += segment[contName][part].respondents;
                             
                 if (flag) {
@@ -41,12 +40,12 @@
                 segment.students = usisReg.filter(reg => { return reg["Course_ID"] == segment.name }).length;
             }
 
-            for(cat in temp) { segment.cats[cat] = temp[cat] };
+            for(let cat in temp) { segment.cats[cat] = temp[cat] };
         }
     }
 
     const averageValues = (cont, temp = null) => {
-        for (cat in cont.cats) {
+        for (let cat in cont.cats) {
             if (temp != null) {
                 cont.cats[cat] = temp[cat];
             }
@@ -96,13 +95,13 @@
     }
 
     const segregateSections = () => {
-        for (c in courseList) {
+        for (let c in courseList) {
 
         }
     }
 
     const aggregateSectionComments = (cont, row, qCont) => {
-        for (q in qCont) {
+        for (let q in qCont) {
             if (!cont.comments.hasOwnProperty(q)) {
                 cont.comments[q] = [];
             }

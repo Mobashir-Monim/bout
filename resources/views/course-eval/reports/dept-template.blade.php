@@ -35,17 +35,13 @@
                     <div class="row">
                         <div class="col-md">
                             <div class="row border-bottom">
-                                <div class="col-md-8"><p>Course Offered</p></div>
+                                <div class="col-md-8"><p>Courses Evaluated</p></div>
                                 <div class="col-md text-right"><p>{{ $helper->results['course_count'] }}</p></div>
                             </div>
                             <div class="row border-bottom">
-                                <div class="col-md-8"><p>Course-Section</p></div>
+                                <div class="col-md-8"><p>Course-Sections Evaluated</p></div>
                                 <div class="col-md text-right"><p>{{ $helper->results['section_count'] }}</p></div>
                             </div>
-                            <!-- <div class="row border-bottom">
-                                <div class="col-md-8"><p>Respondent-Registration ratio</p></div>
-                                <div class="col-md text-right"><p>0.4</p></div>
-                            </div> -->
                         </div>
                         <div class="col-md-2"></div>
                     </div>
@@ -83,7 +79,7 @@
                         <thead>
                             <tr>
                                 <th scope="col"><p>Assessment Item</p></th>
-                                <th scope="col"><p class="text-center">Average</p></th>
+                                <th scope="col"><p class="text-center">Score</p></th>
                                 <th scope="col"><p class="text-center">Percentile</p></th>
                                 <th scope="col"><p class="text-center">Dept Highest</p></th>
                                 <th scope="col"><p class="text-center">University Highest</p></th>
@@ -185,70 +181,70 @@
                         <thead>
                             <tr>
                                 <th scope="col"><p>Assessment Item</p></th>
-                                <th scope="col"><p class="text-center">5 Lowest Scoring Courses</p></th>
-                                <th scope="col"><p class="text-center">5 Highest Scoring Courses</p></th>
+                                <th scope="col"><p class="text-center">Lowest Scoring Courses</p></th>
+                                <th scope="col"><p class="text-center">Highest Scoring Courses</p></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><p><b>Lecture Quality</b></p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['lowest']['lq']) }}</p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['highest']['lq']) }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['lowest']['lq'] }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['highest']['lq'] }}</p></td>
                             </tr>
                             <tr>
                                 <td><p><b>Course Quality</b></p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['lowest']['cq']) }}</p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['highest']['cq']) }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['lowest']['cq'] }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['highest']['cq'] }}</p></td>
                             </tr>
                             <tr>                                
                                 <td><p><b>Lecture Effort</b></p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['lowest']['le']) }}</p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['highest']['le']) }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['lowest']['le'] }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['highest']['le'] }}</p></td>
                             </tr>
                             <tr>                                
                                 <td><p><b>Assessment Effort</b></p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['lowest']['ae']) }}</p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['highest']['ae']) }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['lowest']['ae'] }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['highest']['ae'] }}</p></td>
                             </tr>
                             <tr>                                
                                 <td><p><b>Learning Experince Effort</b></p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['lowest']['lx']) }}</p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['highest']['lx']) }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['lowest']['lx'] }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['highest']['lx'] }}</p></td>
                             </tr>
                             <tr>                                
                                 <td><p><b>Student pressure factor</b></p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['lowest']['sp']) }}</p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['highest']['sp']) }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['lowest']['sp'] }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['highest']['sp'] }}</p></td>
                             </tr>
                             <tr>                                
                                 <td><p><b>Course Administration</b></p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['lowest']['ca']) }}</p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['highest']['ca']) }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['lowest']['ca'] }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['highest']['ca'] }}</p></td>
                             </tr>
                             <tr>                                
                                 <td><p><b>Technical Aptitude</b></p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['lowest']['ta']) }}</p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['highest']['ta']) }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['lowest']['ta'] }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['highest']['ta'] }}</p></td>
                             </tr>
                             <tr>                                
                                 <td><p><b>Course Rating</b></p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['lowest']['cr']) }}</p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['highest']['cr']) }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['lowest']['cr'] }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['highest']['cr'] }}</p></td>
                             </tr>
                             <tr>                                
                                 <td><p><b>Excellence Indicator</b></p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['lowest']['ei']) }}</p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['highest']['ei']) }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['lowest']['ei'] }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['highest']['ei'] }}</p></td>
                             </tr>
                             <tr>                                
                                 <td><p><b>Irresponsibility Indicator</b></p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['lowest']['ii']) }}</p></td>
-                                <td><p class="text-center">{{ implode(', ', $helper->results['highest']['ii']) }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['lowest']['ii'] }}</p></td>
+                                <td><p class="text-center">{{ $helper->results['highest']['ii'] }}</p></td>
                             </tr>
                             <tr>                                
                                 <td><p><b>Lab Rating</b></p></td>
-                                <td><p class="text-center">{{ sizeof($helper->results['lowest']['lr'])  == 0 ? '---' : implode(', ', $helper->results['lowest']['lr']) }}</p></td>
-                                <td><p class="text-center">{{ sizeof($helper->results['highest']['lr'])  == 0 ? '---' : implode(', ', $helper->results['highest']['lr']) }}</p></td>
+                                <td><p class="text-center">{{ strlen($helper->results['lowest']['lr']) == 0 ? '---' : $helper->results['lowest']['lr'] }}</p></td>
+                                <td><p class="text-center">{{ strlen($helper->results['highest']['lr']) == 0 ? '---' : $helper->results['highest']['lr'] }}</p></td>
                             </tr>
                         </tbody>
                     </table>

@@ -33,11 +33,11 @@
     const fillEmptySpots = temp => {
         max = 0;
 
-        for (c in temp) {
+        for (let c in temp) {
             if (temp[c].length > max) { max = temp[c].length }}
 
-        for (c in temp) {
-            for (i = max - temp[c].length; i > 0; i--) {
+        for (let c in temp) {
+            for (let i = max - temp[c].length; i > 0; i--) {
                 temp[c].push(0); }}
     }
 

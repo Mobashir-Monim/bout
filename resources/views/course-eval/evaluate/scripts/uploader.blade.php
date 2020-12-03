@@ -3,8 +3,14 @@
     let startingIndex = 0;
 
     const segregateParts = () => {
-        startingIndex = 0;
-        parts = JSON.stringify(evaluationResults).match(/.{1,64000}/g);
+        let out = document.getElementById('spinner');
+        out.innerHTML = '<div class="mt-2 spinner-border" role="status"><span class="sr-only">Loading...</span></div>';
+        
+        setTimeout(() => {
+            startingIndex = 0;
+            parts = JSON.stringify(evaluationResults).match(/.{1,64000}/g);
+            storeResults(); 
+        }, 100);
     }
 
     const storeResults = () => {
