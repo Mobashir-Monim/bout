@@ -55,7 +55,38 @@ class EvalController extends Controller
             return view('course-eval.reports.error', ['status' => $status]);
         }
 
+        $helper->buildDeptReport($department);
+
         return view('course-eval.reports.dept-template', ['helper' => $helper]);
+    }
+
+    public function courseReport($year, $semester, $department, $course, Request $request)
+    {
+        $helper = new ReportHelper($request->year, $request->semester);
+        $status = $helper->validateReportRequest($department, $course);
+
+        if ($status['error']) {
+            return view('course-eval.reports.error', ['status' => $status]);
+        }
+
+        $helper->buildCourseReport($department, $course);
+
+        return view('course-eval.reports.course-template', ['helper' => $helper]);
+    }
+
+    public function sectionReport($year, $semester, $department, $course, $section, Request $request)
+    {
+        $helper = new ReportHelper($request->year, $request->semester);
+        $status = $helper->validateReportRequest($department, $course, $section);
+
+        if ($status['error']) {
+            return view('course-eval.reports.error', ['status' => $status]);
+        }
+
+        $helper->buildSectionReport($department, $course, $section);
+        // dd($helper->results);
+
+        return view('course-eval.reports.section-template', ['helper' => $helper]);
     }
 
     public function semesterConfirm(CESC $request)

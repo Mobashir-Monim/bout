@@ -41,6 +41,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/eval', [App\Http\Controllers\EvalController::class, 'index'])->name('eval');
     Route::get('/evaluate/{year}/{semester}', [App\Http\Controllers\EvalController::class, 'evaluate'])->name('evaluate');
     
+    Route::get('/eval/{type}/sample', [App\Http\Controllers\EvalController::class, 'report'])->name('eval-report-sample');
 
     Route::prefix('eval/report/{year}/{semester}')->group(function () {
         // Matches The "/admin/users" URL

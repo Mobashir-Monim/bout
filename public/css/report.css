@@ -32,6 +32,13 @@ p {
     margin-left: 20px;
 }
 
+#print-btn {
+    border-bottom-right-radius: 0px;
+    position: fixed;
+    bottom: 0px;
+    right: 0px; 
+}
+
 /* td {
     padding-top: 4px !important;
     padding-bottom: 4px !important;

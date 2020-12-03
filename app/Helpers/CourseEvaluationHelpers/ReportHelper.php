@@ -14,6 +14,7 @@ class ReportHelper extends Helper
     public $semester = null;
     public $results = null;
     public $data = null;
+    public $report = null;
 
     public function __construct($year, $semester)
     {
@@ -248,6 +249,7 @@ class ReportHelper extends Helper
 
     public function validateReportRequest($dept = null, $course = null, $section = null, $lab = false)
     {
+        // dd($dept, $course);
         if (!$this->isReportable()) {
             return ['error' => true, 'message' => 'The requested report is not available yet'];
         } elseif (!$this->reportExists($dept, $course, $section, $lab)) {
@@ -257,6 +259,49 @@ class ReportHelper extends Helper
         }
 
         return ['error' => false, 'message' => 'Generating report'];
+    }
+
+    // public function buildReportObject($type, $dept, $course, $section, $lab)
+    // {
+    //     $this->report = ['type' => $type];
+
+    //     if (!is_null($dept)) {
+    //         $this->report['dept'] = $dept;
+            
+    //         if (!is_null($course)) {
+    //             $this->report['course'] = $course;
+
+    //             if (!is_null($section)) {
+    //                 $this->report['section'] = $section;
+    //                 $this->report['is_lab'] = $lab;
+    //             }
+    //         }
+    //     }
+
+    //     $this->results = json_decode(json_encode($this->results), true)[$this->report['dept']];
+    // }
+
+    public function buildDeptReport($dept)
+    {
+        $this->results = $this->results = json_decode(json_encode($this->results), true)[$dept];
+        $this->results['course_count'] = sizeof($this->results['courses']);
+        $this->results['section_count'] = 0;
+
+        foreach ($this->results['courses'] as $course) {
+            $this->results['section_count'] += sizeof($course['sections']);
+        }
+    }
+
+    public function buildCourseReport($dept, $course)
+    {
+        $this->results = json_decode(json_encode($this->results), true)[$dept]['courses'][$course];
+    }
+
+    public function buildSectionReport($dept, $course, $section, $lab = false)
+    {
+        $this->buildCourseReport($dept, $course);
+        $this->results[$lab ? 'labs' : 'sections'][$section]['name'] = "$course - $section";
+        $this->results = $this->results[$lab ? 'labs' : 'sections'][$section];
     }
 
     public function encrypt($key, $string)
