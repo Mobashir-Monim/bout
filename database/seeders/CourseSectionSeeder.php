@@ -18,7 +18,7 @@ class CourseSectionSeeder extends Seeder
      */
     public function run()
     {
-        $rows = $this->importLabSections('2020-Summer-Lab-List.xlsx');
+        $rows = $this->importLabSections('files/2020-Summer-Lab-List.xlsx');
         
         foreach ($rows as $key => $row) {
             try {
@@ -522,7 +522,7 @@ class CourseSectionSeeder extends Seeder
             "ECO305":[{"frac":"DEPARTMENT OF ECONOMICS AND SOCIAL SCIENCES","sections":""}],
             "PHR405":[{"frac":"DEPARTMENT OF PHARMACY","sections":""}]}', true);
 
-        $rows = $this->importLabSections('2020-Summer-Theory-List.xlsx');
+        $rows = $this->importLabSections('files/2020-Summer-Theory-List.xlsx');
 
         foreach ($rows as $row) {
             $course = $this->getCourse($frs, $row['course'], $row['section']);
@@ -542,7 +542,7 @@ class CourseSectionSeeder extends Seeder
 
     public function importLabSections($file)
     {
-        return Excel::toArray(new SeedImport, str_replace('storage', 'public\files', storage_path($file)))[0];
+        return Excel::toArray(new SeedImport, public_path($file))[0];
     }
 
     public function getCourse($frs, $code, $section)

@@ -18,7 +18,7 @@ class CourseSeeder extends Seeder
      */
     public function run()
     {
-        $rows = Excel::toArray(new SeedImport, str_replace('storage', 'public\files', storage_path('courses.xlsx')))[0];
+        $rows = Excel::toArray(new SeedImport, public_path('files/courses.xlsx'))[0];
 
         foreach ($rows as $key => $row) {
             $course = Course::create([
