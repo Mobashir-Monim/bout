@@ -16,7 +16,7 @@ class StudentMapSeeder extends Seeder
      */
     public function run()
     {
-        $rows = Excel::toArray(new SeedImport, str_replace('storage', 'public\files', storage_path('buX-USIS-gsuite.xlsx')))[0];
+        $rows = Excel::toArray(new SeedImport, public_path('files/buX-USIS-gsuite.xlsx'))[0];
         $init = new InitHelper;
 
         foreach ($rows as $key => $row) {
