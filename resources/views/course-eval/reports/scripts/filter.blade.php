@@ -41,8 +41,8 @@
     const buildOptions = (cont, name, val = false) => {
         let options = `<option value="">Please select a ${ name }</option>`;
 
-        for (c in cont) {
-            options = `${ options }<option value="${ c }">${ val ? cont[c] : c }</option>`;
+        for (let c in cont) {
+            options = `${ options }<option value="${ val ? cont[c] : c }">${ val ? cont[c] : c }</option>`;
         }
 
         return options;

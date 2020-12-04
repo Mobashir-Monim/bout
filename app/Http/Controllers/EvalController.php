@@ -9,6 +9,7 @@ use App\Helpers\CourseEvaluationHelpers\MatrixHelper;
 use App\Helpers\CourseEvaluationHelpers\EvaluationHelper;
 use App\Helpers\CourseEvaluationHelpers\ReportHelper;
 use App\Imports\CourseEvaluationFactorsImport as CEFI;
+use App\Models\CourseEvaluation as CE;
 use Excel;
 
 class EvalController extends Controller
@@ -111,8 +112,10 @@ class EvalController extends Controller
 
     public function publishReport(Request $request)
     {
+        $eval = CE::where('id', "$request->year-$request->semester")->frist();
+        $eval->is_published = !$eval->is_published;
+        $eval->save();
         $helper = new ReportHelper($request->year, $request->semester);
-        $helper->togglePublishStatus();
         
         return view('course-eval.index', ['helper' => $helper]);
     }
