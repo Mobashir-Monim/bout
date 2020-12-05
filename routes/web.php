@@ -39,10 +39,10 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/eval/{type}/sample', [App\Http\Controllers\EvalController::class, 'report'])->name('eval-report-sample')->middleware('checkRole:super-admin');
 
-    Route::middleware(['checkRole:super-admin'])->prefix('eval/report/{year}/{semester}')->group(function () {
+    Route::prefix('eval/report/{year}/{semester}')->group(function () {
         // Matches The "/admin/users" URL
         Route::get('/', [App\Http\Controllers\EvalController::class, 'overallReport'])->name('eval-report');
-        Route::post('publish', [App\Http\Controllers\EvalController::class, 'publishReport'])->name('eval-report.publish-toggle');
+        Route::post('publish', [App\Http\Controllers\EvalController::class, 'publishReport'])->name('eval-report.publish-toggle')->middleware('checkRole:super-admin');
         Route::get('{department}', [App\Http\Controllers\EvalController::class, 'departmentReport'])->name('eval-report.department');
         Route::get('{department}/{course}', [App\Http\Controllers\EvalController::class, 'courseReport'])->name('eval-report.course');
         Route::get('{department}/{course}/{section}', [App\Http\Controllers\EvalController::class, 'sectionReport'])->name('eval-report.section');
