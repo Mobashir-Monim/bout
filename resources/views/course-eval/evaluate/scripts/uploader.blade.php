@@ -59,13 +59,6 @@
 
             parts[0].data = window.btoa(unescape(encodeURIComponent(JSON.stringify(parts[0].data))));
             let max = 0;
-
-            parts.forEach(p => {
-                let t = JSON.stringify(p).length;
-                if (t > max) { max = t; }
-            });
-
-            maxParts = parseInt(500000 / max);
         }, 100);
     }
 
@@ -123,6 +116,15 @@
     }
 
     const generateParts = () => {
+        if (maxParts == 0) {
+            parts.forEach(p => {
+                let t = JSON.stringify(p).length;
+                if (t > max) { max = t; }
+            });
+
+            maxParts = parseInt(500000 / max);
+        }
+
         let temp = [], max = maxParts, i = 0;
 
         for (; (i + startingIndex - 1) < parts.length && max > 0; i++, max--) {
