@@ -9,7 +9,7 @@
                 <div class="card my-3">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 table-responsive">
                                 <p class="mb-0 border-bottom"><b>{{ $question }}</b></p>
                                 <div class="row mb-3">
                                     <div class="col-md-2"><b>Type:</b></div>
@@ -49,7 +49,7 @@
                     <div class="row">
                         <div class="col-md-6 my-2">
                             <a href="/sample-files/Eval Uploadables - matrix.xlsx">Sample File</a>
-                            <input type="file" name="bulk_upload" id="bulk_upload" class="form-control">
+                            <input type="file" name="bulk_upload" id="bulk_upload" class="form-control" required>
                         </div>
                         <div class="col-md-4 mb-2 mt-auto">
                             @if (sizeof((array) $helper->questionMatrix()) > 0)

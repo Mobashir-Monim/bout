@@ -15,16 +15,16 @@ class FactorsHelper extends Helper
     {
         $this->year = $year;
         $this->semester = $semester;
-        $this->eval = CE::find("$year-$semester");
+        $this->eval = CE::find($year . "_" . ucfirst($semester));
 
         if (is_null($this->eval)) {
-            $this->eval = CE::create(['id' => "$year-$semester"]);
+            $this->eval = CE::create(['id' => $year . "_" . ucfirst($semester)]);
         }
     }
 
     public function copyFromPrev($year, $semester)
     {
-        $prev = CE::find("$year-$semester");
+        $prev = CE::find($year . "_" . ucfirst($semester));
         $this->eval->factors = $prev->factors;
         $this->eval->save();
     }

@@ -8,9 +8,11 @@ use App\Helpers\CourseEvaluationHelpers\FactorsHelper;
 use App\Helpers\CourseEvaluationHelpers\MatrixHelper;
 use App\Helpers\CourseEvaluationHelpers\EvaluationHelper;
 use App\Helpers\CourseEvaluationHelpers\ReportHelper;
+use App\Helpers\CourseEvaluationHelpers\GeneratorHelper;
 use App\Imports\CourseEvaluationFactorsImport as CEFI;
 use App\Models\CourseEvaluation as CE;
 use Excel;
+use App\Imports\SeedImport;
 
 class EvalController extends Controller
 {
@@ -23,17 +25,46 @@ class EvalController extends Controller
     {
         $helper = new EvaluationHelper($year, $semester);
 
+        if (is_null($helper->eval->factors)) {
+            $this->flashMessage('error', 'Please set the factors first');
+
+            return redirect(route('course-eval.factors-config', ['year' => $year, 'semester' => $semester]));
+        } 
+        
+        if (sizeof((array) $helper->eval->compiledMatrices) == 0) {
+            $this->flashMessage('error', 'Please set the matrix first');
+            
+            return redirect(route('course-eval.matrix-config', ['year' => $year, 'semester' => $semester]));
+        }
+
         return view('course-eval.evaluate.index', ['helper' => $helper]);
     }
+
+    // public function storeResults($year, $semester, Request $request)
+    // {
+    //     $helper = new EvaluationHelper($year, $semester);
+    //     $results = Excel::toArray(new SeedImport, $request->file('results'))[0];
+    //     $helper->storeResults($results);
+
+    //     return redirect(route('eval'));
+    // }
 
     public function storeResults($year, $semester, Request $request)
     {
         $helper = new EvaluationHelper($year, $semester);
+        // $results = Excel::toArray(new SeedImport, $request->file('results'))[0];
         $helper->storeResults($request->parts, $request->starting_index);
+
+        // $parts = [];
+
+        // foreach ($request->parts as $key => $part) {
+        //     $parts[$key] = [gettype($part), json_encode($part)];
+        // }
 
         return response()->json([
             'success' => true,
-            'message' => 'Completed storing parts'
+            'message' => 'Successfully stored',
+            // 'parts' => $parts,
         ]);
     }
 
@@ -49,56 +80,44 @@ class EvalController extends Controller
 
     public function departmentReport($year, $semester, $department, Request $request)
     {
-        $helper = new ReportHelper($request->year, $request->semester);
-        $status = $helper->validateReportRequest($department);
-
-        if ($status['error']) {
-            return view('course-eval.reports.error', ['status' => $status]);
+        $helper = new GeneratorHelper($request->year, $request->semester, $department);
+        
+        if ($helper->status['error']) {
+            return view('course-eval.reports.error', ['status' => $helper->status]);
         }
-
-        $helper->buildDeptReport($department);
 
         return view('course-eval.reports.dept-template', ['helper' => $helper]);
     }
 
     public function courseReport($year, $semester, $department, $course, Request $request)
     {
-        $helper = new ReportHelper($request->year, $request->semester);
-        $status = $helper->validateReportRequest($department, $course);
-
-        if ($status['error']) {
-            return view('course-eval.reports.error', ['status' => $status]);
+        $helper = new GeneratorHelper($request->year, $request->semester, $department, $course);
+        
+        if ($helper->status['error']) {
+            return view('course-eval.reports.error', ['status' => $helper->status]);
         }
-
-        $helper->buildCourseReport($department, $course);
 
         return view('course-eval.reports.course-template', ['helper' => $helper]);
     }
 
     public function sectionReport($year, $semester, $department, $course, $section, Request $request)
     {
-        $helper = new ReportHelper($request->year, $request->semester);
-        $status = $helper->validateReportRequest($department, $course, $section);
-
-        if ($status['error']) {
-            return view('course-eval.reports.error', ['status' => $status]);
+        $helper = new GeneratorHelper($request->year, $request->semester, $department, $course, $section);
+        
+        if ($helper->status['error']) {
+            return view('course-eval.reports.error', ['status' => $helper->status]);
         }
-
-        $helper->buildSectionReport($department, $course, $section);
 
         return view('course-eval.reports.section-template', ['helper' => $helper]);
     }
 
     public function labReport($year, $semester, $department, $course, $section, Request $request)
     {
-        $helper = new ReportHelper($request->year, $request->semester);
-        $status = $helper->validateReportRequest($department, $course, $section, true);
-
-        if ($status['error']) {
-            return view('course-eval.reports.error', ['status' => $status]);
+        $helper = new GeneratorHelper($request->year, $request->semester, $department, $course, $section, true);
+        
+        if ($helper->status['error']) {
+            return view('course-eval.reports.error', ['status' => $helper->status]);
         }
-
-        $helper->buildSectionReport($department, $course, $section, true);
 
         return view('course-eval.reports.lab-template', ['helper' => $helper]);
     }
@@ -106,13 +125,14 @@ class EvalController extends Controller
     public function semesterConfirm(CESC $request)
     {
         $helper = new ReportHelper($request->year, $request->semester);
+        // dd($helper);
 
         return view('course-eval.index', ['helper' => $helper]);
     }
 
     public function publishReport(Request $request)
     {
-        $eval = CE::where('id', "$request->year-$request->semester")->frist();
+        $eval = CE::find($request->year . "_" . $request->semester);
         $eval->is_published = !$eval->is_published;
         $eval->save();
         $helper = new ReportHelper($request->year, $request->semester);
@@ -155,6 +175,12 @@ class EvalController extends Controller
     public function matrixConfig($year, $semester)
     {
         $helper = new MatrixHelper($year, $semester);
+
+        if (is_null($helper->eval->factors)) {
+            $this->flashMessage('error', 'Please set the factors first');
+
+            return redirect(route('course-eval.factors-config', ['year' => $year, 'semester' => $semester]));
+        }
         
         return view('course-eval.matrix.index', ['helper' => $helper]);
     }

@@ -32,7 +32,7 @@ class IndexHelper extends Helper
             return nullResults();
         }
 
-        $eval = CourseEvaluation::find("$year-$semester");
+        $eval = CourseEvaluation::find($year . "_" . ucfirst($semester));
 
         if (is_null($eval)) {
             return nullResults();

@@ -19,7 +19,7 @@
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col-md-8 my-auto">Name:<input type="text" name="name[]" class="form-control" value="{{ $factor->name }}" placeholder="Name of factor"></div>
-                                        <div class="col-md-4 my-auto">Short Hand:<input type="text" name="short_hand[]" class="form-control" value="{{ $key }}" placeholder="Short Hand of factor"></div>
+                                        <div class="col-md-4 my-auto">Acronym:<input type="text" name="short_hand[]" class="form-control" value="{{ $key }}" placeholder="Acronym of factor"></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
@@ -83,7 +83,7 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-md my-1">
-                                        <input type="file" name="factors_file" accept="xlsx, xls, csv" class="form-control">
+                                        <input type="file" name="factors_file" accept="xlsx, xls, csv" class="form-control" required>
                                     </div>
                                     <div class="col-md-3 my-1">
                                         <button type="submit" class="btn btn-dark w-100" id="bUploadBtn">Upload</button>

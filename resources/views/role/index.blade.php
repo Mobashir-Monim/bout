@@ -17,7 +17,7 @@
                         </div>
                     </div>
                     <div class="row my-2">
-                        <div class="col-md-12" id="role-op">
+                        <div class="col-md-12 table-responsive" id="role-op">
                             <h5 class="mb-0">Viewing Available Roles</h5>
                             <table class="table">
                                 <thead>
@@ -75,7 +75,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 table-responsive">
                             <h5 class="mb-0 mt-3">Users with Super Admin Role</h5>
                             <table class="table">
                                 <thead>

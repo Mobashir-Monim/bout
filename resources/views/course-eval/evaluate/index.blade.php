@@ -21,12 +21,35 @@
             <input type="file" name="bux-users" id="gsuite" class="form-control mb-1" accept=".xlsx, .xls">
             <label for="gsuite" class="col-form-label text-right col-12 pt-0">Gsuite List</label>
         </div>
-        <div class="col-md-4 mb-3 text-right" id="status">
-            <button class="btn btn-dark w-100 hidden" id="ranker" onclick="rankAll()">Rank All</button>
-            <button class="btn btn-dark w-100 hidden" id="uploader" onclick="segregateParts()">Store Results</button>
+        <div class="col-md-5 mb-3 text-right" id="status">
+            <button class="btn btn-dark w-100 hidden" id="evaluator" onclick="startEvaluating()">Evaluate</button>
+            <button class="btn btn-dark w-100 hidden" id="downloader">Download Results</button>
         </div>
-        <div class="col-md-2 mb-3 text-right" id="spinner"></div>
+        <div class="col-md-1 mb-3 text-right" id="spinner"></div>
     </div>
+
+    <form action="{{ route('course-eval.evaluate.store', ['year' => $helper->year, 'semester' => $helper->semester]) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        Upload Downloaded Results
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 my-2">
+                                <input type="file" name="results" id="results" class="form-control">
+                            </div>
+                            <div class="col-md-6 my-2">
+                                <button type="submit" class="btn btn-dark w-100">Upload Results</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
     <div class="row">
         <div class="col-md-12" id="dup-out"></div>
@@ -35,11 +58,13 @@
     <div class="row">
         <div class="col-md-12" id="unv-out"></div>
     </div>
+    
 @endsection
 
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.0/jszip.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.0/xlsx.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.8/jszip.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.8/xlsx.min.js"></script>
     @include('course-eval.evaluate.scripts.eval-matrix')
     @include('course-eval.evaluate.scripts.preprocessor')
     @include('course-eval.evaluate.scripts.course-list')

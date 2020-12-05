@@ -6,7 +6,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
         <link rel="stylesheet" href="/css/report.css">
-        <title>Evaluation Report for {{ $helper->results['name'] . " lab - " .  $helper->year . " " . $helper->semester }}</title>
+        <title>Evaluation Report for {{  "$helper->course Section $helper->section lab - " .  $helper->year . " " . $helper->semester }}</title>
     </head>
     <body>
         <div class="container" id="out-div">
@@ -21,7 +21,7 @@
             </div>
             <div class="row mt-4 mb-2 border-bottom">
                 <div class="col-md-12" id="co-out">
-                    <h5 class="mb-0">{{ $helper->results['name'] }} Lab Section Report</h5>
+                    <h5 class="mb-0">{{ $helper->course . " Section " . $helper->section }} Lab Report</h5>
                 </div>
             </div>
             <div class="row mb-4">
@@ -39,15 +39,15 @@
                         <div class="col-md">
                             {{-- <div class="row border-bottom">
                                 <div class="col-md-8"><p>Course-Student Registrations</p></div>
-                                <div class="col-md text-right"><p>{{ $helper->results['students'] }}</p></div>
+                                <div class="col-md text-right"><p>{{ $helper->report['students'] }}</p></div>
                             </div> --}}
                             <div class="row border-bottom">
                                 <div class="col-md-8"><p>Course-Student Repondents</p></div>
-                                <div class="col-md text-right"><p>{{ $helper->results['respondents'] }}</p></div>
+                                <div class="col-md text-right"><p>{{ $helper->report['respondents'] }}</p></div>
                             </div>
                             {{-- <div class="row border-bottom">
                                 <div class="col-md-8"><p>Respondent-Registration ratio</p></div>
-                                <div class="col-md text-right"><p>{{ round($helper->results['respondents'] / $helper->results['students'], 2) }}</p></div>
+                                <div class="col-md text-right"><p>{{ round($helper->report['respondents'] / $helper->report['students'], 2) }}</p></div>
                             </div> --}}
                         </div>
                     </div>
@@ -70,51 +70,51 @@
                         <tbody>
                             <tr>
                                 <td><p><b>Lab Domain Knowledge (ldk)</b></p></td>
-                                <td><p class="text-center">{{ $helper->results['cats']['ldk'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['percentiles']['ldk'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['courseSectionHighests']['ldk'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['deptPercentiles']['ldk'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['deptHighest']['ldk'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('ldk', $helper->report['cats']) ? '---' : $helper->report['cats']['ldk'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('ldk', $helper->report['overall']['percentiles']) ? '---' : $helper->report['overall']['percentiles']['ldk'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('ldk', $helper->report['overall']['courseSectionHighests']) ? '---' : $helper->report['overall']['courseSectionHighests']['ldk'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('ldk', $helper->report['overall']['deptPercentiles']) ? '---' : $helper->report['overall']['deptPercentiles']['ldk'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('ldk', $helper->report['overall']['deptHighest']) ? '---' : $helper->report['overall']['deptHighest']['ldk'] }}</p></td>
                             </tr>
                             <tr>                                
                                 <td><p><b>Lab Facutly Effort (lfe)</b></p></td>
-                                <td><p class="text-center">{{ $helper->results['cats']['lfe'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['percentiles']['lfe'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['courseSectionHighests']['lfe'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['deptPercentiles']['lfe'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['deptHighest']['lfe'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('lfe', $helper->report['cats']) ? '---' : $helper->report['cats']['lfe'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('lfe', $helper->report['overall']['percentiles']) ? '---' : $helper->report['overall']['percentiles']['lfe'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('lfe', $helper->report['overall']['courseSectionHighests']) ? '---' : $helper->report['overall']['courseSectionHighests']['lfe'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('lfe', $helper->report['overall']['deptPercentiles']) ? '---' : $helper->report['overall']['deptPercentiles']['lfe'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('lfe', $helper->report['overall']['deptHighest']) ? '---' : $helper->report['overall']['deptHighest']['lfe'] }}</p></td>
                             </tr>
                             <tr>                                
                                 <td><p><b>Lab Learning Experience (llx)</b></p></td>
-                                <td><p class="text-center">{{ $helper->results['cats']['llx'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['percentiles']['llx'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['courseSectionHighests']['llx'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['deptPercentiles']['llx'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['deptHighest']['llx'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('llx', $helper->report['cats']) ? '---' : $helper->report['cats']['llx'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('llx', $helper->report['overall']['percentiles']) ? '---' : $helper->report['overall']['percentiles']['llx'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('llx', $helper->report['overall']['courseSectionHighests']) ? '---' : $helper->report['overall']['courseSectionHighests']['llx'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('llx', $helper->report['overall']['deptPercentiles']) ? '---' : $helper->report['overall']['deptPercentiles']['llx'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('llx', $helper->report['overall']['deptHighest']) ? '---' : $helper->report['overall']['deptHighest']['llx'] }}</p></td>
                             </tr>
                             <tr>                                
                                 <td><p><b>Excellence Indicator</b></p></td>
-                                <td><p class="text-center">{{ $helper->results['cats']['ei'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['percentiles']['ei'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['courseSectionHighests']['ei'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['deptPercentiles']['ei'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['deptHighest']['ei'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('ei', $helper->report['cats']) ? '---' : $helper->report['cats']['ei'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('ei', $helper->report['overall']['percentiles']) ? '---' : $helper->report['overall']['percentiles']['ei'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('ei', $helper->report['overall']['courseSectionHighests']) ? '---' : $helper->report['overall']['courseSectionHighests']['ei'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('ei', $helper->report['overall']['deptPercentiles']) ? '---' : $helper->report['overall']['deptPercentiles']['ei'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('ei', $helper->report['overall']['deptHighest']) ? '---' : $helper->report['overall']['deptHighest']['ei'] }}</p></td>
                             </tr>
                             <tr>                                
                                 <td><p><b>Irresponsibility Indicator</b></p></td>
-                                <td><p class="text-center">{{ $helper->results['cats']['ii'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['percentiles']['ii'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['courseSectionHighests']['ii'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['deptPercentiles']['ii'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['deptHighest']['ii'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('ii', $helper->report['cats']) ? '---' : $helper->report['cats']['ii'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('ii', $helper->report['overall']['percentiles']) ? '---' : $helper->report['overall']['percentiles']['ii'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('ii', $helper->report['overall']['courseSectionHighests']) ? '---' : $helper->report['overall']['courseSectionHighests']['ii'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('ii', $helper->report['overall']['deptPercentiles']) ? '---' : $helper->report['overall']['deptPercentiles']['ii'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('ii', $helper->report['overall']['deptHighest']) ? '---' : $helper->report['overall']['deptHighest']['ii'] }}</p></td>
                             </tr>
                             <tr>                                
                                 <td><p><b>Lab Rating</b></p></td>
-                                <td><p class="text-center">{{ $helper->results['cats']['lr'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['percentiles']['lr'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['courseSectionHighests']['lr'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['deptPercentiles']['lr'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->results['overall']['deptHighest']['lr'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('lr', $helper->report['cats']) ? '---' : $helper->report['cats']['lr'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('lr', $helper->report['overall']['percentiles']) ? '---' : $helper->report['overall']['percentiles']['lr'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('lr', $helper->report['overall']['courseSectionHighests']) ? '---' : $helper->report['overall']['courseSectionHighests']['lr'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('lr', $helper->report['overall']['deptPercentiles']) ? '---' : $helper->report['overall']['deptPercentiles']['lr'] }}</p></td>
+                                <td><p class="text-center">{{ !array_key_exists('lr', $helper->report['overall']['deptHighest']) ? '---' : $helper->report['overall']['deptHighest']['lr'] }}</p></td>
                             </tr>
                         </tbody>
                     </table>
@@ -128,7 +128,7 @@
             </div>
 
             <div class="row mb-3">
-                @foreach ($helper->results['lfs'] as $lf)
+                @foreach ($helper->report['lfs'] as $lf)
                     <div class="col-md-6 mb-4">
                         <p class="mb-2 border-bottom border-dark"><b>{{ $lf['ini'] }}</b></p>
                         <div class="row">
@@ -149,7 +149,7 @@
             </div>
 
             <div class="row mb-3">
-                @foreach ($helper->results['comments'] as $question => $comments)
+                @foreach ($helper->report['comments'] as $question => $comments)
                     <div class="col-md-12 mb-4">
                         <p class="mb-2 border-bottom border-dark"><b>{{ $question }}</b></p>
                         <div class="row">
@@ -172,13 +172,13 @@
             </div>
             
             <div class="row mb-3">
-                @foreach ($helper->results['qStat'] as $question => $options)
+                @foreach ($helper->report['qStat'] as $question => $options)
                     <div class="col-md-12 mb-4">
                         <p class="mb-2 border-bottom border-dark"><b>{{ $question }}</b></p>
                         <div class="row">
                             @foreach ($options as $option => $count)
                                 <div class="col-md-6 mb-2">
-                                    <p class="border-bottom border-secondary border-right"><b>{{ round(100 * $count / $helper->results['respondents'], 2) }}%</b> respondents said '<i>{{ $option }}</i>'</p>
+                                    <p class="border-bottom border-secondary border-right"><b>{{ round(100 * $count / $helper->report['respondents'], 2) }}%</b> respondents said '<i>{{ $option }}</i>'</p>
                                 </div>
                             @endforeach
                         </div>

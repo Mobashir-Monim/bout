@@ -1,5 +1,5 @@
 <script>
-    const selectable = {!! json_encode($helper->createSelectionList()) !!};
+    const selectable = {!! json_encode($helper->results) !!};
     const dept = document.getElementById('dept');
     const deptBtn = document.getElementById('dept-btn');
     const courseRow = document.getElementById('course-row');
@@ -33,9 +33,11 @@
     }
 
     const showLabs = () => {
-        controlElVisibility(selectable[dept.value][course.value].labs, [labRow]);
-        let options = buildOptions(selectable[dept.value][course.value].labs, 'section', true);
-        lab.innerHTML = options;
+        if (selectable[dept.value][course.value].hasOwnProperty('labs')) {
+            controlElVisibility(selectable[dept.value][course.value].labs, [labRow]);
+            let options = buildOptions(selectable[dept.value][course.value].labs, 'section', true);
+            lab.innerHTML = options;
+        }
     }
 
     const buildOptions = (cont, name, val = false) => {

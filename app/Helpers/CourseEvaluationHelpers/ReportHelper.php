@@ -12,7 +12,7 @@ class ReportHelper extends Helper
     public $eval = null;
     public $year = null;
     public $semester = null;
-    public $results = null;
+    public $results = [];
     public $data = null;
     public $report = null;
 
@@ -20,17 +20,8 @@ class ReportHelper extends Helper
     {
         $this->year = $year;
         $this->semester = $semester;
-        $this->eval = CE::find("$year-$semester");
-        $this->results = $this->getResults();
+        $this->eval = CE::find($year . "_" . ucfirst($semester));
         $this->data = $this->getReports();
-    }
-
-    public function togglePublishStatus()
-    {
-        $this->eval->is_published = !$this->eval->is_published;
-        $this->eval->save();
-        $this->data = $this->getReports();
-        $this->results = $this->getResults();
     }
 
     public function getReports()
@@ -44,15 +35,6 @@ class ReportHelper extends Helper
         }
 
         return ['available' => false];
-    }
-
-    public function getResults()
-    {
-        if ($this->isReportable()) {
-            return $this->eval->compiledResults;
-        }
-
-        return null;
     }
 
     public function isReportable()
@@ -71,7 +53,7 @@ class ReportHelper extends Helper
         if (!is_null($this->eval)) {
             if (!is_null($this->eval->factors)) {
                 if (sizeof((array) $this->eval->compiledMatrices) > 0) {
-                    if (sizeof((array) $this->eval->compiledResults) > 0) {
+                    if (sizeof((array) $this->eval->deptResults()) > 0) {
                         return true;
                     }
                 }
@@ -88,8 +70,14 @@ class ReportHelper extends Helper
         foreach (auth()->user()->headOf as $part) {
             $depts = array_unique(array_merge($depts, $this->iterateChildrenParts($part)), SORT_REGULAR);
         }
+
+        foreach ($this->eval->skeleton as $dept => $data) {
+            if (in_array($dept, $depts)) {
+                $this->results[$dept] = $data;
+            }
+        }
         
-        return ['available' => true, 'type' => 'filter', 'depts' => $depts];
+        return ['available' => true, 'type' => 'filter'];
     }
 
     public function iterateChildrenParts($part)
@@ -109,21 +97,19 @@ class ReportHelper extends Helper
 
     public function generateReports()
     {
-        $obj = [];
-        
         foreach (OCS::whereIn('offered_course_id', OC::where('run_id', $this->year . '_' . ucfirst($this->semester))->get()->pluck('id')->toArray())->where('email', auth()->user()->email)->get() as $key => $ocs) {
             $ocsi = $ocs->sectionDetails;
-            if($this->validateResultExistance($ocsi)) {
-                $this->keyCheck($ocsi['dept'], $obj);
-                $this->keyCheck($ocsi['code'], $obj[$ocsi['dept']]);
-                $this->keyCheck('title', $obj[$ocsi['dept']][$ocsi['code']], $ocsi['title']);
-                $this->keyCheck('labs', $obj[$ocsi['dept']][$ocsi['code']]);
-                $this->keyCheck('sections', $obj[$ocsi['dept']][$ocsi['code']]);
-                $obj[$ocsi['dept']][$ocsi['code']][$ocsi['is_lab'] ? 'labs' : 'sections'][] = $ocsi['section'];
+            if(!is_null($ocs->evaluation)) {
+                $this->keyCheck($ocsi['dept'], $this->results);
+                $this->keyCheck($ocsi['code'], $this->results[$ocsi['dept']]);
+                $this->keyCheck('title', $this->results[$ocsi['dept']][$ocsi['code']], $ocsi['title']);
+                $this->keyCheck('labs', $this->results[$ocsi['dept']][$ocsi['code']]);
+                $this->keyCheck('sections', $this->results[$ocsi['dept']][$ocsi['code']]);
+                $this->results[$ocsi['dept']][$ocsi['code']][$ocsi['is_lab'] ? 'labs' : 'sections'][] = $ocsi['section'];
             }
         }
 
-        return ['available' => true, 'type' => 'reports', 'reports' => $obj];
+        return ['available' => true, 'type' => 'reports'];
     }
 
     public function keyCheck($key, &$obj, $val = null)
@@ -135,25 +121,6 @@ class ReportHelper extends Helper
                 $obj[$key] = [];
             }
         }
-    }
-
-    public function validateResultExistance(&$ocsi)
-    {
-        $course = substr($ocsi['code'], 0, 6); $undefined = 'undefined'; $null = 'null';
-
-        if (property_exists($this->results, $ocsi['dept'])) {
-            if (property_exists($this->results->$ocsi['dept']->courses, $course)) {
-                if ($ocsi['is_lab']) {
-                    return property_exists($this->results->$ocsi['dept']->courses->$course->labs, $ocsi['section'])
-                        || property_exists($this->results->$ocsi['dept']->courses->$course->labs, $undefined)
-                        || property_exists($this->results->$ocsi['dept']->courses->$course->labs, $null);
-                } else {
-                    return property_exists($this->results->$ocsi['dept']->courses->$course->sections, $ocsi['section']);
-                }
-            }
-        }
-
-        return false;
     }
 
     public function buildRoute($dept = null, $course = null, $section = null, $lab = false)
@@ -240,7 +207,7 @@ class ReportHelper extends Helper
 
     public function reportExists($dept = null, $course = null, $section = null, $lab = false)
     {
-        return property_exists($this->results, $dept) &&
+        return array_key_exists($dept, $this->results[]) &&
         (!is_null($course) ? property_exists($this->results->$dept->courses, $course) : true) &&
         (!is_null($section) ? property_exists(
             ($lab ? $this->results->$dept->courses->$course->labs : $this->results->$dept->courses->$course->sections)
@@ -249,7 +216,6 @@ class ReportHelper extends Helper
 
     public function validateReportRequest($dept = null, $course = null, $section = null, $lab = false)
     {
-        // dd($dept, $course);
         if (!$this->isReportable()) {
             return ['error' => true, 'message' => 'The requested report is not available yet'];
         } elseif (!$this->reportExists($dept, $course, $section, $lab)) {
@@ -283,7 +249,7 @@ class ReportHelper extends Helper
 
     public function buildDeptReport($dept)
     {
-        $this->results = $this->results = json_decode(json_encode($this->results), true)[$dept];
+        $this->results = json_decode(json_encode($this->results), true)[$dept];
         $this->results['course_count'] = sizeof($this->results['courses']);
         $this->results['section_count'] = 0;
 

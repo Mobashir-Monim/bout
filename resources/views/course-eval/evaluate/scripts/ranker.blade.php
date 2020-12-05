@@ -51,6 +51,7 @@
     }
 
     const rankAll = () => {
+        console.log('Ranking results and stats');
         let out = document.getElementById('spinner');
         out.innerHTML = '<div class="mt-2 spinner-border" role="status"><span class="sr-only">Loading...</span></div>';
         setTimeout(() => {
@@ -62,9 +63,10 @@
             findExtremeScoringCourses();
             findExtremeScoringSections();
             roundFigures();
+            segregateParts();
             out.innerHTML = '';
-            document.getElementById('ranker').classList.add('hidden');
-            document.getElementById('uploader').classList.remove('hidden');
+            document.getElementById('evaluator').classList.add('hidden');
+            document.getElementById('downloader').classList.remove('hidden');
         }, 100);
     }
 

@@ -17,10 +17,11 @@ class CreateOfferedCourseSectionsTable extends Migration
             $table->uuid('id')->primary();
             $table->uuid('offered_course_id');
             $table->unsignedTinyInteger('section')->unsigned();
-            $table->string('name');
-            $table->string('initials');
-            $table->string('email');
+            $table->string('name')->default(' ');
+            $table->string('initials')->default(' ');
+            $table->string('email')->default(' ');
             $table->boolean('is_lab_faculty')->default(false);
+            $table->text('evaluation')->nullable();
             $table->timestamps();
         });
     }

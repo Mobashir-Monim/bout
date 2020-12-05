@@ -17,5 +17,14 @@ class Course extends Model
         return $this->hasMany('App\Models\OfferedCourse', 'course_id');
     }
 
-    
+    public static function getCourse($code = null, $provider = null)
+    {
+        if (is_null($code)) {
+            return self::where('provider', $provider)->get();
+        } elseif (is_null($provider)) {
+            return self::where('code', $code)->get();
+        }
+
+        return self::where('code', $code)->where('provider', $provider)->get();
+    }
 }

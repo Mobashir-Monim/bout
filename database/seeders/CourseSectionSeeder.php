@@ -534,7 +534,6 @@ class CourseSectionSeeder extends Seeder
                     'name' => $row['name'],
                     'email' => $row['email'],
                     'initials' => '',
-                    'is_lab_faculty' => true,
                 ]);
             }
         }

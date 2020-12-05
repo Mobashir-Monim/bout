@@ -17,13 +17,14 @@ class CreateOfferedCoursesTable extends Migration
             $table->uuid('id')->primary();
             $table->uuid('course_id');
             $table->string('run_id', 15);
-            $table->string('coordinator');
-            $table->string('email');
-            $table->string('initials');
+            $table->string('coordinator')->default(' ');
+            $table->string('email')->default(' ');
+            $table->string('initials')->default(' ');
             $table->boolean('is_rerun')->default(false);
             $table->string('bux_code')->nullable();
             $table->boolean('is_lab')->default(false);
             $table->boolean('has_lab')->default(false);
+            $table->text('evaluation')->nullable();
             $table->timestamps();
         });
     }

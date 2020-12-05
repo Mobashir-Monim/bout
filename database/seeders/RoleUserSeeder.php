@@ -18,7 +18,7 @@ class RoleUserSeeder extends Seeder
     {
         $connections = [
             'mobashir.monim@bracu.ac.bd' => ['super-admin', 'bux-support'],
-            'ext.mobashir.monim@bracu.ac.bd' => ['super-admin', 'bux-support'],
+            'ext.mobashir.monim@bracu.ac.bd' => ['bux-support'],
             'vincent@bracu.ac.bd' => ['vc'],
             'majumdar@bracu.ac.bd' => ['dean', 'online-learning-chair'],
             'skazi@bracu.ac.bd' => ['chair'],

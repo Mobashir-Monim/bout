@@ -33,14 +33,29 @@ class CourseEvaluation extends Model
         return $matrix == '' ? [] : json_decode($matrix);
     }
 
-    public function getCompiledResultsAttribute()
+    public function getSkeletonAttribute()
     {
-        $results = '';
+        return json_decode($this->results->where('dept', 'skeleton')->first()->value);
+    }
 
-        foreach ($this->results->sortBy('part') as $key => $m) {
-            $results .= $m->value;
+    public function deptResults($dept = null)
+    {
+        if (is_null($dept)) {
+            $results = [];
+            
+            foreach ($this->results->where('dept', '!=', 'skeleton') as $res) {
+                $results[$res->dept] = json_decode($res->value, true);
+            }
+            
+            return $results;
+        } else {
+            $res = $this->results->where('dept', $dept)->first();
+            
+            if (!is_null($res)) {
+                return json_decode($res->value, true);
+            }
+
+            return false;
         }
-
-        return $results == '' ? [] : json_decode($results);
     }
 }

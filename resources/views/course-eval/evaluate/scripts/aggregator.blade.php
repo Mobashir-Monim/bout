@@ -1,5 +1,6 @@
 <script>
     const aggregateDeptCourseScores = () => {
+        console.log('Aggregating results and stats');
         for (let d in evaluationResults) { aggregateContParts(evaluationResults[d].courses, 'sections', true); }
         aggregateContParts(evaluationResults, 'courses');
 
@@ -15,6 +16,32 @@
 
                 for (let l in evaluationResults[d].courses[c].labs) {
                     averageValues(evaluationResults[d].courses[c].labs[l]);
+                }
+            }
+        }
+
+        rankAll();
+        countAll();
+    }
+
+    const countAll = () => {
+        for (let d in evaluationResults) {
+            evaluationResults[d].courseCount = Object.keys(evaluationResults[d].courses).length;
+            evaluationResults[d].sectionCount = 0;
+            evaluationResults[d].labCount = 0;
+
+            for (let c in evaluationResults[d].courses) {
+                evaluationResults[d].courses[c].sectionCount = Object.keys(evaluationResults[d].courses[c].sections).length;
+                evaluationResults[d].courses[c].labCount = Object.keys(evaluationResults[d].courses[c].labs).length;
+                evaluationResults[d].sectionCount += evaluationResults[d].courses[c].sectionCount;
+                evaluationResults[d].labCount += evaluationResults[d].courses[c].labCount;
+
+                for (let s in evaluationResults[d].courses[c].sections) {
+                    evaluationResults[d].courses[c].sections[s].sectionCount = evaluationResults[d].courses[c].sectionCount;
+                }
+
+                for (let l in evaluationResults[d].courses[c].labs) {
+                    evaluationResults[d].courses[c].labs[l].labCount = evaluationResults[d].courses[c].labCount;
                 }
             }
         }

@@ -16,7 +16,7 @@ class CreateCourseEvaluationResultsTable extends Migration
         Schema::create('course_evaluation_results', function (Blueprint $table) {
             $table->id();
             $table->string('course_evaluation_id');
-            $table->unsignedSmallInteger('part');
+            $table->string('dept');
             $table->text('value');
             $table->timestamps();
         });

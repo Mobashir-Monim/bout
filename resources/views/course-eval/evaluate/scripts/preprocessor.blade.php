@@ -84,17 +84,26 @@
                 gsuite = result;
             }
 
-            if (usisRegHeader != null && gsuiteHeader != null) { generateIDMap(); }
+            if (usisRegHeader != null && gsuiteHeader != null) { console.log('Generating ID Map'); generateIDMap(); }
             if (usisRegHeader != null && evalsHeader != null && gsuiteHeader != null) {
-                setEvalSections();
-                findDuplicates();
-                analyzeCourseSection();
-                document.getElementById('ranker').classList.remove('hidden');
+                document.getElementById('evaluator').classList.remove('hidden');
             }
 
 
             out.innerHTML = "";
         });
+    }
+
+    const startEvaluating = () => {
+        document.getElementById('evaluator').classList.add('hidden');
+        document.getElementById('spinner').innerHTML = '<div class="mt-2 spinner-border" role="status"><span class="sr-only">Loading...</span></div>';
+        setTimeout(() => {
+            console.log('Preprocessing Data for analysis');
+            setEvalSections();
+            findDuplicates();
+            analyzeCourseSection();
+            document.getElementById('spinner').innerHTML = '';
+        }, 100);
     }
 
     function setEvalSections() {

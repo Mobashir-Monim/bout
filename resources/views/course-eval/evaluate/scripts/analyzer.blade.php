@@ -7,6 +7,7 @@
     const lsc = Object.filter(questionMatrix, 'calc', 'lab-section-comment');
 
     const analyzeCourseSection = () => {
+        console.log('Analyzing data with given factors and matrix');
         evals.forEach(row => {
             let temp = cst(), q, templ = null, cs = gcs(row["Course"], row["Section Number"]), cl = null;
             evalCSRow(q, temp, row, cs);
