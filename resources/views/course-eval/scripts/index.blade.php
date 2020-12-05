@@ -39,6 +39,6 @@
     }
 
     const evaluateCourses = () => {
-        window.location.href = "{{ route('evaluate', ['year' => 'year', 'semester' => 'semester']) }}".replace('semester', document.getElementById('semester').value).replace('year', document.getElementById('year').value)
+        window.location.href = "{{ route('course-eval.evaluate', ['year' => 'year', 'semester' => 'semester']) }}".replace('semester', document.getElementById('semester').value).replace('year', document.getElementById('year').value)
     }
 </script>

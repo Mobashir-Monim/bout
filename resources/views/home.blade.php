@@ -14,16 +14,13 @@
                         <div class="col-md-6 mb-2">
                             <a href="{{ route('saved-response-format') }}" class="btn btn-dark w-100">Format saved responses</a>
                         </div>
+                        <div class="col-md-6 mb-2">
+                            <a href="{{ route('eval') }}" class="btn btn-dark w-100">Evaluations</a>
+                        </div>
                         @if(auth()->user()->email == 'mobashir.monim@bracu.ac.bd' || auth()->user()->email == 'ext.mobashir.monim@bracu.ac.bd')
                             <div class="col-md-6 mb-2">
                                 <a href="{{ route('student-map-seeder') }}" class="btn btn-dark w-100">Init seeder</a>
                             </div>
-                            <div class="col-md-6 mb-2">
-                                <a href="{{ route('eval') }}" class="btn btn-dark w-100">Eval</a>
-                            </div>
-                            {{-- <div class="col-md-6 mb-2">
-                                <a href="{{ route('evaluate') }}" class="btn btn-dark w-100">Evaluate</a>
-                            </div> --}}
                             <div class="col-md-6 mb-2">
                                 <a href="{{ route('role') }}" class="btn btn-dark w-100">Roles</a>
                             </div>
