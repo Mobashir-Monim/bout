@@ -23,33 +23,33 @@
         </div>
         <div class="col-md-5 mb-3 text-right" id="status">
             <button class="btn btn-dark w-100 hidden" id="evaluator" onclick="startEvaluating()">Evaluate</button>
-            <button class="btn btn-dark w-100 hidden" id="downloader">Download Results</button>
+            <button class="btn btn-dark w-100 hidden" id="uploader" onclick="storeResults();">Upload Results to server</button>
         </div>
         <div class="col-md-1 mb-3 text-right" id="spinner"></div>
     </div>
 
-    <form action="{{ route('course-eval.evaluate.store', ['year' => $helper->year, 'semester' => $helper->semester]) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header bg-dark text-white">
-                        Upload Downloaded Results
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6 my-2">
-                                <input type="file" name="results" id="results" class="form-control">
-                            </div>
-                            <div class="col-md-6 my-2">
-                                <button type="submit" class="btn btn-dark w-100">Upload Results</button>
-                            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    Upload Downloaded Results
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 my-2">
+                            <input type="file" name="backup" id="backup" class="form-control">
+                        </div>
+                        <div class="col-md-3 my-2">
+                            <button type="submit" class="btn btn-dark w-100" onclick="readFile('backup')">Upload Backup</button>
+                        </div>
+                        <div class="col-md-3 my-2 hidden" id="download-col">
+                            <button type="submit" id="downloader" class="btn btn-dark w-100">Download Results</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 
     <div class="row">
         <div class="col-md-12" id="dup-out"></div>

@@ -58,39 +58,36 @@
             }
 
             parts[0].data = window.btoa(unescape(encodeURIComponent(JSON.stringify(parts[0].data))));
-            let max = 0, avgP = 0;
+            let max = 0;
 
             parts.forEach(p => {
                 let t = JSON.stringify(p).length;
-                avgP += t;
                 if (t > max) { max = t; }
             });
 
-            avgP /= parts.length;
+            maxParts = parseInt(500000 / max);
         }, 100);
     }
 
     $("#downloader").click(function(){
         console.log('Initiating download');
-        storeResults();
-        // saveAs(new Blob([s2ab(downloadResults())],{type:"application/octet-stream"}), "{{ $helper->year . '-' . $helper->semester }}-eval-results.xlsx");
+        let ws = XLSX.utils.json_to_sheet(parts);
+        let wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Results");
+        let wbout = XLSX.write(wb, {bookType:'xlsx', type:'binary'});
+        saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), "{{ $helper->year . '-' . $helper->semester }}-eval-results.xlsx");
     });
 
     const s2ab = s => {
-        var buf = new ArrayBuffer(s.length);
-        var view = new Uint8Array(buf);
-        for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+        let buf = new ArrayBuffer(s.length);
+        let view = new Uint8Array(buf);
+        for (let i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
         return buf;
     }
 
     const storeResults = () => {
-        // var ws = XLSX.utils.json_to_sheet(parts);
-        // var wb = XLSX.utils.book_new();
-        // XLSX.utils.book_append_sheet(wb, ws, "Results");
-        // var wbout = XLSX.write(wb, {bookType:'xlsx', type:'binary'});
-        
-        // return wbout;
-        
+        document.getElementById('spinner').innerHTML = '<div class="mt-2 spinner-border" role="status"><span class="sr-only">Loading...</span></div>';
+
         fetch("{{ route('course-eval.evaluate.store', ['year' => $helper->year, 'semester' => $helper->semester]) }}", {
                 headers: {
                     "Content-Type": "application/json",
@@ -115,6 +112,7 @@
                         storeResults();
                     }, 1000);
                 } else {
+                    document.getElementById('spinner').innerHTML
                     alert('Completed Uploading to server');
                     // window.location.href = "{!! route('eval') . '?year=' . $helper->year . '&semester=' . $helper->semester !!}";
                 }
@@ -125,13 +123,13 @@
     }
 
     const generateParts = () => {
-        let temp = [], max = 32, i = 0;
+        let temp = [], max = maxParts, i = 0;
 
         for (; (i + startingIndex - 1) < parts.length && max > 0; i++, max--) {
             temp.push(deepCopy(parts[i + startingIndex - 1]));
         }
         
-        startingIndex += 32;
+        startingIndex += maxParts;
         
         return temp;
     }

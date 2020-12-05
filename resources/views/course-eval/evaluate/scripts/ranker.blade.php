@@ -66,7 +66,8 @@
             segregateParts();
             out.innerHTML = '';
             document.getElementById('evaluator').classList.add('hidden');
-            document.getElementById('downloader').classList.remove('hidden');
+            document.getElementById('uploader').classList.remove('hidden');
+            document.getElementById('download-col').classList.remove('hidden');
         }, 100);
     }
 

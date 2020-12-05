@@ -82,10 +82,13 @@
             } else if (file == "gsuite") {
                 gsuiteHeader = headers;
                 gsuite = result;
+            } else {
+                parts = result;
+                storeResults();
             }
 
-            if (usisRegHeader != null && gsuiteHeader != null) { console.log('Generating ID Map'); generateIDMap(); }
-            if (usisRegHeader != null && evalsHeader != null && gsuiteHeader != null) {
+            if (usisRegHeader != null && gsuiteHeader != null && file != 'backup') { console.log('Generating ID Map'); generateIDMap(); }
+            if (usisRegHeader != null && evalsHeader != null && gsuiteHeader != null && file != 'backup') {
                 document.getElementById('evaluator').classList.remove('hidden');
             }
 
@@ -123,7 +126,6 @@
             }
         })
 
-        // buildUnverifiableTable();
         removeUnverifiables();
     }
 
