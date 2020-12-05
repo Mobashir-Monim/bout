@@ -3,6 +3,7 @@
     let parts = [{type: 'skeleton', dept: null, course: null, section: null, data: skeleton}];
     let startingIndex = 0;
     let maxParts = 0;
+    let spinnerFlag = false;
 
     const containerizer = (cont, checks = []) => {
         let temp = {};
@@ -79,7 +80,9 @@
     }
 
     const storeResults = () => {
-        document.getElementById('spinner').innerHTML = '<div class="mt-2 spinner-border" role="status"><span class="sr-only">Loading...</span></div>';
+        if (!spinnerFlag) {
+            document.getElementById('spinner').innerHTML = '<div class="mt-2 spinner-border" role="status"><span class="sr-only">Loading...</span></div>';
+        }
 
         fetch("{{ route('course-eval.evaluate.store', ['year' => $helper->year, 'semester' => $helper->semester]) }}", {
                 headers: {
@@ -105,7 +108,7 @@
                         storeResults();
                     }, 1000);
                 } else {
-                    document.getElementById('spinner').innerHTML
+                    document.getElementById('spinner').innerHTML = '';
                     alert('Completed Uploading to server');
                     // window.location.href = "{!! route('eval') . '?year=' . $helper->year . '&semester=' . $helper->semester !!}";
                 }
@@ -118,7 +121,7 @@
     const generateParts = () => {
         if (maxParts == 0) {
             let max = 0;
-            
+
             parts.forEach(p => {
                 let t = JSON.stringify(p).length;
                 if (t > max) { max = t; }
