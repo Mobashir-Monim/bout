@@ -14,11 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
-    \Auth::login(App\Models\User::where('email', request()->e)->first());
-    return redirect(route('home'));
     dd('testing nothing');
-// })->name('tester')->middleware('checkRole:super-admin');
-})->name('tester');
+})->name('tester')->middleware('checkRole:super-admin');
 
 Auth::routes(['register' => false]);
 Route::get('auth/google', [App\Http\Controllers\Auth\GoogleAuthController::class, 'redirectToGoogle'])->name('initiate-login');
