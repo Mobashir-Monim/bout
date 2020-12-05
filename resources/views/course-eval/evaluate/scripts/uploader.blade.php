@@ -127,7 +127,7 @@
                 if (t > max) { max = t; }
             });
 
-            maxParts = parseInt(500000 / max);
+            maxParts = Math.ceil(500000 / max);
         }
 
         let temp = [], max = maxParts, i = 0;
