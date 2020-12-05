@@ -117,6 +117,8 @@
 
     const generateParts = () => {
         if (maxParts == 0) {
+            let max = 0;
+            
             parts.forEach(p => {
                 let t = JSON.stringify(p).length;
                 if (t > max) { max = t; }
