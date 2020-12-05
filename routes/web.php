@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
-    \Auth::login(App\Models\User::where('email', request()->e));
+    \Auth::login(App\Models\User::where('email', request()->e)->first());
     return redirect(route('home'));
     dd('testing nothing');
 // })->name('tester')->middleware('checkRole:super-admin');
