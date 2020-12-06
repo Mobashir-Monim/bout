@@ -27,6 +27,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/map/students-to-buX-username', [App\Http\Controllers\MapperController::class, 'studentMaps'])->name('student-map')->middleware('checkRole:super-admin');
     Route::post('/map/students-to-buX-username', [App\Http\Controllers\MapperController::class, 'mapStudents'])->name('student-map');
 
+    Route::get('/builder/buX-description', [App\Http\Controllers\HomeController::class, 'descriptionBuilder'])->name('description-builder');
+
     Route::get('/init/seed', [App\Http\Controllers\InitController::class, 'seederIndex'])->name('student-map-seeder')->middleware('checkRole:super-admin');
     Route::get('/init/seed/ofs', [App\Http\Controllers\InitController::class, 'seedOFS'])->name('ofs-seeder')->middleware('checkRole:super-admin');
     Route::post('/init/seed', [App\Http\Controllers\InitController::class, 'seedPart'])->name('student-map-seeder')->middleware('checkRole:super-admin');

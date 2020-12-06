@@ -17,6 +17,9 @@
                         <div class="col-md-6 mb-2">
                             <a href="{{ route('eval') }}" class="btn btn-dark w-100">Evaluations</a>
                         </div>
+                        <div class="col-md-6 mb-2">
+                            <a href="{{ route('description-builder') }}" class="btn btn-dark w-100">buX Description Builder</a>
+                        </div>
                         @if(auth()->user()->email == 'mobashir.monim@bracu.ac.bd' || auth()->user()->email == 'ext.mobashir.monim@bracu.ac.bd')
                             <div class="col-md-6 mb-2">
                                 <a href="{{ route('student-map-seeder') }}" class="btn btn-dark w-100">Init seeder</a>

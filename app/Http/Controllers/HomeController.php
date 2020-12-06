@@ -25,4 +25,9 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function descriptionBuilder()
+    {
+        return view('description-builder.index');
+    }
 }
