@@ -10,10 +10,20 @@ class PermissionHelper extends Helper
     public function addPermission($type, $name, $users)
     {
         $pid = Permission::where('type', $type)->where('name', $name)->first();
-        $users = User::whereIn('email', $users)->get();
 
         foreach ($users as $user) {
-            $user->permissions()->attach($pid);
+            $u = User::where('email', $user)->first();
+
+            if (is_null($u)) {
+                $u = $this->createUser($user);
+            }
+
+            $u->permissions()->attach($pid);
         }
+    }
+
+    public function createUser($email)
+    {
+        return User::create(['name' => ' ', 'email' => $email, 'password' => bcrypt('')]);
     }
 }
