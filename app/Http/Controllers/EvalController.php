@@ -125,7 +125,6 @@ class EvalController extends Controller
     public function semesterConfirm(CESC $request)
     {
         $helper = new ReportHelper($request->year, $request->semester);
-        // dd($helper);
 
         return view('course-eval.index', ['helper' => $helper]);
     }

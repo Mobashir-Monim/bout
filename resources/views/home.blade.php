@@ -27,6 +27,9 @@
                             <div class="col-md-6 mb-2">
                                 <a href="{{ route('role') }}" class="btn btn-dark w-100">Roles</a>
                             </div>
+                            <div class="col-md-6 mb-2">
+                                <a href="{{ route('permissions') }}" class="btn btn-dark w-100">Permissions</a>
+                            </div>
                         @endif
                     </div>
                 </div>

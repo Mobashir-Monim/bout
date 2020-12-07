@@ -37,5 +37,9 @@ class UserSeeder extends Seeder
         User::create(['name' => 'MD Tanzim Reza', 'password' => bcrypt(''), 'email' => 'tanzim.reza@bracu.ac.bd']);
         User::create(['name' => 'Annajiat Alim Rasel', 'password' => bcrypt(''), 'email' => 'annajiat@bracu.ac.bd']);
         User::create(['name' => 'Warida Rashid', 'password' => bcrypt(''), 'email' => 'warida.rashid@bracu.ac.bd']);
+        User::create(['name' => 'Mohammad Mahboob Rahman', 'password' => bcrypt(''), 'email' => 'mahboob.rahman@bracu.ac.bd']);
+        User::create(['name' => 'Matin S. Abdullah', 'password' => bcrypt(''), 'email' => 'mabdullah@bracu.ac.bd']);
+
+        // 'mahboob.rahman@bracu.ac.bd', 'mabdullah@bracu.ac.bd'
     }
 }

@@ -24,7 +24,6 @@ class ReportHelper extends Helper
         $this->eval = CE::find($year . "_" . ucfirst($semester));
         $this->contructPermissions();
         $this->getReports();
-        // dd($this->data);
     }
 
     public function contructPermissions()
@@ -33,11 +32,11 @@ class ReportHelper extends Helper
 
         $this->userPermissions = [
             'isHead' => $user->isHead,
-            'filter' => $user->hasPermission('evaluation', 'filter'),
-            'dept-report' => $user->hasPermission('evaluation', 'dept-report'),
-            'course-report' => $user->hasPermission('evaluation', 'course-report'),
-            'section-report' => $user->hasPermission('evaluation', 'section-report'),
-            'lab-report' => $user->hasPermission('evaluation', 'lab-report')
+            'filter' => $user->hasPermission('course-evaluation', 'filter'),
+            'dept-report' => $user->hasPermission('course-evaluation', 'dept-report'),
+            'course-report' => $user->hasPermission('course-evaluation', 'course-report'),
+            'section-report' => $user->hasPermission('course-evaluation', 'section-report'),
+            'lab-report' => $user->hasPermission('course-evaluation', 'lab-report')
         ];
     }
 

@@ -44,10 +44,10 @@ class GeneratorHelper extends Helper
 
         $this->userPermissions = [
             'isHead' => $user->isHead,
-            'dept-report' => $user->hasPermission('evaluation', 'dept-report'),
-            'course-report' => $user->hasPermission('evaluation', 'course-report'),
-            'section-report' => $user->hasPermission('evaluation', 'section-report'),
-            'lab-report' => $user->hasPermission('evaluation', 'lab-report')
+            'dept-report' => $user->hasPermission('course-evaluation', 'dept-report'),
+            'course-report' => $user->hasPermission('course-evaluation', 'course-report'),
+            'section-report' => $user->hasPermission('course-evaluation', 'section-report'),
+            'lab-report' => $user->hasPermission('course-evaluation', 'lab-report')
         ];
     }
 
@@ -175,8 +175,12 @@ class GeneratorHelper extends Helper
         } elseif (is_null($this->section)) {
             return $this->userPermissions['course-report'];
         } elseif (!$this->lab) {
+            $this->report = json_decode($this->report->first()->evaluation, true);
+            
             return $this->userPermissions['section-report'];
         } elseif ($this->lab) {
+            $this->report = json_decode($this->report->first()->evaluation, true);
+
             return $this->userPermissions['lab-report'];
         }
 

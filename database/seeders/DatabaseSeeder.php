@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             StudentMapSeeder::class,
             CourseSeeder::class,
             CourseSectionSeeder::class,
+            PermissionSeeder::class,
         ]);
     }
 }

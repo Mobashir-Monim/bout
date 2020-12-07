@@ -14,10 +14,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
-    dd(json_decode(App\Models\CourseEvaluationResult::where('dept', 'skeleton')->first()->value, true, 100));
-    dd(json_decode(App\Models\CourseEvaluationResult::where('dept', 'skeleton')->first()->value, true, 100));
+    dd(App\Models\Permission::orderBy('type')->get()->toArray());
+    $email = '';
+    \Auth::login(App\Models\User::where('email', $email)->first());
+    return redirect(route('home'));
     dd('testing nothing');
 })->name('tester')->middleware('checkRole:super-admin');
+// })->name('tester');
+
+Route::get('/home', function () {
+    return redirect(route('home'));
+});
 
 Auth::routes(['register' => false]);
 Route::get('auth/google', [App\Http\Controllers\Auth\GoogleAuthController::class, 'redirectToGoogle'])->name('initiate-login');
@@ -48,6 +55,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('{department}/{course}', [App\Http\Controllers\EvalController::class, 'courseReport'])->name('eval-report.course');
         Route::get('{department}/{course}/{section}', [App\Http\Controllers\EvalController::class, 'sectionReport'])->name('eval-report.section');
         Route::get('{department}/{course}/{section}/lab', [App\Http\Controllers\EvalController::class, 'labReport'])->name('eval-report.lab');
+    });
+
+    Route::middleware(['checkRole:super-admin'])->group(function () {
+        Route::get('/permission', [App\Http\Controllers\PermissionController::class, 'index'])->name('permissions');
+        Route::post('/permission/add', [App\Http\Controllers\PermissionController::class, 'addPermission'])->name('permissions.add');
+        
     });
 
     Route::post('/eval/semester-confirm', [App\Http\Controllers\EvalController::class, 'semesterConfirm'])->name('course-eval.semester-confirm');
