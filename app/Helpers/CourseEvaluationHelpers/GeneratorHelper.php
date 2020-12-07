@@ -115,10 +115,6 @@ class GeneratorHelper extends Helper
         if ($this->userPermissions['isHead']) {
             foreach (auth()->user()->headOf as $part) {
                 if ($this->iterateChildrenParts($part)) {
-                    if (!is_null($this->section)) {
-                        $this->report = json_decode($this->report->first()->evaluation, true);
-                    }
-
                     return true;
                 }
             }
