@@ -28,8 +28,13 @@ class PermissionSeeder extends Seeder
             $permission = Permission::create($permission);
 
             foreach ($users as $user) {
-                $user = User::where('email', $user)->first();
-                $user->permissions()->attach($permission->id);
+                $u = User::where('email', $user)->first();
+
+                if (is_null($u)) {
+                    $u = User::create(['name' => ' ', 'email' => $user, 'password' => bcrypt(' ')]);
+                }
+
+                $u->permissions()->attach($permission->id);
             }
         }
     }
