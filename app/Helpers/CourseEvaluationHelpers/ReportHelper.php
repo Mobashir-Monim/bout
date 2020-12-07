@@ -15,34 +15,51 @@ class ReportHelper extends Helper
     public $results = [];
     public $data = null;
     public $report = null;
+    public $userPermissions = ['isHead' => false, 'filter' => false, 'dept-report' => false, 'course-report' => false, 'section-report' => false, 'lab-report' => false];
 
     public function __construct($year, $semester)
     {
         $this->year = $year;
         $this->semester = $semester;
         $this->eval = CE::find($year . "_" . ucfirst($semester));
-        $this->data = $this->getReports();
+        $this->contructPermissions();
+        $this->getReports();
+        // dd($this->data);
+    }
+
+    public function contructPermissions()
+    {
+        $user = auth()->user();
+
+        $this->userPermissions = [
+            'isHead' => $user->isHead,
+            'filter' => $user->hasPermission('evaluation', 'filter'),
+            'dept-report' => $user->hasPermission('evaluation', 'dept-report'),
+            'course-report' => $user->hasPermission('evaluation', 'course-report'),
+            'section-report' => $user->hasPermission('evaluation', 'section-report'),
+            'lab-report' => $user->hasPermission('evaluation', 'lab-report')
+        ];
     }
 
     public function getReports()
     {
         if ($this->isReportable()) {
-            if (auth()->user()->isHead) {
-                return $this->generateReportFilter();
+            if ($this->userPermissions['filter']) {
+                $this->generatePermissionedFilter();
+            } elseif ($this->userPermissions['isHead']) {
+                $this->generateReportFilter();
             } else {
-                return $this->generateReports();
+                $this->generateReports();
             }
+        } else {
+            $this->data = ['available' => false];
         }
-
-        return ['available' => false];
     }
 
     public function isReportable()
     {
         if ($this->isPublishable()) {
-            if ($this->eval->is_published) {
-                return true;
-            }
+            return $this->eval->is_published;
         }
 
         return false;
@@ -77,7 +94,7 @@ class ReportHelper extends Helper
             }
         }
         
-        return ['available' => true, 'type' => 'filter'];
+        $this->data = ['available' => true, 'type' => 'filter'];
     }
 
     public function iterateChildrenParts($part)
@@ -95,6 +112,15 @@ class ReportHelper extends Helper
         }
     }
 
+    public function generatePermissionedFilter()
+    {
+        foreach ($this->eval->skeleton as $dept => $data) {
+            $this->results[$dept] = $data;
+        }
+
+        $this->data = ['available' => true, 'type' => 'filter'];
+    }
+
     public function generateReports()
     {
         foreach (OCS::whereIn('offered_course_id', OC::where('run_id', $this->year . '_' . ucfirst($this->semester))->get()->pluck('id')->toArray())->where('email', auth()->user()->email)->get() as $key => $ocs) {
@@ -109,7 +135,7 @@ class ReportHelper extends Helper
             }
         }
 
-        return ['available' => true, 'type' => 'reports'];
+        $this->data = ['available' => true, 'type' => 'reports'];
     }
 
     public function keyCheck($key, &$obj, $val = null)
@@ -226,26 +252,6 @@ class ReportHelper extends Helper
 
         return ['error' => false, 'message' => 'Generating report'];
     }
-
-    // public function buildReportObject($type, $dept, $course, $section, $lab)
-    // {
-    //     $this->report = ['type' => $type];
-
-    //     if (!is_null($dept)) {
-    //         $this->report['dept'] = $dept;
-            
-    //         if (!is_null($course)) {
-    //             $this->report['course'] = $course;
-
-    //             if (!is_null($section)) {
-    //                 $this->report['section'] = $section;
-    //                 $this->report['is_lab'] = $lab;
-    //             }
-    //         }
-    //     }
-
-    //     $this->results = json_decode(json_encode($this->results), true)[$this->report['dept']];
-    // }
 
     public function buildDeptReport($dept)
     {

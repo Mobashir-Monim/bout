@@ -1,5 +1,5 @@
 <script>
-    const selectable = {!! json_encode($helper->results) !!};
+    let selectable = {!! json_encode($helper->results) !!};
     const dept = document.getElementById('dept');
     const deptBtn = document.getElementById('dept-btn');
     const courseRow = document.getElementById('course-row');
@@ -16,6 +16,32 @@
         section: "{{ $helper->buildRoute('dept', 'course', 'section') }}",
         lab: "{{ $helper->buildRoute('dept', 'course', 'section', true) }}",
     };
+
+    window.onload = () => {
+        selectable = sortObject(selectable);
+    }
+
+    const sortObject = (unordered, sortArrays = false) => {
+        if (!unordered || typeof unordered !== 'object') {
+            return unordered;
+        }
+
+        if (Array.isArray(unordered)) {
+            const newArr = unordered.map((item) => sortObject(item, sortArrays));
+            if (sortArrays) {
+                newArr.sort();
+            }
+
+            return newArr;
+        }
+
+        const ordered = {};
+        Object.keys(unordered).sort()
+            .forEach((key) => {
+                ordered[key] = sortObject(unordered[key], sortArrays);
+            });
+        return ordered;
+    }
 
     const showCourses = () => {
         controlElVisibility(selectable[dept.value], [deptBtn, courseRow]);

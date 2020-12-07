@@ -20,6 +20,8 @@ class GeneratorHelper extends Helper
     public $section = null;
     public $lab = null;
     public $accessList = [];
+    public $userPermissions = ['isHead' => false, 'dept-report' => false, 'course-report' => false, 'section-report' => false, 'lab-report' => false];
+
 
     public function __construct($year, $semester, $dept = null, $course = null, $section = null, $lab = false)
     {
@@ -27,14 +29,26 @@ class GeneratorHelper extends Helper
         $this->semester = $semester;
         $this->eval = CE::find($year . "_" . ucfirst($semester));
         $this->dept = $dept; $this->course = $course; $this->section = $section; $this->lab = $lab;
+        $this->contructPermissions();
 
         if (is_null($this->eval)) {
             $this->status = ['error' => true, 'message' => 'The requested report is not available/has not been published yet'];
         } else {
             $this->validateRequest();
         }
+    }
 
-        // dd($this->report);
+    public function contructPermissions()
+    {
+        $user = auth()->user();
+
+        $this->userPermissions = [
+            'isHead' => $user->isHead,
+            'dept-report' => $user->hasPermission('evaluation', 'dept-report'),
+            'course-report' => $user->hasPermission('evaluation', 'course-report'),
+            'section-report' => $user->hasPermission('evaluation', 'section-report'),
+            'lab-report' => $user->hasPermission('evaluation', 'lab-report')
+        ];
     }
 
     public function validateRequest()
@@ -94,7 +108,11 @@ class GeneratorHelper extends Helper
 
     public function hasPermission()
     {
-        if (auth()->user()->isHead) {
+        if ($this->checkPermissions()) {
+            return true;
+        }
+
+        if ($this->userPermissions['isHead']) {
             foreach (auth()->user()->headOf as $part) {
                 if ($this->iterateChildrenParts($part)) {
                     if (!is_null($this->section)) {
@@ -145,6 +163,21 @@ class GeneratorHelper extends Helper
             if (count($this->report->sections->where('lab', false)->where('email', auth()->user()->email)) > 0) {
                 $this->report = $this->report->evaluation;
             }
+        }
+
+        return false;
+    }
+
+    public function checkPermissions()
+    {
+        if (is_null($this->section) && is_null($this->course)) {
+            return $this->userPermissions['dept-report'];
+        } elseif (is_null($this->section)) {
+            return $this->userPermissions['course-report'];
+        } elseif (!$this->lab) {
+            return $this->userPermissions['section-report'];
+        } elseif ($this->lab) {
+            return $this->userPermissions['lab-report'];
         }
 
         return false;

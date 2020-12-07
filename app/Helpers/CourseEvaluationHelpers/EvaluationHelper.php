@@ -26,20 +26,6 @@ class EvaluationHelper extends Helper
         }
     }
 
-    // public function storeResults($parts)
-    // {
-    //     $this->pruneResults();
-    //     $this->unpublishResults();
-
-    //     foreach ($parts as $key => $part) {
-    //         if ($key == 0) {
-    //             $this->storeInResults(base64_decode($part['data']));
-    //         } else {
-    //             $this->storePart($part);
-    //         }
-    //     }
-    // }
-
     public function storeResults($parts, $index)
     {
         if ($index == 0) {

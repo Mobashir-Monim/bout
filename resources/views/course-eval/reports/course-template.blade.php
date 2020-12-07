@@ -62,7 +62,7 @@
                             </div>
                             <div class="row border-bottom">
                                 <div class="col-md-8"><p>Respondent-Registration ratio</p></div>
-                                <div class="col-md text-right"><p>{{ round($helper->report['respondents'] / $helper->report['students'], 2) }}</p></div>
+                                <div class="col-md text-right"><p>{{ $helper->report['students'] != 0 ? round($helper->report['respondents'] / $helper->report['students'], 2) : '---' }}</p></div>
                             </div>
                         </div>
                     </div>

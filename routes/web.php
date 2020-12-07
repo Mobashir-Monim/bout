@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
+    dd(json_decode(App\Models\CourseEvaluationResult::where('dept', 'skeleton')->first()->value, true, 100));
+    dd(json_decode(App\Models\CourseEvaluationResult::where('dept', 'skeleton')->first()->value, true, 100));
     dd('testing nothing');
 })->name('tester')->middleware('checkRole:super-admin');
 

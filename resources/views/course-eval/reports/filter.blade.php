@@ -15,7 +15,11 @@
         @endif
     </div>
     <div class="col-md-6 my-2 mt-auto">
-        <a href="{{ sizeof($helper->results) > 1 ? '#/' : $helper->buildRoute(array_key_first($helper->results)) }}" {{ sizeof($helper->results) > 1 ? "onclick=openReport('dept')" : '' }} id="dept-btn" class="btn btn-dark w-100 {{ sizeof($helper->results) > 1 ? 'hidden' : '' }}" target="_blank">Generate Department Report</a>
+       @if ($helper->userPermissions['isHead'] || $helper->userPermissions['dept-report'])
+       <a href="{{ sizeof($helper->results) > 1 ? '#/' : $helper->buildRoute(array_key_first($helper->results)) }}"
+            {{ sizeof($helper->results) > 1 ? "onclick=openReport('dept')" : '' }} id="dept-btn"
+            class="btn btn-dark w-100 {{ sizeof($helper->results) > 1 ? 'hidden' : '' }}" target="_blank">Generate Department Report</a>
+       @endif
     </div>
 </div>
 
@@ -32,7 +36,9 @@
         </select>
     </div>
     <div class="col-md-6 my-2 mt-auto">
-        <a href="#/" id="dept-btn" class="btn btn-dark w-100" onclick="openReport('course')">Generate Course Report</a>
+        @if ($helper->userPermissions['isHead'] || $helper->userPermissions['course-report'])
+            <a href="#/" id="dept-btn" class="btn btn-dark w-100" onclick="openReport('course')">Generate Course Report</a>
+        @endif
     </div>
 </div>
 
@@ -42,7 +48,9 @@
         <select name="section" id="section" class="form-control"></select>
     </div>
     <div class="col-md-6 my-2 mt-auto">
-        <a href="#/" id="section-btn" class="btn btn-dark w-100" onclick="openReport('section')">Generate Section Report</a>
+        @if ($helper->userPermissions['isHead'] || $helper->userPermissions['section-report'])
+            <a href="#/" id="section-btn" class="btn btn-dark w-100" onclick="openReport('section')">Generate Section Report</a>
+        @endif
     </div>
 </div>
 
@@ -52,7 +60,9 @@
         <select name="lab" id="lab" class="form-control"></select>
     </div>
     <div class="col-md-6 my-2 mt-auto">
-        <a href="#/" id="lab-btn" class="btn btn-dark w-100" onclick="openReport('lab')">Generate Lab Report</a>
+        @if ($helper->userPermissions['isHead'] || $helper->userPermissions['lab-report'])
+            <a href="#/" id="lab-btn" class="btn btn-dark w-100" onclick="openReport('lab')">Generate Lab Report</a>
+        @endif
     </div>
 </div>
 

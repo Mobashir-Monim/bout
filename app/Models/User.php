@@ -79,4 +79,15 @@ class User extends Authenticatable
 
         return false;
     }
+
+    public function hasPermission($type, $name)
+    {
+        foreach ($this->permissions as $permission) {
+            if ($permission->type == $type && $permission->name == $name) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
