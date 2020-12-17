@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('test', function () {
     \Auth::login(App\Models\User::where('email', 'mobashir.monim@bracu.ac.bd')->first());
     dd('done');
+    return redirect(route('home'));
     dd(App\Models\Permission::orderBy('type')->get()->toArray());
     $email = '';
     \Auth::login(App\Models\User::where('email', $email)->first());
