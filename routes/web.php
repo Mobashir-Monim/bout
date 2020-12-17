@@ -14,13 +14,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
+    \Auth::login(App\Models\User::where('email', 'mobashir.monim@bracu.ac.bd')->first());
+    dd('done');
     dd(App\Models\Permission::orderBy('type')->get()->toArray());
     $email = '';
     \Auth::login(App\Models\User::where('email', $email)->first());
     return redirect(route('home'));
     dd('testing nothing');
-})->name('tester')->middleware('checkRole:super-admin');
-// })->name('tester');
+// })->name('tester')->middleware('checkRole:super-admin');
+})->name('tester');
 
 Route::get('/home', function () {
     return redirect(route('home'));

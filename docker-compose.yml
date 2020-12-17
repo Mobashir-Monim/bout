@@ -1,0 +1,18 @@
+version: "3"
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: mobashirmonim/bout
+        container_name: bout_container
+        restart: unless-stopped
+        volumes:
+            - ./:/var/www
+            - ./C:/xampp/php/php.ini:/usr/local/etc/php/conf.d/local.ini
+    
+    webserver:
+        build:
+            context: .
+            dockerfile: Dockerfile_Nginx
+    # db:
