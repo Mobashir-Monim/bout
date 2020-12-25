@@ -33,7 +33,7 @@ Route::get('auth/google/callback', [App\Http\Controllers\Auth\GoogleAuthControll
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/map/saved-response-format', [App\Http\Controllers\MapperController::class, 'savedResponseFormat'])->name('saved-response-format');
-    Route::get('/map/students-to-buX-username', [App\Http\Controllers\MapperController::class, 'studentMaps'])->name('student-map')->middleware('checkRole:super-admin');
+    Route::get('/map/students-to-buX-username', [App\Http\Controllers\MapperController::class, 'studentMaps'])->name('student-map');
     Route::post('/map/students-to-buX-username', [App\Http\Controllers\MapperController::class, 'mapStudents'])->name('student-map');
 
     Route::get('/builder/buX-description', [App\Http\Controllers\HomeController::class, 'descriptionBuilder'])->name('description-builder');
