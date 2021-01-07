@@ -57,7 +57,9 @@
         "CSE425","CSE390","MGT721","ECE305","ECE207","PSM521","EEE323","MKT701","MAT203",
         "MAT105","CSE708","LAW403","TSL602","MGT701","EEE490","PSM522","PSM523","PSM524",
         "TSL502","CSE705","PHY202","MAT311","CSE710","ARC432","CSE310","MAT350","CSE716",
-        "DMG514","ECE243","ECE221","DMG513","DMG626"
+        "DMG514","ECE243","ECE221","DMG513","DMG626","DEV506","DEV503","DEV612","DEV301",
+        "DEV501","DEV502","DEV616","DEV691","PSM501","PSM502","PSM505","PSM521","PSM522",
+        "PSM523","PSM524","PSM607","PSM608",
     ];
 
     let fractions = {
@@ -540,5 +542,22 @@
         'PHR413': [{frac: "DEPARTMENT OF PHARMACY", sections: ""}],
         'ECO305': [{frac: "DEPARTMENT OF ECONOMICS AND SOCIAL SCIENCES", sections: ""}],
         'PHR405': [{frac: "DEPARTMENT OF PHARMACY", sections: ""}],
+        'DEV506': [{frac: "BRAC Institute of Governance and Development", sections: ""}],
+        'DEV503': [{frac: "BRAC Institute of Governance and Development", sections: ""}],
+        'DEV612': [{frac: "BRAC Institute of Governance and Development", sections: ""}],
+        'DEV301': [{frac: "BRAC Institute of Governance and Development", sections: ""}],
+        'DEV501': [{frac: "BRAC Institute of Governance and Development", sections: ""}],
+        'DEV502': [{frac: "BRAC Institute of Governance and Development", sections: ""}],
+        'DEV616': [{frac: "BRAC Institute of Governance and Development", sections: ""}],
+        'DEV691': [{frac: "BRAC Institute of Governance and Development", sections: ""}],
+        'PSM501': [{frac: "BRAC Institute of Governance and Development", sections: ""}],
+        'PSM502': [{frac: "BRAC Institute of Governance and Development", sections: ""}],
+        'PSM505': [{frac: "BRAC Institute of Governance and Development", sections: ""}],
+        'PSM521': [{frac: "BRAC Institute of Governance and Development", sections: ""}],
+        'PSM522': [{frac: "BRAC Institute of Governance and Development", sections: ""}],
+        'PSM523': [{frac: "BRAC Institute of Governance and Development", sections: ""}],
+        'PSM524': [{frac: "BRAC Institute of Governance and Development", sections: ""}],
+        'PSM607': [{frac: "BRAC Institute of Governance and Development", sections: ""}],
+        'PSM608': [{frac: "BRAC Institute of Governance and Development", sections: ""}],
     };
 </script>
