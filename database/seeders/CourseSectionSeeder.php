@@ -42,7 +42,8 @@ class CourseSectionSeeder extends Seeder
             }
         }
 
-        $frs = json_decode('{"ACT201":[{"frac":"BRAC BUSINESS SCHOOL","sections":""}],
+        $frs = json_decode('{
+            "ACT201":[{"frac":"BRAC BUSINESS SCHOOL","sections":""}],
             "ACT202":[{"frac":"BRAC BUSINESS SCHOOL","sections":""}],
             "ACT301":[{"frac":"BRAC BUSINESS SCHOOL","sections":""}],
             "ACT422":[{"frac":"BRAC BUSINESS SCHOOL","sections":""}],
@@ -520,7 +521,25 @@ class CourseSectionSeeder extends Seeder
             "MPH501":[{"frac":"BRAC JAMES P GRANT SCHOOL OF PUBLIC HEALTH","sections":""}],
             "PHR413":[{"frac":"DEPARTMENT OF PHARMACY","sections":""}],
             "ECO305":[{"frac":"DEPARTMENT OF ECONOMICS AND SOCIAL SCIENCES","sections":""}],
-            "PHR405":[{"frac":"DEPARTMENT OF PHARMACY","sections":""}]}', true);
+            "PHR405":[{"frac":"DEPARTMENT OF PHARMACY","sections":""}],
+            "DEV506":[{"frac":"BRAC INSTITUTE OF GOVERNANCE AND DEVELOPMENT","sections":""}],
+            "DEV503":[{"frac":"BRAC INSTITUTE OF GOVERNANCE AND DEVELOPMENT","sections":""}],
+            "DEV612":[{"frac":"BRAC INSTITUTE OF GOVERNANCE AND DEVELOPMENT","sections":""}],
+            "DEV301":[{"frac":"BRAC INSTITUTE OF GOVERNANCE AND DEVELOPMENT","sections":""}],
+            "DEV501":[{"frac":"BRAC INSTITUTE OF GOVERNANCE AND DEVELOPMENT","sections":""}],
+            "DEV502":[{"frac":"BRAC INSTITUTE OF GOVERNANCE AND DEVELOPMENT","sections":""}],
+            "DEV616":[{"frac":"BRAC INSTITUTE OF GOVERNANCE AND DEVELOPMENT","sections":""}],
+            "DEV691":[{"frac":"BRAC INSTITUTE OF GOVERNANCE AND DEVELOPMENT","sections":""}],
+            "PSM501":[{"frac":"BRAC INSTITUTE OF GOVERNANCE AND DEVELOPMENT","sections":""}],
+            "PSM502":[{"frac":"BRAC INSTITUTE OF GOVERNANCE AND DEVELOPMENT","sections":""}],
+            "PSM505":[{"frac":"BRAC INSTITUTE OF GOVERNANCE AND DEVELOPMENT","sections":""}],
+            "PSM521":[{"frac":"BRAC INSTITUTE OF GOVERNANCE AND DEVELOPMENT","sections":""}],
+            "PSM522":[{"frac":"BRAC INSTITUTE OF GOVERNANCE AND DEVELOPMENT","sections":""}],
+            "PSM523":[{"frac":"BRAC INSTITUTE OF GOVERNANCE AND DEVELOPMENT","sections":""}],
+            "PSM524":[{"frac":"BRAC INSTITUTE OF GOVERNANCE AND DEVELOPMENT","sections":""}],
+            "PSM607":[{"frac":"BRAC INSTITUTE OF GOVERNANCE AND DEVELOPMENT","sections":""}],
+            "PSM608":[{"frac":"BRAC INSTITUTE OF GOVERNANCE AND DEVELOPMENT","sections":""}]
+        }', true);
 
         $rows = $this->importLabSections('files/2020-Summer-Theory-List.xlsx');
 
