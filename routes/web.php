@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
-    dd(route('confirm-login'));
     dd(App\Models\Permission::orderBy('type')->get()->toArray());
     $email = '';
     \Auth::login(App\Models\User::where('email', $email)->first());
