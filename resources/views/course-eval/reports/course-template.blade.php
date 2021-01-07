@@ -71,6 +71,16 @@
 
             <div class="row mb-4">
                 <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12">
                     <table class="table table-striped">
                         <thead>
                             <tr>

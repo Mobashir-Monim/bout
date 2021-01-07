@@ -31,7 +31,7 @@ class EnterprisePartSeeder extends Seeder
             ['name' => 'School of Law', 'user_id' => $this->getUserID('kshamsuddin@bracu.ac.bd')],
             ['name' => 'Brac Business School', 'user_id' => $this->getUserID('lee.sang@bracu.ac.bd')],
             ['name' => 'Graduate School of Management', 'user_id' => $this->getUserID('eileen.peacock@bracu.ac.bd')],
-            ['name' => 'BRAC Institute of Education and Development', 'user_id' => $this->getUserID('erum.m@brac.net')],
+            ['name' => 'BRAC Institute of Governance and Development', 'user_id' => $this->getUserID('erum.m@brac.net')],
             ['name' => 'School of General Education', 'user_id' => $this->getUserID('shuq@bracu.ac.bd')],
             ['name' => 'School of Humanities and Social Sciences', 'user_id' => $this->getUserID('pforet@bracu.ac.bd')],
             ['name' => 'Super Admin', 'user_id' => $this->getUserID('mobashir.monim@bracu.ac.bd')]
