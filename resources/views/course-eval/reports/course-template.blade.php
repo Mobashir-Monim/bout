@@ -72,8 +72,32 @@
             <div class="row mb-4">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-body">
-                            
+                        <div class="card-body bg-light">
+                            <h5 class="mb-0"><b>Legend</b></h5>
+                            <table class="table border-bottom mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2" class="py-1">Score</td>
+                                        <td colspan="10" class="py-1">The arbitrary score received by the course for given assessment item</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="py-1">Percentile</td>
+                                        <td colspan="10" class="py-1">The percentile rank of the course in comparision to all the courses of the department for given assessment item</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="py-1">Section Highest (course)</td>
+                                        <td colspan="10" class="py-1">The highest arbitrary score amongst all the sections of the course for given assessment item</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="py-1">University Highest (courses)</td>
+                                        <td colspan="10" class="py-1">The highest arbitrary score amongst all the courses university wide for given assessment item</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="py-1">University Highest (sections)</td>
+                                        <td colspan="10" class="py-1">The highest arbitrary score amongst all the sections university wide for given assessment item</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

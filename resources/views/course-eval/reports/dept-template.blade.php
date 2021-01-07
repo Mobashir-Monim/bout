@@ -80,6 +80,36 @@
 
             <div class="row mb-4">
                 <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body bg-light">
+                            <h5 class="mb-0"><b>Legend</b></h5>
+                            <table class="table border-bottom mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2" class="py-1">Score</td>
+                                        <td colspan="10" class="py-1">The arbitrary score received by the departments/schools/institutions for given assessment item</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="py-1">Percentile</td>
+                                        <td colspan="10" class="py-1">The percentile rank in comparision to all departments/schools/institutions for given assessment item</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="py-1">Dept Highest</td>
+                                        <td colspan="10" class="py-1">The highest arbitrary score amongst all the courses of the departments/schools/institutions for given assessment item</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="py-1">University Highest</td>
+                                        <td colspan="10" class="py-1">The highest arbitrary score amongst all the courses university wide for given assessment item</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12">
                     <table class="table table-striped">
                         <thead>
                             <tr>
