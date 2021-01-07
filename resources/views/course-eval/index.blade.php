@@ -46,7 +46,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 my-1">
-                                <button class="btn btn-dark w-100">Comfirm</button>
+                                <button class="btn btn-dark w-100">Confirm</button>
                             </div>
                         </div>
                     </div>
