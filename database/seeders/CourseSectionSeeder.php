@@ -471,7 +471,6 @@ class CourseSectionSeeder extends Seeder
             "PHR404":[{"frac":"DEPARTMENT OF PHARMACY","sections":""}],
             "PHR410":[{"frac":"DEPARTMENT OF PHARMACY","sections":""}],
             "TSL505":[{"frac":"BRAC INSTITUTE OF LANGUAGES","sections":""}],
-            "CSE100":[{"frac":"DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING","sections":""}],
             "PHR103":[{"frac":"DEPARTMENT OF PHARMACY","sections":""}],
             "MPH670":[{"frac":"BRAC JAMES P GRANT SCHOOL OF PUBLIC HEALTH","sections":""}],
             "DMG627":[{"frac":"DEPARTMENT OF ARCHITECTURE","sections":""}],

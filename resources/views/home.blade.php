@@ -20,7 +20,17 @@
                         <div class="col-md-6 mb-2">
                             <a href="{{ route('description-builder') }}" class="btn btn-dark w-100">buX Description Builder</a>
                         </div>
+
+                        @if (auth()->user()->hasRole('dco'))
+                            <div class="col-md-6 mb-2">
+                                <a href="{{ route('offered-courses') }}" class="btn btn-dark w-100">Offered Courses</a>
+                            </div>
+                        @endif
+
                         @if(auth()->user()->email == 'mobashir.monim@bracu.ac.bd' || auth()->user()->email == 'ext.mobashir.monim@bracu.ac.bd')
+                            <div class="col-md-6 mb-2">
+                                <a href="{{ route('offered-courses') }}" class="btn btn-dark w-100">Offered Courses</a>
+                            </div>
                             <div class="col-md-6 mb-2">
                                 <a href="{{ route('student-map-seeder') }}" class="btn btn-dark w-100">Init seeder</a>
                             </div>

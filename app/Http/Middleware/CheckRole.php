@@ -14,10 +14,12 @@ class CheckRole
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, ...$roles)
     {
-        if (auth()->user()->hasRole($role)) {
-            return $next($request);
+        foreach ($roles as $role) {
+            if (auth()->user()->hasRole($role)) {
+                return $next($request);
+            }
         }
 
         flash('🚫⚠️🔒 Seems like you don\'t have the required role to access the requested resource 🔒⚠️🚫')->error();

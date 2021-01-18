@@ -39,7 +39,21 @@ class UserSeeder extends Seeder
         User::create(['name' => 'Warida Rashid', 'password' => bcrypt(''), 'email' => 'warida.rashid@bracu.ac.bd']);
         User::create(['name' => 'Mohammad Mahboob Rahman', 'password' => bcrypt(''), 'email' => 'mahboob.rahman@bracu.ac.bd']);
         User::create(['name' => 'Matin S. Abdullah', 'password' => bcrypt(''), 'email' => 'mabdullah@bracu.ac.bd']);
-
+        User::create(['name' => 'Afroza Begum', 'password' => bcrypt(''), 'email' => 'a.froza@bracu.ac.bd']);
+        User::create(['name' => 'Chandan Roy', 'password' => bcrypt(''), 'email' => 'chroy@bracu.ac.bd']);
+        User::create(['name' => 'Saiduzzaman Shikder', 'password' => bcrypt(''), 'email' => 'saiduzzaman@bracu.ac.bd']);
+        User::create(['name' => 'Theophil Nokrek', 'password' => bcrypt(''), 'email' => 'tnokrek@bracu.ac.bd']);
+        User::create(['name' => 'Asma Ahmed', 'password' => bcrypt(''), 'email' => 'asma_ahmed@bracu.ac.bd']);
+        User::create(['name' => 'Allfe Shahnoor Chowdhury', 'password' => bcrypt(''), 'email' => 'shahnoor@bracu.ac.bd']);
+        User::create(['name' => 'Mostak Ahmed', 'password' => bcrypt(''), 'email' => 'mostak@bracu.ac.bd']);
+        User::create(['name' => 'Md Rezwanur Rahman', 'password' => bcrypt(''), 'email' => 'rezwanur.rahman@bracu.ac.bd']);
+        User::create(['name' => 'Md Shahin Shaikh', 'password' => bcrypt(''), 'email' => 'shahin@bracu.ac.bd']);
+        User::create(['name' => 'Satyajit Kumar Modok', 'password' => bcrypt(''), 'email' => 'satyajit@bracu.ac.bd']);
+        User::create(['name' => 'Mosammat Rokeya Begum', 'password' => bcrypt(''), 'email' => 'rokeya@bracu.ac.bd']);
+        User::create(['name' => 'Rukhsana Hasin Parag', 'password' => bcrypt(''), 'email' => 'rukhsana.hasin@bracu.ac.bd']);
+        User::create(['name' => ' ', 'password' => bcrypt(''), 'email' => 'gm.zilani@bracu.ac.bd']);
+        User::create(['name' => ' ', 'password' => bcrypt(''), 'email' => 'anis.sharif@bracu.ac.bd']);
+        
         // 'mahboob.rahman@bracu.ac.bd', 'mabdullah@bracu.ac.bd'
     }
 }

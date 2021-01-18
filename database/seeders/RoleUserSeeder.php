@@ -33,6 +33,20 @@ class RoleUserSeeder extends Seeder
             'eileen.peacock@bracu.ac.bd' => ['dean'],
             'shuq@bracu.ac.bd' => ['dean'],
             'erum.m@brac.net' => ['dean'],
+            'a.froza@bracu.ac.bd' => ['dco'],
+            'chroy@bracu.ac.bd' => ['dco'],
+            'saiduzzaman@bracu.ac.bd' => ['dco'],
+            'tnokrek@bracu.ac.bd' => ['dco'],
+            'asma_ahmed@bracu.ac.bd' => ['dco'],
+            'shahnoor@bracu.ac.bd' => ['dco'],
+            'mostak@bracu.ac.bd' => ['dco'],
+            'rezwanur.rahman@bracu.ac.bd' => ['dco'],
+            'shahin@bracu.ac.bd' => ['dco'],
+            'satyajit@bracu.ac.bd' => ['dco'],
+            'rokeya@bracu.ac.bd' => ['dco'],
+            'rukhsana.hasin@bracu.ac.bd' => ['dco'],
+            'gm.zilani@bracu.ac.bd' => ['dco'],
+            'anis.sharif@bracu.ac.bd' => ['dco'],
         ];
 
         foreach ($connections as $email => $cons) {

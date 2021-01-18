@@ -16,7 +16,7 @@ class CreateOfferedCourseSectionsTable extends Migration
         Schema::create('offered_course_sections', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('offered_course_id');
-            $table->unsignedTinyInteger('section')->unsigned();
+            $table->unsignedSmallInteger('section');
             $table->string('name')->default(' ');
             $table->string('initials')->default(' ');
             $table->string('email')->default(' ');

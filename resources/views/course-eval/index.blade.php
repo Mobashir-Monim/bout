@@ -30,14 +30,14 @@
                                 <select name="year" id="year" class="form-control">
                                     @if (isset($helper))
                                         <option value="{{ $helper->year }}">{{ $helper->year }}</option>
-                                        @for ($i = Carbon\Carbon::now()->diffInYears(Carbon\Carbon::parse('2020')); $i >= 0; $i--)
+                                        @for ($i = Carbon\Carbon::now()->diffInYears(Carbon\Carbon::parse('1st Jan 2020')); $i >= 0; $i--)
                                             @if ($helper->year != $i + 2020)
                                                 <option value="{{ 2020 + $i }}">{{ 2020 + $i }}</option>
                                             @endif
                                         @endfor
                                     @else
                                         <option value="">Please select a year</option>
-                                        @for ($i = Carbon\Carbon::now()->diffInYears(Carbon\Carbon::parse('2020')); $i >= 0; $i--)
+                                        @for ($i = Carbon\Carbon::now()->diffInYears(Carbon\Carbon::parse('1st Jan 2020')); $i >= 0; $i--)
                                             <option value="{{ 2020 + $i }}">{{ 2020 + $i }}</option>
                                         @endfor
                                     @endif

@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
-    dd(App\Models\Permission::orderBy('type')->get()->toArray());
-    $email = '';
-    \Auth::login(App\Models\User::where('email', $email)->first());
+    \Auth::login(App\Models\User::where('email', request()->email)->first());
     return redirect(route('home'));
     dd('testing nothing');
 })->name('tester')->middleware('checkRole:super-admin');
@@ -61,6 +59,18 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/permission', [App\Http\Controllers\PermissionController::class, 'index'])->name('permissions');
         Route::post('/permission/add', [App\Http\Controllers\PermissionController::class, 'addPermission'])->name('permissions.add');
         
+    });
+
+    Route::middleware(['checkRole:super-admin,dco'])->group(function () {
+        Route::get('/offered-courses', [App\Http\Controllers\OfferedCourseController::class, 'index'])->name('offered-courses');
+        Route::post('/offered-courses', [App\Http\Controllers\OfferedCourseController::class, 'index'])->name('offered-courses');
+
+        Route::name('offered-courses.')->prefix('/offered-courses')->group(function () {
+            Route::get('/download/{dept}/{run}', [App\Http\Controllers\OfferedCourseController::class, 'download'])->name('download');
+            Route::post('/create/{year}/{semester}', [App\Http\Controllers\OfferedCourseController::class, 'create'])->name('create');
+            Route::post('/update/{year}/{semester}', [App\Http\Controllers\OfferedCourseController::class, 'update'])->name('update');
+            Route::post('/delete/{year}/{semester}', [App\Http\Controllers\OfferedCourseController::class, 'delete'])->name('delete');
+        });
     });
 
     Route::post('/eval/semester-confirm', [App\Http\Controllers\EvalController::class, 'semesterConfirm'])->name('course-eval.semester-confirm');

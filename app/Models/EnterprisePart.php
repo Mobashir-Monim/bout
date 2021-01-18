@@ -34,4 +34,9 @@ class EnterprisePart extends Model
     {
         return count($this->parents) > 0;
     }
+
+    public function members()
+    {
+        return $this->belongsToMany(User::class, 'enterprise_part_user', 'enterprise_part_id', 'user_id');
+    }
 }

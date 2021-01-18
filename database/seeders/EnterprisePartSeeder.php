@@ -57,6 +57,28 @@ class EnterprisePartSeeder extends Seeder
                 ]);
             }
         }
+
+        $dcos = [
+            ['user' => 'a.froza@bracu.ac.bd', 'part' => 'Department of Electrical and Electronic Engineering'],
+            ['user' => 'chroy@bracu.ac.bd', 'part' => 'Department of Economics and Social Sciences'],
+            ['user' => 'saiduzzaman@bracu.ac.bd', 'part' => 'Department of Architecture'],
+            ['user' => 'tnokrek@bracu.ac.bd', 'part' => 'School of Law'],
+            ['user' => 'asma_ahmed@bracu.ac.bd', 'part' => 'Department of Pharmacy'],
+            ['user' => 'shahnoor@bracu.ac.bd', 'part' => 'Department of English and Humanities'],
+            ['user' => 'mostak@bracu.ac.bd', 'part' => 'Department of Mathematics and Natural Sciences'],
+            ['user' => 'rezwanur.rahman@bracu.ac.bd', 'part' => 'Department of Mathematics and Natural Sciences'],
+            ['user' => 'shahin@bracu.ac.bd', 'part' => 'Brac Business School'],
+            ['user' => 'satyajit@bracu.ac.bd', 'part' => 'Brac Business School'],
+            ['user' => 'rokeya@bracu.ac.bd', 'part' => 'Brac Institute of Languages'],
+            ['user' => 'rukhsana.hasin@bracu.ac.bd', 'part' => 'Brac Institute of Languages'],
+            ['user' => 'gm.zilani@bracu.ac.bd', 'part' => 'Department of Computer Science and Engineering'],
+            ['user' => 'anis.sharif@bracu.ac.bd', 'part' => 'Department of Computer Science and Engineering'],
+        ];
+
+        foreach ($dcos as $dco) {
+            User::find($this->getUserID($dco['user']))->memberOf()
+                ->attach(EnterprisePart::where('name', $dco['part'])->first()->id);
+        }
     }
 
     public function getUserID($email)
