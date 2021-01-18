@@ -110,14 +110,22 @@
     }
 
     const compileFaculty = row => {
-        keyCheck(uploaded[row.department][row.code].sections, row.section, {});
+        if (!isNaN(parseInt(row.section))) {
+            keyCheck(uploaded[row.department][row.code].sections, row.section, {});
 
-        if (uploaded[row.department][row.code].is_lab || uploaded[row.department][row.code].has_lab) {
-            uploaded[row.department][row.code].sections[row.section].lab = extractFaculty(row, 'lab');
-        }
+            if (uploaded[row.department][row.code].is_lab || uploaded[row.department][row.code].has_lab) {
+                uploaded[row.department][row.code].sections[row.section].lab = extractFaculty(row, 'lab');
+            }
 
-        if (!uploaded[row.department][row.code].is_lab) {
-            uploaded[row.department][row.code].sections[row.section].theory = extractFaculty(row, 'theory');
+            if (!uploaded[row.department][row.code].is_lab) {
+                uploaded[row.department][row.code].sections[row.section].theory = extractFaculty(row, 'theory');
+            }
+        } else {
+            diffTable = {};
+            uploaded = {};
+            uploadSpinner.classList.add('hidden');
+            alert(`All sections has to be numeric. Non-numeric section found for ${ row.code } '${ row.section }'. Please correct it and reupload the file`);
+            throw 'Non-numeric section found!';
         }
     }
 

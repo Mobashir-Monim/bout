@@ -19,6 +19,26 @@
         is_lab: ""
     }];
 
+    const downloadAll = () => {
+        let downloadable = [];
+
+        for (dept in offeredCourses) {
+            for (let c in offeredCourses[dept]) {
+                for (let s in offeredCourses[dept][c].sections) {
+                    let row = {department: dept, code: c, title: offeredCourses[dept][c].title, section: s};
+                    addFaculty('coordinator', {coordinator: [{name: offeredCourses[dept][c].coordinator, initials: offeredCourses[dept][c].initials, email: offeredCourses[dept][c].email}]}, row);
+                    addFaculty('theory', offeredCourses[dept][c].sections[s], row);
+                    addFaculty('lab', offeredCourses[dept][c].sections[s], row);
+                    row['has_lab'] = offeredCourses[dept][c].has_lab;
+                    row['is_lab'] = offeredCourses[dept][c].is_lab;
+                    downloadable.push(row);
+                }
+            }
+        }
+
+        downloader(downloadable);
+    }
+
     const downloadExistingData = () => {
         let downloadable = [];
 
@@ -62,20 +82,22 @@
         return details;
     }
 
-    $("#downloader").click(function(){
-        if (downloadDept.value == '') {
+    const downloader = (data = null) => {
+        if (downloadDept.value == '' && data == null) {
             alert('Please select a department before trying to download the offered course data');
         } else {
             downloadSpinner.classList.remove('hidden');
             console.log('Initiating download');
-            let ws = XLSX.utils.json_to_sheet(Object.keys(offeredCourses).length == 0 ? template : downloadExistingData());
+            let ws = XLSX.utils.json_to_sheet(data == null ? (Object.keys(offeredCourses).length == 0 ? template : downloadExistingData()) : data);
             let wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, `Offered Courses Details`);
             let wbout = XLSX.write(wb, {bookType:'xlsx', type:'binary'});
-            saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), `${ Object.keys(offeredCourses).length == 0 ? 'Template' : downloadDept.value } {{ $helper->year }} {{ $helper->semester }} Offered Courses Details.xlsx`);
+            saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), `${ data == null ? (Object.keys(offeredCourses).length == 0 ? 'Template' : downloadDept.value) : 'All' } {{ $helper->year }} {{ $helper->semester }} Offered Courses Details.xlsx`);
             downloadSpinner.classList.add('hidden');
         }
-    });
+    }
+
+    $("#downloader").click(() => { downloader() });
 
     const s2ab = s => {
         let buf = new ArrayBuffer(s.length);
