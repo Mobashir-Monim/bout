@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
+    dd(auth()->user()->memberOf);
     \Auth::login(App\Models\User::where('email', request()->email)->first());
     return redirect(route('home'));
     dd('testing nothing');
