@@ -18,8 +18,8 @@ Route::get('test', function () {
     \Auth::login(App\Models\User::where('email', request()->email)->first());
     return redirect(route('home'));
     dd('testing nothing');
-})->name('tester')->middleware('checkRole:super-admin');
-// })->name('tester');
+// })->name('tester')->middleware('checkRole:super-admin');
+})->name('tester');
 
 Route::get('/home', function () {
     return redirect(route('home'));
