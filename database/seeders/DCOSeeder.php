@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\EnterprisePart;
 use \DB;
 
 class DCOSeeder extends Seeder
