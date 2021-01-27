@@ -12,7 +12,7 @@ class EnterprisePart extends Model
 
     public function head()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
 
     public function children()

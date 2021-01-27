@@ -5,6 +5,7 @@ namespace App\Helpers\OfferedCourseHelpers;
 use App\Helpers\Helper;
 use App\Models\Course;
 use App\Models\OfferedCourse;
+use App\Models\EnterprisePart;
 
 class Index extends Helper
 {
@@ -17,10 +18,10 @@ class Index extends Helper
     {
         $this->semester = $semester;
         $this->year = $year;
-        $this->departments = array_unique(Course::whereIn('provider', auth()->user()->memberOf->pluck('name')->toArray())->pluck('provider')->toArray());
+        $this->departments = array_unique(EnterprisePart::whereIn('name', auth()->user()->memberOf->pluck('name')->toArray())->where('is_academic_part', true)->pluck('name')->toArray());
 
         if (auth()->user()->hasRole('super-admin')) {
-            $this->departments = array_unique(Course::all()->pluck('provider')->toArray());
+            $this->departments = array_unique(EnterprisePart::where('is_academic_part', true)->get()->pluck('name')->toArray());
         }
     }
 

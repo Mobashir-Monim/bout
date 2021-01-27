@@ -59,6 +59,14 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/permission', [App\Http\Controllers\PermissionController::class, 'index'])->name('permissions');
         Route::post('/permission/add', [App\Http\Controllers\PermissionController::class, 'addPermission'])->name('permissions.add');
         
+        Route::get('/enterprise-parts', [App\Http\Controllers\EnterprisePartController::class, 'index'])->name('enterprise-parts');
+        Route::name('enterprise-parts.')->prefix('enterprise-parts')->group(function () {
+            Route::get('/{part}/show', [App\Http\Controllers\EnterprisePartController::class, 'show'])->name('show');
+            Route::post('/{part}/type', [App\Http\Controllers\EnterprisePartController::class, 'changeType'])->name('change-type');
+            Route::post('/{part}/head', [App\Http\Controllers\EnterprisePartController::class, 'changeHead'])->name('change-head');
+            Route::post('/{part}/dco', [App\Http\Controllers\EnterprisePartController::class, 'changeDCO'])->name('change-dco');
+            Route::post('/{part}/member', [App\Http\Controllers\EnterprisePartController::class, 'changeMember'])->name('change-member');
+        });
     });
 
     Route::middleware(['checkRole:super-admin,dco'])->group(function () {
