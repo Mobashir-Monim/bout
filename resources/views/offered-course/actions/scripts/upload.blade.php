@@ -201,7 +201,8 @@
     const buildSectionBlocks = (dept, c, s, type, results) => {
         if (uploaded[dept][c].sections[s].hasOwnProperty(type)) {
             for (let i = 0; i < uploaded[dept][c].sections[s][type].length; i++) {
-                let createable = diffTable[c].mode == 'create' ? true : !offeredCourses[dept][c].sections.hasOwnProperty(s);
+                let createable = diffTable[c].mode == 'create' ? true : offeredCourses[dept][c].sections == undefined;
+                createable = createable ? true : !offeredCourses[dept][c].sections.hasOwnProperty(s);
                 createable = createable ? true : !offeredCourses[dept][c].sections[s].hasOwnProperty(type);
                 createable = createable ? true : offeredCourses[dept][c].sections[s][type].length - 1 < i;
 
