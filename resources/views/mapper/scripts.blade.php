@@ -1,10 +1,40 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.0/jszip.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.0/xlsx.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.8/jszip.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.8/xlsx.min.js"></script>
 <script>
+    let mapTypesComplex = {
+        username_to_id: {
+            id: 'username',
+            description: 'Convert buX usernames of students to Student ID <br><b><span class="text-danger">NOTE:</span> The file must contain a header column titled "username"</b>',
+            to: 'id',
+        },
+        id_to_username: {
+            id: 'student_id',
+            description: 'Convert Student ID of students to buX username <br><b><span class="text-danger">NOTE:</span> The file must contain a header column titled "student_id"</b>',
+            to: 'username',
+        },
+        id_to_email: {
+            id: 'student_id',
+            description: 'Convert Student ID of students to USIS email address <br><b><span class="text-danger">NOTE:</span> The file must contain a header column titled "student_id"</b>',
+            to: 'usis_email',
+        },
+        id_to_gsuite: {
+            id: 'student_id',
+            description: 'Convert Student ID of students to BracU G-suite email address <br><b><span class="text-danger">NOTE:</span> The file must contain a header column titled "student_id"</b>',
+            to: 'gsuite_email',
+        },
+    };
+    let mapType = document.getElementById('map_type');
+    let mapDescription = document.getElementById('map_description');
     let usernameFileHeaders = null;
-    let usernameFileData = [];
+    let fileData = [];
     let mappableState = 0;
     let mappedData = [];
+    let returnee;
+
+    const changeMapDescription = () => {
+        mapDescription.innerHTML = mapTypesComplex[mapType.value].description;
+    }
 
     const toggleSpinner = marker => {
         let spinner = document.getElementById(`${ marker }-status-spinner`);
@@ -40,18 +70,18 @@
     }
 
     const mapStudentIDs = () => {
-        usernameFileHeaders = null, usernameFileData = [], mappableState = 0, mappedData = [];
+        usernameFileHeaders = null, fileData = [], mappableState = 0, mappedData = [];
         startFileProcess('username');
     }
 
     const continueMapOperation = () => {
-        let mappableState = usernameFileHeaders.includes('email') || usernameFileHeaders.includes('username'), mappable, objName = 'username';
+        let mappableState = usernameFileHeaders.includes(mapTypesComplex[mapType.value].id), mappable, objName = mapTypesComplex[mapType.value].id;
         
         if (!mappableState) {
-            if (usernameFileHeaders.includes('Username')) {
+            if (usernameFileHeaders.includes('Username') && mapTypesComplex[mapType.value].id == 'username') {
                 objName = 'Username';
             } else {
-                alert('The file does not contain usernames or email addresses 😶😶😶');
+                alert(`The file does not contain ${ mapTypesComplex[mapType.value].id } addresses 😶😶😶`);
                 changeStatus('username', 'Waiting to be run 🙃');
             }
         }
@@ -76,19 +106,32 @@
             credentials: "same-origin",
             body: JSON.stringify({
                 data: mappable,
+                mapType: mapType.value,
             })
         }).then(response => {
             return response.json();
         }).then(data => {
             data = data.data;
+            returnee = data;
+            for (let fRowNum in fileData) {
+                let fRow = fileData[fRowNum];
+                let temp = {};
 
-            for (u in usernameFileData) {
-                let row = usernameFileData[u];
-                row[objName] = data.filter(r => { return r.username == row[objName] })[0].id;
+                for (let key in fRow) {
+                    if (key != objName) {
+                        temp[key] = fRow[key];
+                    } else {
+                        temp[key] = fRow[key];
+                        temp[mapTypesComplex[mapType.value].to] = data.filter(r => { return r[mapTypesComplex[mapType.value].id] == fRow[objName] })[0][mapTypesComplex[mapType.value].to];
+                    }
+                }
+
+                console.log(temp);
+                mappedData.push(temp);
             }
-
+            console.log(mappedData);
             let filename = `mapped-${ getFilename(document.getElementById('username_file').value) }`.replace('.csv', '').replace('.xls', '').replace('.xlsx', '');
-            document.getElementById('username-output').innerHTML = `<a href="#/" class="text-primary stretched-link" onclick="downloadCrunchedData(usernameFileData, '${ filename }')">${ filename }</a>`;
+            document.getElementById('username-output').innerHTML = `<a href="#/" class="text-primary stretched-link" id="downloader" onclick="downloadCrunchedData(fileData, '${ filename }')">${ filename }</a>`;
             changeStatus('username', 'Completed! 💪😎😇✌');
             alert('Completed! 💪😎😇✌');
         }).catch(error => {
@@ -109,8 +152,10 @@
     const collectMapData = (objName) => {
         let temp = [];
 
-        usernameFileData.forEach(row => {
-            temp.push({'username': row[objName]});
+        fileData.forEach(row => {
+            let t = {};
+            t[mapTypesComplex[mapType.value].id] = row[objName]
+            temp.push(t);
         });
 
         return temp;
@@ -153,7 +198,7 @@
     const putResults = (file, headers, result) => {
         if (file == "username") {
             usernameFileHeaders = headers;
-            usernameFileData = result;
+            fileData = result;
         } else if (file == "test") {
             conHeader = headers;
             con = result;
@@ -167,10 +212,19 @@
     }
 
     const downloadCrunchedData = (marker, name) => {
-        let resultingWS = XLSX.utils.json_to_sheet(marker); 
+        console.log('Initiating download');
+        let ws = XLSX.utils.json_to_sheet(mappedData);
         let wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, resultingWS, 'Sheet');   
-        XLSX.writeFile(wb, `${ name }.xlsx`);
+        XLSX.utils.book_append_sheet(wb, ws, "Results");
+        let wbout = XLSX.write(wb, {bookType:'xlsx', type:'binary'});
+        saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), `${ name }.xlsx`);
+    }
+
+    const s2ab = s => {
+        let buf = new ArrayBuffer(s.length);
+        let view = new Uint8Array(buf);
+        for (let i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
     }
 
     let postReaderOps = {'username': continueMapOperation, 'test': ''};

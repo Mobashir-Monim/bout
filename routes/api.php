@@ -18,6 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/map/students', [App\Http\Controllers\MapperController::class, 'mapStudents'])->name('student-map');
+
 Route::name('sbout.')->prefix('sbout')->group(function () {
     Route::post('/login', [App\Http\Controllers\PlatformAccessControllers\SBoutController::class, 'login']);
 });

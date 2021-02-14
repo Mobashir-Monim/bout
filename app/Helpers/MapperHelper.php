@@ -6,16 +6,27 @@ use App\Models\StudentMap;
 
 class MapperHelper extends Helper
 {
+    protected $mapType;
+
+    public function __construct($mapType)
+    {
+        $this->mapType = $mapType;
+    }
+
     public function mapStudents($data)
     {
-        if (sizeof($data[0]) > 1) {
-            return $this->mapDualKey($data);
+        if ($this->mapType == 'username_to_id') {
+            return $this->usernameToStudentID($data);
+        } elseif ($this->mapType == 'id_to_username') {
+            return $this->studentIDToUsername($data);
+        } elseif ($this->mapType == 'id_to_email') {
+            return $this->studentIDToUSISEmail($data);
         } else {
-            return $this->mapSingleKey($data);
+            return $this->studentIDToGsuiteEmail($data);
         }
     }
 
-    public function mapSingleKey($data)
+    public function usernameToStudentID($data)
     {
         foreach ($data as $k => $row) {
             foreach ($row as $key => $value) {
@@ -27,24 +38,36 @@ class MapperHelper extends Helper
         return $data;
     }
 
-    public function mapDualKey($data)
+    public function studentIDToUsername($data)
     {
         foreach ($data as $k => $row) {
-            $temp = [];
-
             foreach ($row as $key => $value) {
-                $t = StudentMap::where($key, $value)->first();
-                array_push($temp, is_null($t) ? 'Not found, please let the devs know' : $t->student_id);
+                $usernames = StudentMap::where($key, $value)->get();
+                $data[$k]['username'] = sizeof($usernames) == 0 ? 'Not found, please let the devs know' : implode(', ', $usernames->pluck('username')->toArray());
             }
+        }
 
-            if ($temp[0] == $temp[1]) {
-                $data[$k]['id'] = $temp[0];
-            } elseif ($temp[0] == 'Not found, please let the devs know') {
-                $data[$k]['id'] = $temp[1];
-            } elseif ($temp[1] == 'Not found, please let the devs know') {
-                $data[$k]['id'] = $temp[0];
-            } else {
-                $data[$k]['id'] = 'Student ID mismatch, please let the devs know';
+        return $data;
+    }
+
+    public function studentIDToUSISEmail($data)
+    {
+        foreach ($data as $k => $row) {
+            foreach ($row as $key => $value) {
+                $usernames = StudentMap::where($key, $value)->where('email', 'not like', '%@g.bracu.ac.bd')->get();
+                $data[$k]['usis_email'] = sizeof($usernames) == 0 ? 'Not found, please let the devs know' : implode(', ', $usernames->pluck('email')->toArray());
+            }
+        }
+
+        return $data;
+    }
+
+    public function studentIDToGsuiteEmail($data)
+    {
+        foreach ($data as $k => $row) {
+            foreach ($row as $key => $value) {
+                $usernames = StudentMap::where($key, $value)->where('email', 'like', '%@g.bracu.ac.bd')->get();
+                $data[$k]['gsuite_email'] = sizeof($usernames) == 0 ? 'Not found, please let the devs know' : implode(', ', $usernames->pluck('email')->toArray());
             }
         }
 

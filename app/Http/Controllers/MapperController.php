@@ -14,7 +14,7 @@ class MapperController extends Controller
 
     public function mapStudents()
     {
-        $helper = new MapperHelper;
+        $helper = new MapperHelper(request()->mapType);
         $data = $helper->mapStudents(request()->data);
 
         return response()->json([
