@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
-    $student = App\Models\Student::find(11121012);
-    dd($student->usisEmails, $student->gsuiteEmail);
     \Auth::login(App\Models\User::where('email', request()->email)->first());
     return redirect(route('home'));
     dd('testing nothing');
