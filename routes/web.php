@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
+    $student = App\Models\Student::find(11121012);
+    dd($student->usisEmails, $student->gsuiteEmail);
     \Auth::login(App\Models\User::where('email', request()->email)->first());
     return redirect(route('home'));
     dd('testing nothing');
@@ -79,6 +81,11 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/update/{year}/{semester}', [App\Http\Controllers\OfferedCourseController::class, 'update'])->name('update');
             Route::post('/delete/{year}/{semester}', [App\Http\Controllers\OfferedCourseController::class, 'delete'])->name('delete');
         });
+    });
+
+    Route::middleware(['checkRole:super-admin,it-team'])->name('it-team.')->prefix('/it-team')->group(function () {
+        Route::get('/student/emails/index', [App\Http\Controllers\GsuiteTrackerController::class, 'index'])->name('student.emails.index');
+        Route::post('/student/emails/{student}/update', [App\Http\Controllers\GsuiteTrackerController::class, 'update'])->name('student.emails.update');
     });
 
     Route::post('/eval/semester-confirm', [App\Http\Controllers\EvalController::class, 'semesterConfirm'])->name('course-eval.semester-confirm');

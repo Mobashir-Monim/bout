@@ -32,6 +32,9 @@
                                 <a href="{{ route('offered-courses') }}" class="btn btn-dark w-100">Offered Courses</a>
                             </div>
                             <div class="col-md-6 mb-2">
+                                <a href="{{ route('it-team.student.emails.index') }}" class="btn btn-dark w-100">Gsuite Tracker</a>
+                            </div>
+                            <div class="col-md-6 mb-2">
                                 <a href="{{ route('enterprise-parts') }}" class="btn btn-dark w-100">Enterprise Parts</a>
                             </div>
                             <div class="col-md-6 mb-2">
