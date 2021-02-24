@@ -83,6 +83,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['checkRole:super-admin,it-team'])->name('it-team.')->prefix('/it-team')->group(function () {
         Route::get('/student/emails/index', [App\Http\Controllers\GsuiteTrackerController::class, 'index'])->name('student.emails.index');
+        Route::post('/student/search', [App\Http\Controllers\GsuiteTrackerController::class, 'search'])->name('student.search');
         Route::post('/student/emails/{student}/update', [App\Http\Controllers\GsuiteTrackerController::class, 'update'])->name('student.emails.update');
     });
 
