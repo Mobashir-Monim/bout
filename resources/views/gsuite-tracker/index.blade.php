@@ -6,7 +6,7 @@
             <div class="card border-bottom-2">
                 <div class="card-body">
                     <h5 class="text-left border-bottom mb-2">Search Student</h5>
-                    <form action="{{ route('it-team.student.search') }}" method="POST">
+                    <form action="{{ route('it-team.student.search') }}" method="GET">
                         @csrf
                         <div class="row">
                             <div class="col-md-8 my-1 text-right">
@@ -29,7 +29,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 my-2">
-                    {{ $students->links() }}
+                    {{ $students->onEachSide(0)->links() }}
                 </div>
             </div>
         </div>
