@@ -30,9 +30,14 @@ class GsuiteTrackerController extends Controller
             return redirect()->route('it-team.student.emails.index');
         }
 
+        return redirect()->route('it-team.student.search.results', ['phrase' => $request->phrase]);
+    }
+
+    public function searchResult($phrase, Request $request)
+    {
         return view('gsuite-tracker.index', [
-            'students' => (new Search($request->phrase))->students,
-            'phrase' => $request->phrase
+            'students' => (new Search($phrase))->students,
+            'phrase' => $phrase
         ]);
     }
 }
