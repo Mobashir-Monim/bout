@@ -13,7 +13,7 @@
                     </div>
                 </div>
             </form>
-            <div class="row"><div class="col-md-12 border-bottom border-primary"></div></div>
+            <div class="row"><div class="col-md-12 border-top border-primary"></div></div>
             <div class="row">
                 <div class="col-md-12" style="max-height: 60vh; overflow-y: scroll">
                     @foreach ($students as $student)
@@ -21,7 +21,7 @@
                     @endforeach
                 </div>
             </div>
-            <div class="row"><div class="col-md-12 border-top border-primary"></div></div>
+            <div class="row"><div class="col-md-12 border-bottom border-primary"></div></div>
             <div class="row">
                 <div class="col-md-12 my-2">
                     {{ $students->onEachSide(0)->links() }}
