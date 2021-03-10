@@ -350,3 +350,11 @@ input[type=file] {
 .nav-item .active-2 {
     color: #007bff !important;
 }
+
+.card-left-img {
+    height: 150px;
+    background-color: rgba(204, 204, 204, 0);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 80%;
+}
