@@ -15,7 +15,7 @@
                 @include('layouts.nav.items.student-gsuite-tracker')
             @endif
             
-            @if(auth()->user()->email == 'mobashir.monim@bracu.ac.bd' || auth()->user()->email == 'ext.mobashir.monim@bracu.ac.bd')
+            @if(auth()->user()->hasRole('super-admin'))
                 @include('layouts.nav.items.enterprise-parts')
                 @include('layouts.nav.items.permissions')
                 @include('layouts.nav.items.roles')
