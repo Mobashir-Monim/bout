@@ -124,7 +124,7 @@
                     </li>
                     <li><a href="https://drive.google.com/file/d/1B_yQG9MlazCjSR8hrd6CRSMVuPCRvNJZ/view?usp=sharing" target="_blank">Staff Tuition Fee Waiver Form</a></li>
                     <li>
-                        Travellinnng Authorization Form
+                        Travelling Authorization Form
                         <ul>
                             <li><a href="https://drive.google.com/file/d/1l7EGSUnt-8J1lE02IeUFGMhdVv4GKsSp/view?usp=sharing" target="_blank">Domestic</a></li>
                             <li><a href="https://drive.google.com/file/d/1PvDxpuzcrQJogo87txzqP8J0PcCYD-wl/view?usp=sharing" target="_blank">International</a></li>
