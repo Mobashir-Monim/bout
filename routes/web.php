@@ -55,6 +55,42 @@ Route::middleware(['auth'])->group(function () {
         Route::get('{department}/{course}/{section}/lab', [App\Http\Controllers\EvalController::class, 'labReport'])->name('eval-report.lab');
     });
 
+    Route::prefix('/faculty-info')->group(function () {
+        Route::get('/', [App\Http\Controllers\FacultyInfoControllers\IndexController::class, 'index'])->name('faculty-info');
+
+        Route::name('faculty-info.')->group(function () {
+            Route::get('/forms', [App\Http\Controllers\FacultyInfoControllers\FormsController::class, 'index'])->name('forms');
+            
+            // Forms CMS Route
+            
+            Route::get('/announcemennts', [App\Http\Controllers\FacultyInfoControllers\AnnouncementsController::class, 'index'])->name('announcements');
+
+            // Announcements CMS Route
+
+            Route::get('/tutorials', [App\Http\Controllers\FacultyInfoControllers\TutorialsController::class, 'index'])->name('tutorials');
+
+            // Tutorials CMS Route
+
+            Route::get('/calendar', [App\Http\Controllers\FacultyInfoControllers\CalendarController::class, 'index'])->name('calendar');
+
+            // Calendar CMS Route
+
+            Route::get('/services', [App\Http\Controllers\FacultyInfoControllers\ServicesController::class, 'index'])->name('services');
+
+            // Services CMS Route
+
+            Route::get('/documents', [App\Http\Controllers\FacultyInfoControllers\DocumentsController::class, 'index'])->name('documents');
+
+            // Documents CMS Route
+
+            Route::get('/contacts', [App\Http\Controllers\FacultyInfoControllers\ContactsController::class, 'index'])->name('contacts');
+
+            // Contacts CMS Route
+
+
+        });
+    });
+
     Route::middleware(['checkRole:super-admin'])->group(function () {
         Route::get('/permission', [App\Http\Controllers\PermissionController::class, 'index'])->name('permissions');
         Route::post('/permission/add', [App\Http\Controllers\PermissionController::class, 'addPermission'])->name('permissions.add');

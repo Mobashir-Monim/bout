@@ -41,8 +41,8 @@
         <div class="container-fluid">
             <div class="row">
                 @include('layouts.nav.index')
-                <main role="main" class="col-md-9 col-lg-10 ml-sm-auto px-md-4 pt-4" id="main">
-                    <div class="container">
+                <main role="main" class="col-md-9 col-lg-10 ml-sm-auto {{ startsWith(request()->url(), route('faculty-info')) ? 'p-0' : 'px-md-4 pt-4' }}" id="main">
+                    <div class="{{ startsWith(request()->url(), route('faculty-info')) ? 'container-fluid p-0' : 'container' }}">
                         @include('flash::message')
                         @yield('content')
                     </div>

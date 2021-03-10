@@ -346,3 +346,7 @@ input[type=file] {
 .nav-link:hover {
     color: #275cab !important;
 }
+
+.nav-item .active-2 {
+    color: #007bff !important;
+}

@@ -5,6 +5,7 @@
             @include('layouts.nav.items.formatter')
             @include('layouts.nav.items.evaluations')
             @include('layouts.nav.items.description-builder')
+            @include('layouts.nav.items.faculty-info')
 
             @if (auth()->user()->hasRole('dco') || auth()->user()->hasRole('super-admin'))
                 @include('layouts.nav.items.offered-courses')
