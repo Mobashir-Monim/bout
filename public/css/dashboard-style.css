@@ -342,3 +342,7 @@ input[type=file] {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
+.nav-link:hover {
+    color: #275cab !important;
+}
