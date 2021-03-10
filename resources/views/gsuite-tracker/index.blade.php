@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('content')
     <h5 class="text-left border-bottom mb-2">Search Student</h5>

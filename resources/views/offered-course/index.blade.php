@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('content')
     <form action="{{ route('offered-courses') }}" method="POST" id="run-confirm">
