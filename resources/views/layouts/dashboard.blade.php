@@ -21,8 +21,8 @@
             
             <span class="navbar-brand col-md-3 col-lg-2 mr-0 px-3">
                 <i class="fas fa-list text-white pr-3 d-md-none" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation"></i>
-                <a class="text-white d-md-none" href="{{ route('home') }}">SBout</a>
-                <a class="text-white ml-5 d-none d-md-block" href="{{ route('home') }}">SBout</a>
+                <a class="text-white d-md-none" href="{{ route('home') }}">Bout</a>
+                <a class="text-white ml-5 d-none d-md-block" href="{{ route('home') }}">Bout</a>
             </span>
             
             <ul class="navbar-nav pr-5 py-1 d-none d-md-block">
