@@ -11,6 +11,7 @@
         setTimeout(() => {
             fetch("{{ route('role-users', ['role' => 'id']) }}".replace('id', roleID))
                 .then(response => {
+                    console.log(response)
                     return response.json();
                 }).then(data => {
                     if (data.success) {
@@ -30,7 +31,15 @@
                                     Limit: <input class="form-control" name="limit" id="limit" value="${ role.limit }" placeholder="Role Limit" step="1" min="1" />
                                 </div>
                                 <div class="col-md mb-1 mt-auto">
-                                    <a href="#/" onclick="saveRoleChanges(${ roleID })" class="btn btn-dark w-100">Save Changes</a>
+                                    <a href="#/" onclick="saveRoleChanges('${ roleID }')" class="btn btn-dark w-100">Save Changes</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8 my-1">
+                                    <input type="email" name="email" id="user-email" class="form-control" placeholder="Email Address to add">
+                                </div>
+                                <div class="col-md-4 my-1">
+                                    <button type="button" class="btn btn-dark w-100" onclick="addUser('${ roleID }')">Add user to role</button>
                                 </div>
                             </div>
                             <div class="row">
@@ -72,16 +81,81 @@
                         modalBtn.click();
                         spinner.classList.add('hidden');
                     } else {
+                        console.log('here')
                         alert('Whoops! Something went wrong...');
                     }
                 }).catch(error => {
-                    alert('Whoops! Something went wrong...');
                     console.log(error);
+                    alert('Whoops! Something went wrong...');
                 });
         }, 100);
     }
 
-    const saveRoleChanges = () => {
-        
+    const saveRoleChanges = (roleID) => {
+        let name = document.getElementById('role_name').value;
+        let display_name = document.getElementById('display').value;
+        let limit = document.getElementById('limit').value;
+        updateView(display_name, limit, roleID);
+        updateBackend(name, display_name, limit, roleID);
+    }
+
+    const updateView = (name, limit, roleID) => {
+        modalTitle.innerText = `Viewing ${ name }`;
+        document.getElementById(`${ roleID }_name`).innerHTML = name;
+        document.getElementById(`${ roleID }_limit`).innerHTML = limit;
+    }
+
+    const updateBackend = (name, display_name, limit, roleID) => {
+        let endpoint = `{{ route('role.update', ['role' => 'replace']) }}`.replace('replace', roleID);
+
+        fetch(`${ endpoint }`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json, text-plain, */*",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                method: 'post',
+                credentials: "same-origin",
+                body: JSON.stringify({
+                    name: name,
+                    display_name: display_name,
+                    limit: limit,
+                })
+            }).then(response => {
+                console.log(response)
+                return response.json();
+            }).then(data => {
+                alert(`Yay! Successfully make changes!`);
+            }).catch(error => {
+                console.log(error);
+                alert(`Whoops! Something went wrong while trying to update. Please try again later.`);
+            });
+    }
+
+    const addUser = roleID => {
+        let endpoint = `{{ route('role.add-user', ['role' => 'replace']) }}`.replace('replace', roleID);
+
+        fetch(`${ endpoint }`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json, text-plain, */*",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                method: 'post',
+                credentials: "same-origin",
+                body: JSON.stringify({
+                    email: document.getElementById('user-email').value,
+                })
+            }).then(response => {
+                console.log(response)
+                return response.json();
+            }).then(data => {
+                alert(`${ data.message }`);
+            }).catch(error => {
+                console.log(error);
+                alert(`Whoops! Something went wrong while trying to update. Please try again later.`);
+            });
     }
 </script>

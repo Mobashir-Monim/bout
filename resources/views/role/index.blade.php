@@ -32,8 +32,8 @@
                                     @foreach ($roles as $key => $role)
                                         <tr>
                                             <th scope="row" class="py-1">{{ $key + 1 }}</th>
-                                            <td class="py-1">{{ $role->display_name }}</td>
-                                            <td class="py-1">{{ $role->limit }}</td>
+                                            <td class="py-1" id="{{ $role->id }}_name">{{ $role->display_name }}</td>
+                                            <td class="py-1" id="{{ $role->id }}_limit">{{ $role->limit }}</td>
                                             <td class="py-1"><a href="#/" onclick="viewDetails('{{ $role->id }}')">View Role Details</a> <div class="mt-2 spinner-border hidden" role="status" style="width: 0.8rem; height: 0.8rem;" id="spinner-{{ $role->id }}"><span class="sr-only">Loading...</span></div></td>
                                         </tr>
                                     @endforeach
