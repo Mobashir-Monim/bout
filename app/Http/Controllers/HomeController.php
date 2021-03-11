@@ -30,4 +30,17 @@ class HomeController extends Controller
     {
         return view('description-builder.index');
     }
+
+    public function updateProfile(Request $request)
+    {
+        $user = auth()->user();
+        $user->phone = $request->phone;
+        $user->show_phone = $request->show_phone;
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully updated phone and phone discoverability.'
+        ]);
+    }
 }

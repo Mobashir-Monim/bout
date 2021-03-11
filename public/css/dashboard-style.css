@@ -366,3 +366,7 @@ input[type=file] {
 .material-icons-outlined {
     vertical-align: text-bottom;
 }
+
+.input-icon {
+    font-size: 1.5em !important;
+}

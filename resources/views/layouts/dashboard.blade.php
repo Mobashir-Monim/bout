@@ -43,7 +43,11 @@
                 @include('layouts.nav.index')
                 <main role="main" class="col-md-9 col-lg-10 ml-sm-auto {{ startsWith(request()->url(), route('faculty-info')) ? 'p-0' : 'px-md-4 pt-4' }}" id="main">
                     <div class="{{ startsWith(request()->url(), route('faculty-info')) ? 'container-fluid p-0' : 'container' }}">
-                        @include('flash::message')
+                        <div class="row">
+                            <div class="col-md-12" id="flash-zone">
+                                @include('flash::message')
+                            </div>
+                        </div>
                         @yield('content')
                     </div>
                 </main>
