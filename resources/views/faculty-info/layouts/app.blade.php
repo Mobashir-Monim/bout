@@ -24,7 +24,15 @@
 
     <main role="main" class="col-md-12 col-lg-12 ml-sm-autopx-md-4 pt-4" id="main">
         <div class="container">
-            @yield('faculty-info.content')
+            @if (env('APP_ENV') == 'prod')
+                <div class="row justify-content-center">
+                    <div class="col-md-8 text-center">
+                        <h1 class="border-bottom text-secondary mt-5">Coming Soon...</h1>
+                    </div>
+                </div>
+            @else
+                @yield('faculty-info.content')
+            @endif
         </div>
     </main>
 @endsection
