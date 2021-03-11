@@ -52,7 +52,7 @@
                 <div class="card">
                     <div class="card-header" id="hr-forms-heading">
                         <h2 class="mb-0">
-                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#hr-forms" aria-expanded="false" aria-controls="ocoe-forms">
+                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#hr-forms" aria-expanded="false" aria-controls="hr-forms">
                                 Human Resources Forms
                             </button>
                         </h2>
@@ -139,7 +139,7 @@
                 <div class="card">
                     <div class="card-header" id="registrars-forms-heading">
                         <h2 class="mb-0">
-                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#registrars-forms" aria-expanded="false" aria-controls="ocoe-forms">
+                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#registrars-forms" aria-expanded="false" aria-controls="registrars-forms">
                                 Registrar's Office Forms
                             </button>
                         </h2>

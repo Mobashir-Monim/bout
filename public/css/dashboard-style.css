@@ -358,3 +358,7 @@ input[type=file] {
     background-repeat: no-repeat;
     background-size: 80%;
 }
+
+.bg-body {
+    background-color: #f8fafc;
+}
