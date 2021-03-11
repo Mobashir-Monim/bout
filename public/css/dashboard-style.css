@@ -362,3 +362,7 @@ input[type=file] {
 .bg-body {
     background-color: #f8fafc;
 }
+
+.material-icons-outlined {
+    vertical-align: text-bottom;
+}
