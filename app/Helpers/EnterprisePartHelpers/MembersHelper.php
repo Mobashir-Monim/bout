@@ -5,6 +5,7 @@ namespace App\Helpers\EnterprisePartHelpers;
 use App\Helpers\Helper;
 use App\Models\User;
 use App\Models\Role;
+use DB;
 
 class MembersHelper extends Helper
 {
@@ -42,19 +43,60 @@ class MembersHelper extends Helper
 
     public function addDCO()
     {
-        $this->addMember();
-        $this->member->roles()->attach(Role::where('name', 'dco')->first()->id);
+        $role = Role::where('name', 'dco')->first();
+
+        if (!$this->hasRoleInPart($role)) {
+            $this->addRole($role);
+        }
     }
 
     public function removeMember()
     {
-        $this->member->memberOf()->detach($this->part->id);
+        $role = Role::where('name', 'faculty')->first();
+
+        if ($this->hasRoleInPart($role)) {
+            $this->addRole($role);
+        }
     }
 
     public function addMember()
     {
-        if (!in_array($this->part->id, $this->member->memberOf->pluck('id')->toArray())) {
-            $this->member->memberOf()->attach($this->part->id);
+        $role = Role::where('name', 'faculty')->first();
+
+        if (!$this->hasRoleInPart($role)) {
+            $this->addRole($role);
         }
+    }
+
+    public function hasRoleInPart($role)
+    {
+        $role_instance = DB::table('role_user')
+            ->where('role_id', $role->id)
+            ->where('user_id', $this->member->id)
+            ->where('enterprise_part_id', $this->part->id)
+            ->first();
+
+
+        return !is_null($role_instance);
+    }
+
+    public function addRole($role)
+    {
+        $insert = DB::table('role_user')->insert([[
+            'role_id' => $role->id,
+            'user_id' => $this->member->id,
+            'enterprise_part_id' => $this->part->id
+        ]]);
+    }
+
+    public function removeRole($role)
+    {
+        $role_instance = DB::table('role_user')
+            ->where('role_id', $role->id)
+            ->where('user_id', $this->member->id)
+            ->where('enterprise_part_id', $this->part->id)
+            ->first();
+
+        $role_instance->delete();
     }
 }

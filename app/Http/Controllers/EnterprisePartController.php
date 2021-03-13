@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\EnterprisePart;
 use App\Models\Role;
 use App\Helpers\EnterprisePartHelpers\MembersHelper;
+use App\Helpers\EnterprisePartHelpers\FindMembers;
 
 class EnterprisePartController extends Controller
 {
@@ -18,15 +19,11 @@ class EnterprisePartController extends Controller
 
     public function show(EnterprisePart $part, Request $request)
     {
-        $dcos = [];
+        $helper = new FindMembers($part);
+        $dcos = $helper->membersWithRole(Role::where('name', 'dco')->first());
+        $members = $helper->allMembers();
 
-        foreach (Role::where('name', 'dco')->first()->users as $dco) {
-            if (in_array($part->id, $dco->memberOf->pluck('id')->toArray())) {
-                $dcos[] = $dco;
-            }
-        }
-
-        return view('enterprise-part/show', ['part' => $part, 'dcos' => $dcos]);
+        return view('enterprise-part/show', ['part' => $part, 'dcos' => $dcos, 'members' => $members]);
     }
 
     public function changeHead(EnterprisePart $part, Request $request)
@@ -47,7 +44,7 @@ class EnterprisePartController extends Controller
             $helper->removeDCO();
         }
 
-        $message = $request->email . $request->mode == 1 ? " added to " : " removed from " . "$part->name";
+        $message = $request->email . ($request->mode == 1 ? " added to " : " removed from ") . "$part->name";
         $this->flashMessage('success', $message);
         
         return redirect()->route('enterprise-parts.show', ['part' => $part->id]);
@@ -63,7 +60,7 @@ class EnterprisePartController extends Controller
             $helper->removeMember();
         }
 
-        $message = $request->email . $request->mode == 1 ? " added to " : " removed from " . "$part->name";
+        $message = $request->email . ($request->mode == 1 ? " added to " : " removed from ") . "$part->name";
         $this->flashMessage('success', $message);
         
         return redirect()->route('enterprise-parts.show', ['part' => $part->id]);
@@ -74,8 +71,19 @@ class EnterprisePartController extends Controller
         $part->is_academic_part = $request->type == 1;
         $part->save();
 
-        $message = $part->name . " changed to " . $part->is_academic_part ? "academic" : "non academic";
+        $message = "$part->name changed to " . ($part->is_academic_part ? "academic" : "non academic");
         $this->flashMessage('success', $message);
+
+        return redirect()->route('enterprise-parts.show', ['part' => $part->id]);
+    }
+
+    public function update(EnterprisePart $part, Request $request)
+    {
+        $part->name = $request->name;
+        $part->acronym = $request->acronym;
+        $part->save();
+
+        $this->flashMessage('success', "$part->name details updated");
 
         return redirect()->route('enterprise-parts.show', ['part' => $part->id]);
     }

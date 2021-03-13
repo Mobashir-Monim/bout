@@ -104,6 +104,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/{part}/head', [App\Http\Controllers\EnterprisePartController::class, 'changeHead'])->name('change-head');
             Route::post('/{part}/dco', [App\Http\Controllers\EnterprisePartController::class, 'changeDCO'])->name('change-dco');
             Route::post('/{part}/member', [App\Http\Controllers\EnterprisePartController::class, 'changeMember'])->name('change-member');
+            Route::post('/{part}/update', [App\Http\Controllers\EnterprisePartController::class, 'update'])->name('update');
         });
     });
 

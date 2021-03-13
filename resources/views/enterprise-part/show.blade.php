@@ -8,6 +8,22 @@
                     <h5 class="border-bottom border-primary">{{ $part->name }}</h5>
                     <div class="row my-2">
                         <div class="col-md-8">
+                            <form action="{{ route('enterprise-parts.update', ['part' => $part->id]) }}" method="POST">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-12 my-2">
+                                        <input type="text" name="name" class="form-control" value="{{ $part->name }}" placeholder="Enterprise Part Name">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 my-2">
+                                        <input type="text" name="acronym" class="form-control" value="{{ $part->acronym }}" placeholder="Enterprise Part Acronym">
+                                    </div>
+                                    <div class="col-md-6 my-2">
+                                        <button class="btn btn-dark w-100">Save</button>
+                                    </div>
+                                </div>
+                            </form>
                             <div class="row my-2">
                                 <div class="col-md-12">
                                     <h6 class="border-bottom mb-0"><b>Head</b></h6>
@@ -36,7 +52,7 @@
                                 <div class="col-md-12">
                                     <div class="card border-bottom border-primary" style="max-height: 20vh; overflow-y: scroll;">
                                         <div class="card-body pt-0">
-                                            @foreach ($part->members as $member)
+                                            @foreach ($members as $member)
                                                 <div class="row border-bottom">
                                                     <div class="col-md-6 my-1">
                                                         {{ $member->name }}
@@ -125,7 +141,7 @@
                             <form action="{{ route('enterprise-parts.change-type', ['part' => $part->id]) }}" method="POST">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-md-12 my-1">
+                                    <div class="col-md-12 my-2">
                                         <select name="type" class="form-control">
                                             @if ($part->is_academic_part)
                                                 <option value="1">Academic</option>
@@ -136,7 +152,7 @@
                                             @endif
                                         </select>
                                     </div>
-                                    <div class="col-md-12 my-1">
+                                    <div class="col-md-12 my-2">
                                         <button class="btn btn-dark w-100"><i class="fas fa-check"></i></button>
                                     </div>
                                 </div>
