@@ -6,6 +6,8 @@ use App\Helpers\Helper;
 use App\Models\Course;
 use App\Models\OfferedCourse;
 use App\Models\EnterprisePart;
+use App\Models\Role;
+use DB;
 
 class Index extends Helper
 {
@@ -18,18 +20,24 @@ class Index extends Helper
     {
         $this->semester = $semester;
         $this->year = $year;
-        $this->departments = array_unique(EnterprisePart::whereIn('name', auth()->user()->memberOf->pluck('name')->toArray())->where('is_academic_part', true)->pluck('name')->toArray());
-
+        $this->departments = array_unique(EnterprisePart::whereIn('id', $this->getDepartmentsIDs())->where('is_academic_part', true)->get()->pluck('name')->toArray());
+        
         if (auth()->user()->hasRole('super-admin')) {
             $this->departments = array_unique(EnterprisePart::where('is_academic_part', true)->get()->pluck('name')->toArray());
         }
     }
 
+    public function getDepartmentsIDs()
+    {
+        return DB::table('role_user')
+            ->where('role_id', Role::where('name', 'dco')->first()->id)
+            ->where('user_id', auth()->user()->id)
+            ->get()->pluck('enterprise_part_id')->toArray();
+    }
+
     public function getCourses()
     {
-        $courses = OfferedCourse::whereIn('course_id', Course::whereIn('provider', auth()->user()->memberOf
-                            ->pluck('name')
-                            ->toArray())
+        $courses = OfferedCourse::whereIn('course_id', Course::whereIn('provider', $this->departments)
                         ->get()
                         ->pluck('id')
                         ->toArray())

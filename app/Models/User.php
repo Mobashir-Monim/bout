@@ -90,9 +90,4 @@ class User extends Authenticatable
 
         return false;
     }
-
-    public function memberOf()
-    {
-        return $this->belongsToMany(EnterprisePart::class, 'enterprise_part_user', 'user_id', 'enterprise_part_id');
-    }
 }
