@@ -9,7 +9,13 @@
                     <div class="row">
                         @foreach ($parts as $part)
                             <div class="col-md-6 my-1 border-left border-bottom" onclick="window.open('{{ route('enterprise-parts.show', ['part' => $part->id]) }}', '_self')">
-                                <a href="#/" class="btn btn-link"><i class="fas fa-eye"></i></a><b>{{ $part->name }}</b>
+                                <a href="#/" class="btn btn-link">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <b>{{ $part->name }}</b>
+                                @if ($part->acronym != "" && !is_null($part->acronym))
+                                    ({{ $part->acronym }})
+                                @endif
                             </div>
                         @endforeach
                     </div>
