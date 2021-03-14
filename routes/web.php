@@ -141,6 +141,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/role/users/{role}', [App\Http\Controllers\RoleController::class, 'roleUsers'])->name('role-users')->middleware('checkRole:super-admin');
     Route::post('/role/update/{role}', [App\Http\Controllers\RoleController::class, 'update'])->name('role.update')->middleware('checkRole:super-admin');
     Route::post('/role/user/{role}', [App\Http\Controllers\RoleController::class, 'addUser'])->name('role.add-user')->middleware('checkRole:super-admin');
+    Route::delete('/role/user/{role}', [App\Http\Controllers\RoleController::class, 'removeUser'])->name('role.remove-user')->middleware('checkRole:super-admin');
 
     Route::get('/gc', function() {
         return view('gsuite-consolidate');

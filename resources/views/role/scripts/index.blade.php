@@ -11,11 +11,10 @@
         setTimeout(() => {
             fetch("{{ route('role-users', ['role' => 'id']) }}".replace('id', roleID))
                 .then(response => {
-                    console.log(response)
                     return response.json();
                 }).then(data => {
                     if (data.success) {
-                        let users = data.data.users;
+                        let instances = data.instances;
                         modalTitle.innerText = `Viewing ${ role.display_name }`;
                         let content =`
                             <div class="row">
@@ -35,11 +34,19 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-8 my-1">
+                                <div class="col-md-6 my-1">
                                     <input type="email" name="email" id="user-email" class="form-control" placeholder="Email Address to add">
                                 </div>
                                 <div class="col-md-4 my-1">
-                                    <button type="button" class="btn btn-dark w-100" onclick="addUser('${ roleID }')">Add user to role</button>
+                                    <select name="department" id="department" class="form-control">
+                                        <option value="">Please select the Enterprise part</option>
+                                        @foreach (App\Models\EnterprisePart::all() as $part)
+                                            <option value="{{ $part->id }}">{{ $part->name }}{{ !is_null($part->acronym) ? " ($part->acronym)" : "" }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-2 my-1">
+                                    <button type="button" class="btn btn-dark w-100" onclick="addUser('${ roleID }')"><span class="material-icons-outlined" style="font-size: 1.2em">person_add_alt</span></button>
                                 </div>
                             </div>
                             <div class="row">
@@ -51,20 +58,22 @@
                                                 <th scope="col">SL</th>
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Email</th>
-                                                <th scope="col">Assigned: ${ users.length }</th>
+                                                <th scope="col">Part</th>
+                                                <th scope="col">Assigned: ${ instances.length }</th>
                                             </tr>
                                         </thead>
                                         <tbody id="role-body">
                             `;
 
-                        for(let i = 0; i < users.length; i++) {
+                        for(let i = 0; i < instances.length; i++) {
                             content = `
                                 ${ content }
-                                <tr id="${ roleID }-${ users[i].email }">
+                                <tr id="role-rel-${ instances[i].id }">
                                     <th scope="row">${ i + 1 }</th>
-                                    <td>${ users[i].name }</td>
-                                    <td>${ users[i].email }</td>
-                                    <td><a href="#/" onclick="removeRole('${ roleID }', '${ users[i].email }')">Remove Role</a></td>
+                                    <td>${ instances[i].user.name }</td>
+                                    <td>${ instances[i].user.email }</td>
+                                    <td>${ instances[i].part.acronym == null ? instances[i].part.name : instances[i].part.acronym }</td>
+                                    <td><a href="#/" onclick="removeRole('${ instances[i].id }', '${ roleID }')">Remove Role</a></td>
                                 </tr>
                                 `;
                         }
@@ -81,7 +90,6 @@
                         modalBtn.click();
                         spinner.classList.add('hidden');
                     } else {
-                        console.log('here')
                         alert('Whoops! Something went wrong...');
                     }
                 }).catch(error => {
@@ -123,7 +131,6 @@
                     limit: limit,
                 })
             }).then(response => {
-                console.log(response)
                 return response.json();
             }).then(data => {
                 alert(`Yay! Successfully make changes!`);
@@ -147,15 +154,51 @@
                 credentials: "same-origin",
                 body: JSON.stringify({
                     email: document.getElementById('user-email').value,
+                    department: document.getElementById('department').value != "" ? document.getElementById('department').value : null
                 })
             }).then(response => {
-                console.log(response)
                 return response.json();
             }).then(data => {
+                let rb = document.getElementById('role-body');
+                rb.innerHTML = `${ rb.innerHTML }
+                                <tr id="${ roleID }-${ data.email }">
+                                    <th scope="row">${ data.count }</th>
+                                    <td>${ data.name }</td>
+                                    <td>${ data.email }</td>
+                                    <td><a href="#/" onclick="removeRole('${ roleID }', '${ data.email }')">Remove Role</a></td>
+                                </tr>`;
                 alert(`${ data.message }`);
             }).catch(error => {
                 console.log(error);
-                alert(`Whoops! Something went wrong while trying to update. Please try again later.`);
+                alert(`Whoops! Something went wrong while trying to add user. Please try again later.`);
+            });
+    }
+
+    const removeRole = (instanceID, roleID) => {
+        let endpoint = `{{ route('role.remove-user', ['role' => 'replace']) }}`.replace('replace', roleID);
+
+        fetch(`${ endpoint }`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json, text-plain, */*",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                method: 'delete',
+                credentials: "same-origin",
+                body: JSON.stringify({
+                    instance: instanceID,
+                })
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                console.log(data)
+                let rb = document.getElementById(`role-rel-${ instanceID }`);
+                rb.remove();
+                alert(`${ data.message }`);
+            }).catch(error => {
+                console.log(error);
+                alert(`Whoops! Something went wrong while trying to remove user. Please try again later.`);
             });
     }
 </script>
