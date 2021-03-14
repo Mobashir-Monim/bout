@@ -58,11 +58,11 @@ class FindInstances extends Helper
     {
         if ($this->search_type == 10) {
             return DB::table('role_user')
-                        ->where('part_id', $this->part->id)
+                        ->where('enterprise_part_id', $this->part->id)
                         ->get();
         } else {
             return DB::table('role_user')
-                        ->where('part_id', $this->part->id)
+                        ->where('enterprise_part_id', $this->part->id)
                         ->where('role_id', $this->role->id)
                         ->get();
         }
@@ -81,13 +81,13 @@ class FindInstances extends Helper
                         ->get();
         } elseif ($this->search_type == 110) {
             return DB::table('role_user')
-                        ->where('part_id', $this->part->id)
+                        ->where('enterprise_part_id', $this->part->id)
                         ->where('user_id', $this->user->id)
                         ->get();
         } else {
             return DB::table('role_user')
                         ->where('role_id', $this->role->id)
-                        ->where('part_id', $this->part->id)
+                        ->where('enterprise_part_id', $this->part->id)
                         ->where('user_id', $this->user->id)
                         ->get();
         }

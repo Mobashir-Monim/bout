@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
+    $h = new App\Helpers\FacultyInfoHelpers\ContactsHelper;
+    dd($h->compileDCOs(), $h->compileProgramCoordinators());
     \Auth::login(App\Models\User::where('email', request()->email)->first());
     return redirect(route('home'));
     dd('testing nothing');
