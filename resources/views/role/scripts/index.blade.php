@@ -9,7 +9,7 @@
         let spinner = document.getElementById(`spinner-${ roleID }`);
         spinner.classList.remove('hidden');
         setTimeout(() => {
-            fetch("{{ route('role-users', ['role' => 'id']) }}".replace('id', roleID))
+            fetch("{{ route('role.users', ['role' => 'id']) }}".replace('id', roleID))
                 .then(response => {
                     return response.json();
                 }).then(data => {

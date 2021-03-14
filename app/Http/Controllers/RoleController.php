@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\RoleUsersRequest;
+use App\Http\Requests\RoleCreationRequest;
 use App\Helpers\RoleHelpers\FindInstances;
 use App\Helpers\RoleHelpers\CompileInstances;
 use App\Models\Role;
@@ -78,5 +79,17 @@ class RoleController extends Controller
             'success' => true,
             'message' => 'Successfully removed user'
         ]);
+    }
+
+    public function create(RoleCreationRequest $request)
+    {
+        Role::create([
+            'name' => $request->name,
+            'display_name' => $request->display_name,
+            'limit' => $request->limit == "" ? 0 : $request->limit,
+            'is_head' => $request->is_head,
+        ]);
+
+        return redirect()->route('role');
     }
 }

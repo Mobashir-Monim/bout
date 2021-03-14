@@ -139,10 +139,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/eval/evaluate/{year}/{semester}', [App\Http\Controllers\EvalController::class, 'storeResults'])->name('course-eval.evaluate.store');
 
     Route::get('/role', [App\Http\Controllers\RoleController::class, 'index'])->name('role')->middleware('checkRole:super-admin');
-    Route::get('/role/users/{role}', [App\Http\Controllers\RoleController::class, 'roleUsers'])->name('role-users')->middleware('checkRole:super-admin');
-    Route::post('/role/update/{role}', [App\Http\Controllers\RoleController::class, 'update'])->name('role.update')->middleware('checkRole:super-admin');
-    Route::post('/role/user/{role}', [App\Http\Controllers\RoleController::class, 'addUser'])->name('role.add-user')->middleware('checkRole:super-admin');
-    Route::delete('/role/user/{role}', [App\Http\Controllers\RoleController::class, 'removeUser'])->name('role.remove-user')->middleware('checkRole:super-admin');
+    Route::name('role.')->prefix('/role')->middleware(['checkRole:super-admin'])->group(function () {
+        Route::get('/role/users/{role}', [App\Http\Controllers\RoleController::class, 'roleUsers'])->name('users');
+        Route::post('/role/update/{role}', [App\Http\Controllers\RoleController::class, 'update'])->name('update');
+        Route::post('/role/user/{role}', [App\Http\Controllers\RoleController::class, 'addUser'])->name('add-user');
+        Route::delete('/role/user/{role}', [App\Http\Controllers\RoleController::class, 'removeUser'])->name('remove-user');
+        Route::post('/role/create', [App\Http\Controllers\RoleController::class, 'create'])->name('create');
+    });
 
     Route::get('/gc', function() {
         return view('gsuite-consolidate');
