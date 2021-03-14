@@ -23,6 +23,12 @@
             </div>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="col-md-12 my-2 text-right">
+            @include('enterprise-part.add')
+        </div>
+    </div>
 @endsection
 
 @section('scripts')

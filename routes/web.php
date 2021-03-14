@@ -100,6 +100,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/enterprise-parts', [App\Http\Controllers\EnterprisePartController::class, 'index'])->name('enterprise-parts');
         Route::name('enterprise-parts.')->prefix('enterprise-parts')->group(function () {
             Route::get('/{part}/show', [App\Http\Controllers\EnterprisePartController::class, 'show'])->name('show');
+            Route::post('/add', [App\Http\Controllers\EnterprisePartController::class, 'create'])->name('create');
             Route::post('/{part}/type', [App\Http\Controllers\EnterprisePartController::class, 'changeType'])->name('change-type');
             Route::post('/{part}/head', [App\Http\Controllers\EnterprisePartController::class, 'changeHead'])->name('change-head');
             Route::post('/{part}/dco', [App\Http\Controllers\EnterprisePartController::class, 'changeDCO'])->name('change-dco');

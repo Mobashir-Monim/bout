@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\EnterprisePart;
 use App\Models\Role;
+use App\Models\User;
 use App\Helpers\EnterprisePartHelpers\MembersHelper;
 use App\Helpers\EnterprisePartHelpers\FindMembers;
+use App\Http\Requests\EnterprisePartCreationRequest;
 
 class EnterprisePartController extends Controller
 {
@@ -86,5 +88,17 @@ class EnterprisePartController extends Controller
         $this->flashMessage('success', "$part->name details updated");
 
         return redirect()->route('enterprise-parts.show', ['part' => $part->id]);
+    }
+
+    public function create(EnterprisePartCreationRequest $request)
+    {
+        $part = EnterprisePart::create([
+            'name' => $request->name,
+            'acronym' => $request->acronym,
+            'is_academic_part' => $request->is_academic_part,
+            'user_id' => User::where('email', $request->email)->first()->id,
+        ]);
+
+        return redirect()->route('enterprise-parts.show', ['part' => $part]);
     }
 }
