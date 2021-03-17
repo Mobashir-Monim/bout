@@ -10,7 +10,7 @@
         if (validateDownloadSelect()) {
             downloadable = {};
             downloadIndex = 0;
-            setTableIndex();
+            setDownloadTableIndex();
             downloadTable();
         }
     }
@@ -28,7 +28,7 @@
         }
     }
 
-    const setTableIndex = (findNext = false) => {
+    const setDownloadTableIndex = (findNext = false) => {
         if (downloadMode == 'multi' && findNext) {
             downloadTableIndex += 1;
         } else {
@@ -76,7 +76,7 @@
                         downloadIndex += 1;
                         downloadTable();
                     } else {
-                        makeNextCall();
+                        makeNextDownloadCall();
                     }
                 } else {
                     throw `${ data.message }`;
@@ -92,8 +92,8 @@
         downloadable[tables[downloadTableIndex].name] = downloadable[tables[downloadTableIndex].name].concat(tableData);
     }
 
-    const makeNextCall = () => {
-        setTableIndex(true);
+    const makeNextDownloadCall = () => {
+        setDownloadTableIndex(true);
         
         if (downloadMode == 'multi' && downloadTableIndex < tables.length) {
             downloadIndex = 0;
