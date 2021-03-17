@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
+    
     \Auth::login(App\Models\User::where('email', request()->email)->first());
     return redirect(route('home'));
     dd('testing nothing');
@@ -110,6 +111,11 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['checkRole:super-admin,dco'])->group(function () {
+        Route::get('/courses', [App\Http\Controllers\CoursesController::class, 'index'])->name('courses');
+        Route::name('courses.')->prefix('/courses')->group(function () {
+            Route::patch('/{course}', [App\Http\Controllers\CoursesController::class, 'update'])->name('update');
+        });
+
         Route::get('/offered-courses', [App\Http\Controllers\OfferedCourseController::class, 'index'])->name('offered-courses');
         Route::post('/offered-courses', [App\Http\Controllers\OfferedCourseController::class, 'index'])->name('offered-courses');
 
