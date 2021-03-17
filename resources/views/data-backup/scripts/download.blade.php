@@ -2,7 +2,7 @@
     let downloadModeUpdateStatus = true;
     let downloadable = [];
     let downloadIndex = 0;
-    let tableIndex = null;
+    let downloadTableIndex = null;
     let downloadMode = null;
     const downloadSelect = document.getElementById('download-select');
 
@@ -30,17 +30,17 @@
 
     const setTableIndex = (findNext = false) => {
         if (downloadMode == 'multi' && findNext) {
-            tableIndex += 1;
+            downloadTableIndex += 1;
         } else {
             if (downloadMode == 'multi') {
-                tableIndex = 0;
+                downloadTableIndex = 0;
             } else {
-                tableIndex = tables.map((e) => e.name).indexOf(downloadSelect.value);
+                downloadTableIndex = tables.map((e) => e.name).indexOf(downloadSelect.value);
             }
         }
     }
 
-    const updateMode = () => {
+    const updateDownloadMode = () => {
         if (downloadModeUpdateStatus) {
             if (downloadSelect.value == "all") {
                 downloadMode = 'multi';
@@ -63,7 +63,7 @@
                 method: 'post',
                 credentials: "same-origin",
                 body: JSON.stringify({
-                    table: tables[tableIndex].name,
+                    table: tables[downloadTableIndex].name,
                     index: downloadIndex,
                 })
             }).then(response => {
@@ -88,19 +88,19 @@
     }
 
     const setTableData = (tableData) => {
-        if (!downloadable.hasOwnProperty(tables[tableIndex].name)) { downloadable[tables[tableIndex].name] = []; }
-        downloadable[tables[tableIndex].name] = downloadable[tables[tableIndex].name].concat(tableData);
+        if (!downloadable.hasOwnProperty(tables[downloadTableIndex].name)) { downloadable[tables[downloadTableIndex].name] = []; }
+        downloadable[tables[downloadTableIndex].name] = downloadable[tables[downloadTableIndex].name].concat(tableData);
     }
 
     const makeNextCall = () => {
         setTableIndex(true);
         
-        if (downloadMode == 'multi' && tableIndex < tables.length) {
+        if (downloadMode == 'multi' && downloadTableIndex < tables.length) {
             downloadIndex = 0;
             downloadTable();
         } else {
             downloadModeUpdateStatus = true;
-            exportTables(downloadMode == 'multi' ? 'db-bout' : tables[tableIndex].name);
+            exportTables(downloadMode == 'multi' ? 'db-bout' : tables[downloadTableIndex].name);
         }
     }
 
