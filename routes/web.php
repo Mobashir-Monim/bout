@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
-    
     \Auth::login(App\Models\User::where('email', request()->email)->first());
     return redirect(route('home'));
     dd('testing nothing');
@@ -108,6 +107,10 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/{part}/member', [App\Http\Controllers\EnterprisePartController::class, 'changeMember'])->name('change-member');
             Route::post('/{part}/update', [App\Http\Controllers\EnterprisePartController::class, 'update'])->name('update');
         });
+
+        Route::get('/data-backup', [App\Http\Controllers\DataBackupController::class, 'index'])->name('data-backup');
+        Route::get('/data-backup/download', [App\Http\Controllers\DataBackupController::class, 'download'])->name('data-backup.download');
+        Route::post('/data-backup/download', [App\Http\Controllers\DataBackupController::class, 'download'])->name('data-backup.download');
     });
 
     Route::middleware(['checkRole:super-admin,dco'])->group(function () {
