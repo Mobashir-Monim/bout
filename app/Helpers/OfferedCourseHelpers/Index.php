@@ -23,7 +23,7 @@ class Index extends Helper
         $this->departments = array_unique(EnterprisePart::whereIn('id', $this->getDepartmentsIDs())->where('is_academic_part', true)->get()->pluck('name')->toArray());
         
         if (auth()->user()->hasRole('super-admin')) {
-            $this->departments = array_unique(EnterprisePart::where('is_academic_part', true)->get()->pluck('name')->toArray());
+            $this->departments = array_unique(Course::all()->pluck('provider')->toArray());
         }
     }
 
