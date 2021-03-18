@@ -15,17 +15,6 @@ class DownloadHelper extends BackupHelper
         $this->index = $index;
     }
 
-    public function validateTable()
-    {
-        foreach ($this->tables as $table) {
-            if ($table['name'] == $this->table) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public function download()
     {
         if ($this->validateTable()) {

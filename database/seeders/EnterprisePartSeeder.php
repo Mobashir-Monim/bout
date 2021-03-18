@@ -74,11 +74,6 @@ class EnterprisePartSeeder extends Seeder
             ['user' => 'gm.zilani@bracu.ac.bd', 'part' => 'Department of Computer Science and Engineering'],
             ['user' => 'anis.sharif@bracu.ac.bd', 'part' => 'Department of Computer Science and Engineering'],
         ];
-
-        foreach ($dcos as $dco) {
-            User::find($this->getUserID($dco['user']))->memberOf()
-                ->attach(EnterprisePart::where('name', $dco['part'])->first()->id);
-        }
     }
 
     public function getUserID($email)

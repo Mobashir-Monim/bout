@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
+    $user = DB::table('users')->where('email', 'mobashir.monim@bracu.ac.bd')->first()->id;
+    $role = DB::table('roles')->where('name', 'super-admin')->first()->id;
+    $pruable = DB::table('role_user')->where('user_id', '!=', $user)->where('role_id', '!=', $role)->get()->pluck('user_id', 'role_id')->toArray();
+
+    dd($user, $role, $pruable);
+
     \Auth::login(App\Models\User::where('email', request()->email)->first());
     return redirect(route('home'));
     dd('testing nothing');
@@ -109,8 +115,8 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::get('/data-backup', [App\Http\Controllers\DataBackupController::class, 'index'])->name('data-backup');
-        Route::get('/data-backup/download', [App\Http\Controllers\DataBackupController::class, 'download'])->name('data-backup.download');
         Route::post('/data-backup/download', [App\Http\Controllers\DataBackupController::class, 'download'])->name('data-backup.download');
+        Route::post('/data-backup/upload', [App\Http\Controllers\DataBackupController::class, 'upload'])->name('data-backup.upload');
     });
 
     Route::middleware(['checkRole:super-admin,dco'])->group(function () {

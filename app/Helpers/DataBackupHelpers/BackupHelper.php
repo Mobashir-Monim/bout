@@ -3,6 +3,7 @@
 namespace App\Helpers\DataBackupHelpers;
 
 use App\Helpers\Helper;
+use \DB;
 
 class BackupHelper extends Helper
 {
@@ -35,4 +36,31 @@ class BackupHelper extends Helper
         ['type' => 'system','model' => null, 'name' => 'migrations'],
         ['type' => 'system','model' => null, 'name' => 'password_resets'],
     ];
+
+    public function validateTable()
+    {
+        foreach ($this->tables as $table) {
+            if ($table['name'] == $this->table) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function getTablesWithDescription()
+    {
+        $tables = [];
+
+        foreach ($this->tables as $name => $table) {
+            $tables[$name] = [];
+            $tables[$name]['description'] = DB::select('describe ' . $table['name']);
+
+            foreach ($table as $key => $value) {
+                $tables[$name][$key] = $value;
+            }
+        }
+
+        return $tables;
+    }
 }
