@@ -43,8 +43,6 @@ class UploadHelper extends BackupHelper
             $this->pruneUsersTable();
         } elseif ($this->table == 'roles') {
             $this->pruneRolesTable();
-        } elseif ($this->table == 'role_user') {
-            $this->pruneRoleUserTable();
         } else {
             DB::table($this->table)->truncate();
         }
@@ -80,8 +78,6 @@ class UploadHelper extends BackupHelper
             $this->uploadUsersData();
         } elseif ($this->table == 'roles') {
             $this->uploadRoleData();
-        } elseif ($this->table == 'role_user') {
-            $this->uploadRoleUserData();
         } else {
             foreach ($this->rows as $row) {
                 if (is_null(DB::table($this->table)->where('id', $row['id'])->first())) {
@@ -94,7 +90,7 @@ class UploadHelper extends BackupHelper
     public function uploadUsersData()
     {
         foreach ($this->rows as $row) {
-            if ($row['email'] != 'mobashir.monim@bracu.ac.bd') {
+            if ($row['email'] != 'mobashir.monim@bracu.ac.bd' && is_null(DB::table('users')->where('email', $row['email'])->first())) {
                 DB::table($this->table)->insert([$row]);
             }
         }
@@ -104,15 +100,6 @@ class UploadHelper extends BackupHelper
     {
         foreach ($this->rows as $row) {
             if ($row['name'] != 'super-admin') {
-                DB::table($this->table)->insert([$row]);
-            }
-        }
-    }
-
-    public function uploadRoleUserData()
-    {
-        foreach ($this->rows as $row) {
-            if ($row['user_id'] != DB::table('users')->where('email', 'mobashir.monim@bracu.ac.bd')->first()->id) {
                 DB::table($this->table)->insert([$row]);
             }
         }

@@ -19,39 +19,105 @@
 
     function exelToJSON(data) {
         let cfb = XLSX.read(data, {type: 'binary'});
+        setUploadTableIndex();
             
         cfb.SheetNames.forEach(function(sheetName) {
             uploadable[sheetName] = [];
             let oJS = XLS.utils.sheet_to_json(cfb.Sheets[sheetName], {raw: true, defval: "N/A"});
             
             if (oJS.length > 0) {
-                let result = [];
+                uploadable[sheetName] = [];
                 let headers = Object.keys(oJS[0]);
+                let descriptions = {};
+
+                headers.forEach(key => {
+                    descriptions[key] = tables[uploadTableIndex].description.find(x => { return x['Field'] == key });
+                });
 
                 for (let index = 0; index < oJS.length; index++) {
                     let imm = {};
 
                     headers.forEach(key => {
-                        if (key != 'created_at' && key != 'updated_at') {
-                            if (key == 'is_academic_part' || key == 'is_lab_faculty' || key == 'has_lab' || key == 'is_lab' || key == 'is_rerun' || key == 'is_head' || key == 'current_team_id') {
-                                imm[key] = oJS[index][key] == "" ? 0 : oJS[index][key];
-                            } else {
-                                imm[key] = oJS[index][key] == "" || oJS[index][key] == " " ? "N/A" : oJS[index][key];
-                            }
-                        } else {
-                            imm[key] = isNaN(Date.parse(oJS[index][key])) || oJS[index][key] == "N/A" ? null : oJS[index][key];
-                        }
+                        imm[key] = setData(descriptions, key, oJS[index][key]);
                     });
 
-                    result.push(imm);
+                    uploadable[sheetName].push(imm);
                 }
-
-                uploadable[sheetName] = result;
             }
+
+            setUploadTableIndex(true);
         });
 
         setUploadTableIndex();
         uploadTable();
+    }
+
+    const setData = (description, key, val) => {
+        if (description[key]['Type'] == 'tinyint(1)') {
+            return handleBooleanData(description[key], val);
+        } else if (description[key]['Type'].includes('timestamp')) {
+            return handleTimestampData(description[key], val);
+        } else if (description[key]['Type'].includes('int')) {
+            return handleNumericData(description[key], val);
+        } else {
+            return handleStringData(description[key], val);
+        }
+    }
+
+    const handleBooleanData = (des, val) => {
+        if (val == 'N/A' || val === '' || val === ' ' || val == null) {
+            if (des['Null'] == 'NO' && des['Default'] == null) {
+                return false;
+            } else if (des['Null'] == 'NO' && des['Default'] != null) {
+                return des['Default'];
+            } else {
+                return null;
+            }
+        } else {
+            return val;
+        }
+    }
+
+    const handleTimestampData = (des, val) => {
+        if (val.includes('N/A')) {
+            return null;
+        } else {
+            return val;
+        }
+    }
+
+    
+
+    const handleNumericData = (des, val) => {
+        if (val == 'N/A' || val === '' || val === ' ' || val == null) {
+            if (des['Null'] == 'NO' && des['Default'] == null) {
+                return 0;
+            } else if (des['Null'] == 'NO' && des['Default'] != null) {
+                return des['Default'];
+            } else {
+                return null;
+            }
+        } else {
+            return val;
+        }
+    }
+
+    const handleStringData = (des, val) => {
+        if (val === '' || val === ' ' || val == null) {
+            if (des['Null'] == 'NO' && des['Default'] == null) {
+                return 'N/A';
+            } else if (des['Null'] == 'NO' && des['Default'] != null) {
+                if (des['Default'] === '' || des['Default'] === ' ') {
+                    return 'N/A';
+                } else {
+                    return des['Default'];
+                }
+            } else {
+                return null;
+            }
+        } else {
+            return val;
+        }
     }
 
     const initiateUpload = () => {
