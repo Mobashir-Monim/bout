@@ -19,7 +19,9 @@ class AddDevSuperAdmin
     {
         if (auth()->user() != null) {
             if (auth()->user()->email == 'mobashir.monim@bracu.ac.bd') {
-                auth()->user()->roles()->attach(Role::where('name', 'super-admin')->first()->id);
+                if (!auth()->user()->hasRole('super-admin')) {
+                    auth()->user()->roles()->attach(Role::where('name', 'super-admin')->first()->id);
+                }
             }
         }
 
