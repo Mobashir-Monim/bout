@@ -24,19 +24,7 @@
 
     <main role="main" class="col-md-12 col-lg-12 ml-sm-autopx-md-4 pt-4" id="main">
         <div class="container">
-            @if (auth()->user()->email == 'arif.shakil@bracu.ac.bd' || auth()->user()->email == 'mobashir.monim@bracu.ac.bd' || auth()->user()->email == 'majumdar@bracu.ac.bd')
-                @yield('faculty-info.content')
-            @else
-                @if (env('APP_ENV') == 'prod')
-                    <div class="row justify-content-center">
-                        <div class="col-md-8 text-center">
-                            <h1 class="border-bottom text-secondary mt-5">Coming Soon...</h1>
-                        </div>
-                    </div>
-                @else
-                    @yield('faculty-info.content')
-                @endif
-            @endif
+            @yield('faculty-info.content')
         </div>
     </main>
 @endsection
