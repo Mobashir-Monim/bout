@@ -32,9 +32,9 @@ class BackupHelper extends Helper
         ['type' => 'application','model' => null, 'name' => 'permission_role'],
         ['type' => 'application','model' => null, 'name' => 'permission_user'],
         ['type' => 'application','model' => null, 'name' => 'role_user'],
-        ['type' => 'system','model' => null, 'name' => 'failed_jobs'],
-        ['type' => 'system','model' => null, 'name' => 'migrations'],
-        ['type' => 'system','model' => null, 'name' => 'password_resets'],
+        // ['type' => 'system','model' => null, 'name' => 'failed_jobs'],
+        // ['type' => 'system','model' => null, 'name' => 'migrations'],
+        // ['type' => 'system','model' => null, 'name' => 'password_resets'],
     ];
 
     public function validateTable()

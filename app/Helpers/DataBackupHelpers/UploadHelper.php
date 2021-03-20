@@ -3,6 +3,7 @@
 namespace App\Helpers\DataBackupHelpers;
 
 use \DB;
+use App\Models\User;
 
 class UploadHelper extends BackupHelper
 {
@@ -51,7 +52,7 @@ class UploadHelper extends BackupHelper
     public function pruneUsersTable()
     {
         foreach (DB::table('users')->where('email', '!=', 'mobashir.monim@bracu.ac.bd')->get() as $row) {
-            DB::table('role_user')->where('id', $row->id)->delete();
+            DB::table('users')->where('id', $row->id)->delete();
         }
     }
 
