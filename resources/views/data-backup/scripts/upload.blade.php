@@ -23,27 +23,24 @@
             
         cfb.SheetNames.forEach(function(sheetName) {
             if (tables.find(x => x.name == sheetName) != undefined) {
-                uploadable[sheetName] = [];
                 let oJS = XLS.utils.sheet_to_json(cfb.Sheets[sheetName], {raw: true, defval: "N/A"});
                 
                 if (oJS.length > 0) {
-                    uploadable[sheetName] = [];
                     let headers = Object.keys(oJS[0]);
-                    let descriptions = {};
+                    let descriptions = {}; let rows = []; let i = 0;
+                    headers.forEach(key => { descriptions[key] = tables[uploadTableIndex].description.find(x => { return x['Field'] == key }); });
 
-                    headers.forEach(key => {
-                        descriptions[key] = tables[uploadTableIndex].description.find(x => { return x['Field'] == key });
+                    oJS.forEach(row => {
+                        rows.push({}); i++;
+                        headers.forEach(key => { rows[rows.length - 1][key] = setData(descriptions, key, row[key]); });
+
+                        if (i % 100 == 0 && i != 0) {
+                            uploadable.push({ table: sheetName, rows: rows });
+                            rows = [];
+                        }
                     });
 
-                    for (let index = 0; index < oJS.length; index++) {
-                        let imm = {};
-
-                        headers.forEach(key => {
-                            imm[key] = setData(descriptions, key, oJS[index][key]);
-                        });
-
-                        uploadable[sheetName].push(imm);
-                    }
+                    if (i % 100 != 0) { uploadable.push({ table: sheetName, rows: rows }); }
                 }
 
                 setUploadTableIndex(true);
@@ -124,7 +121,7 @@
 
     const initiateUpload = () => {
         if (validateUploadSelect()) {
-            uploadable = {};
+            uploadable = [];
             uploadIndex = 0;
             readFile();
         }
@@ -168,63 +165,44 @@
     }
 
     const uploadTable = () => {
-        if (uploadIndex < uploadable[tables[uploadTableIndex].name].length) {
-            // console.log(`
-            //             table=${ tables[uploadTableIndex].name }&
-            //             rows=${ JSON.stringify(getUploadableRows()) }&
-            //             prune=${ uploadIndex == 0 }`)
-            fetch(`{{ route('data-backup.upload') }}`, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json, text-plain, */*",
-                        "X-Requested-With": "XMLHttpRequest",
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                        },
-                    method: 'post',
-                    credentials: "same-origin",
-                    body: JSON.stringify({
-                        table: tables[uploadTableIndex].name,
-                        rows: getUploadableRows(),
-                        prune: uploadIndex == 0,
-                    })
-                }).then(response => {
-                    return response.json();
-                }).then(data => {
-                    if (data.success) {
-                        uploadIndex += 100;
-                        uploadTable();
-                    } else {
-                        throw `${ data.message }`;
-                    }
-                }).catch(error => {
-                    console.log(error);
-                    alert(`Whoops! Something went wrong while trying to upload. Please try again later.`);
-                });
-        } else {
-            console.log(`Completed ${ tables[uploadTableIndex].name }`)
-            makeNextUploadCall();
-        }
+        console.log(uploadIndex);
+        fetch(`{{ route('data-backup.upload') }}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json, text-plain, */*",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                method: 'post',
+                credentials: "same-origin",
+                body: JSON.stringify({
+                    table: uploadable[uploadIndex].table,
+                    rows: uploadable[uploadIndex].rows,
+                    current: uploadIndex + 1,
+                    last: uploadable.length,
+                })
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                if (data.success) {
+                    uploadIndex += 1;
+                    if (uploadIndex < uploadable.length) { setTimeout(() => { uploadTable(); }, 100); }
+                } else {
+                    throw `${ data.message }`;
+                }
+            }).catch(error => {
+                console.log(error);
+                alert(`Whoops! Something went wrong while trying to upload. Please try again later.`);
+            });
     }
 
-    const getUploadableRows = () => {
-        let temp = [];
+    const setDelay = () => {
+        let apiCallTime = uploadable.length * 1.5;
+        if (uploadIndex == 0) { return apiCallTime; }
 
-        for (let i = 0; i + uploadIndex < uploadable[tables[uploadTableIndex].name].length && i < 100; i++) {
-            temp.push(uploadable[tables[uploadTableIndex].name][i + uploadIndex]);
-        }
+        let delTime = uploadable.length * 1.5;
+        let prevProcessTime = uploadIndex * 1.5;
 
-        return temp;
-    }
-
-    const makeNextUploadCall = () => {
-        setUploadTableIndex(true);
-        uploadIndex = 0;
-        
-        if (uploadMode == 'multi' && uploadTableIndex < tables.length) {
-            uploadTable();
-        } else {
-            uploadModeUpdateStatus = true;
-            alert('Uploaded');
-        }
+        return Math.ceil(apiCallTime + delTime + prevProcessTime);
     }
 </script>

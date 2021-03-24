@@ -3,106 +3,70 @@
 namespace App\Helpers\DataBackupHelpers;
 
 use \DB;
-use App\Models\User;
+use App\Models\Config;
 
 class UploadHelper extends BackupHelper
 {
     protected $table;
     protected $rows;
-    protected $prune;
 
-    public function __construct($table, $rows, $prune)
+    public function __construct($table = null, $rows = null)
     {
         $this->table = $table;
         $this->rows = $rows;
-        $this->prune = $prune;
+    }
+
+    public function setGlobals($table, $rows)
+    {
+        $this->table = $table;
+        $this->rows = $rows;
     }
 
     public function upload()
     {
-        {
-            if ($this->validateTable()) {
-                $this->pruneTable();
-                $this->seedDB();
+        if ($this->validateTable()) {
+            DB::table($this->table)->insert($this->rows);
+        }
+    }
 
-                return [
-                    'success' => true,
-                    'message' => "Successfully uploaded data"
-                ];
+    public function prune()
+    {
+        foreach ($this->tables as $table) {
+            if ($table['name'] != 'configs') {
+                DB::table($table['name'])->delete();
             } else {
-                return [
-                    'success' => false,
-                    'message' => "No such table exits $this->table"
-                ];
+                DB::table($table['name'])->where('id', 'not like', 'data-backup-%')->delete();
             }
         }
     }
 
-    public function pruneTable()
+    public function getBackUpConfig($current)
     {
-        if ($this->table == 'users') {
-            $this->pruneUsersTable();
-        } elseif ($this->table == 'roles') {
-            $this->pruneRolesTable();
+        $config = Config::find("data-backup-$current");
+
+        if (is_null($config)) {
+            $config = Config::create(['id' => "data-backup-$current", 'configs' => []]);
+        }
+        
+        $config->configs = [];
+        $config->save();
+
+        return $config;
+    }
+
+    public function setBackupRows($table, $rows, $current)
+    {
+        $config = Config::find("data-backup-$current");
+
+        if (is_null($config)) {
+            $config = Config::create(['id' => "data-backup-$current", 'configs' => ['data' => 
+                base64_encode(gzdeflate(json_encode(['table' => $table, 'rows' => $rows]), 9))
+            ]]);
         } else {
-            DB::table($this->table)->truncate();
-        }
-    }
-
-    public function pruneUsersTable()
-    {
-        foreach (DB::table('users')->where('email', '!=', 'mobashir.monim@bracu.ac.bd')->get() as $row) {
-            DB::table('users')->where('id', $row->id)->delete();
-        }
-    }
-
-    public function pruneRolesTable()
-    {
-        foreach (DB::table('roles')->where('name', '!=', 'super-admin')->get() as $row) {
-            DB::table('roles')->where('id', $row->id)->delete();
-        }
-    }
-
-    public function pruneRoleUserTable()
-    {
-        $user = DB::table('users')->where('email', 'mobashir.monim@bracu.ac.bd')->first()->id;
-        $role = DB::table('roles')->where('name', 'super-admin')->first()->id;
-
-        foreach (DB::table('role_user')->where('user_id', '!=', $user)->get() as $row) {
-            DB::table('role_user')->where('id', $row->id)->delete();
-        }
-    }
-
-    public function seedDB()
-    {
-        if ($this->table == 'users') {
-            $this->uploadUsersData();
-        } elseif ($this->table == 'roles') {
-            $this->uploadRoleData();
-        } else {
-            foreach ($this->rows as $row) {
-                if (is_null(DB::table($this->table)->where('id', $row['id'])->first())) {
-                    DB::table($this->table)->insert($row);
-                }
-            }
-        }
-    }
-
-    public function uploadUsersData()
-    {
-        foreach ($this->rows as $row) {
-            if ($row['email'] != 'mobashir.monim@bracu.ac.bd' && is_null(DB::table('users')->where('email', $row['email'])->first())) {
-                DB::table($this->table)->insert([$row]);
-            }
-        }
-    }
-
-    public function uploadRoleData()
-    {
-        foreach ($this->rows as $row) {
-            if ($row['name'] != 'super-admin') {
-                DB::table($this->table)->insert([$row]);
-            }
+            $config->configs = ['data' => 
+                base64_encode(gzdeflate(json_encode(['table' => $table, 'rows' => $rows]), 9))
+            ];
+            $config->save();
         }
     }
 }

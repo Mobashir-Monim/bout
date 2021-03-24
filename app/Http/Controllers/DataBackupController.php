@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Helpers\DataBackupHelpers\BackupHelper;
 use App\Helpers\DataBackupHelpers\DownloadHelper;
 use App\Helpers\DataBackupHelpers\UploadHelper;
+use App\Jobs\UploadBackupData;
 
 class DataBackupController extends Controller
 {
@@ -25,8 +27,18 @@ class DataBackupController extends Controller
 
     public function upload(Request $request)
     {
-        $helper = new UploadHelper($request->table, $request->rows, $request->prune);
+        $message = 'Stored for backup';
+        $helper = new UploadHelper;
+        $helper->setBackupRows($request->table, $request->rows, $request->current);
 
-        return response()->json($helper->upload());
+        if ($request->current == $request->last) {
+            UploadBackupData::dispatch()->delay(now()->addSeconds(300));
+            $message = 'Data backup scheduled to be performed after 5 minutes';
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => $message
+        ]);
     }
 }
