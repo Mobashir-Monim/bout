@@ -21,6 +21,7 @@ Route::get('test', function () {
         array_push($offered, $course->offered);
     }
 
+    $offered = collect($offered);
 
     dd($courses, $offered);
     \Auth::login(App\Models\User::where('email', request()->email)->first());
