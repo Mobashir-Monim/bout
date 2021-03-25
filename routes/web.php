@@ -14,7 +14,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function () {
-    dd(App\Models\Course::where('provider', 'CSE')->get()->pluck('provider')->toArray());
+    $courses = App\Models\Course::where('provider', 'CSE')->get();
+    $offered = [];
+
+    foreach ($courses as $course) {
+        array_push($offered, $course->offered);
+    }
+
+
+    dd($courses, $offered);
     \Auth::login(App\Models\User::where('email', request()->email)->first());
     return redirect(route('home'));
     dd('testing nothing');
