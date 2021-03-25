@@ -51,7 +51,6 @@ class UpdateHelper extends Helper
         foreach (OfferedCourse::where('course_id', $resolve_id)->get() as $offered) {
             $offered->course_id = $resolve_id;
             $offered->save();
-
         }
 
         $duplicate = Course::where('provider', $this->course->provider)->where('code', $this->course->code)->first();
@@ -59,10 +58,5 @@ class UpdateHelper extends Helper
         if ($duplicate->id != $resolve_id) {
             $duplicate->delete();
         }
-    }
-
-    public function resolveSectionConflict($offered)
-    {
-
     }
 }
