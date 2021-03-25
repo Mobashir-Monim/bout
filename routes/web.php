@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('test', function () {
     $courses = App\Models\Course::where('provider', 'CSE')->get();
-    $offered = [];
+    $offered = $courses->pluck('id')->toArray();
+    dd($offered);
 
     foreach ($courses as $course) {
         array_push($offered, $course->offered);
