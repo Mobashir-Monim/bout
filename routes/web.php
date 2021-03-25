@@ -20,7 +20,8 @@ Route::get('test', function () {
     $offeredF = [];
 
     foreach ($courses as $course) {
-        array_push($offeredF, $course->offered->pluck('id')->toArray());
+        $of = $course->offered->pluck('id')->toArray();
+        array_push($offeredF, of);
     }
 
     dd($courses, $offeredM, $offeredF);
