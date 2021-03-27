@@ -19,7 +19,6 @@
                 aggregateSectionComments(cl, row, lsc);
             }
 
-            // factorWeight(temp, templ);
             addToCourse(temp, templ, cs, cl);
         })
 
@@ -120,10 +119,6 @@
         for (let key in vals) {
             temp[key] += vals[key];
         }
-
-        // Object.keys(vals).forEach(key => {
-        //     temp[key] += vals[key];
-        // })
     }
 
     const factorWeight = (temp, templ) => {

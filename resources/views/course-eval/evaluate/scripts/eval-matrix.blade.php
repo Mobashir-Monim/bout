@@ -74,30 +74,12 @@
     }
 
     const wFactorAndDiff = () => {
-        // factorsMatrix.w.maxVal = factorsMatrix.w.maxVal.toFixed(2);
-        // factorsMatrix.w.minVal = factorsMatrix.w.minVal.toFixed(2);
-
         Object.keys(factorsMatrix).forEach(f => {
-            // if (f != 'w') {
-                // factorsMatrix[f].maxVal *= factorsMatrix.w.maxVal;
-                
-                // if (factorsMatrix[f].minVal > 0) {
-                //     factorsMatrix[f].minVal *= factorsMatrix.w.minVal;
-                // } else {
-                //     factorsMatrix[f].minVal *= factorsMatrix.w.maxVal;
-                // }
-
-                factorsMatrix[f].diff = factorsMatrix[f].maxVal - factorsMatrix[f].minVal;
-            // }
+            factorsMatrix[f].diff = factorsMatrix[f].maxVal - factorsMatrix[f].minVal;
         })
     }
 
     const factorsMatrix = {!! $helper->eval->factors !!};
     const questionMatrix = {!! json_encode($helper->eval->compiledMatrices) !!};
-    const labCourses = [
-        "CSE101", "CSE110", "CSE111", "CSE220", "CSE221", "CSE250", "CSE251", "CSE260", "CSE310",
-        "CSE321", "CSE330", "CSE341", "CSE350", "CSE360", "CSE370", "CSE391", "CSE419", "CSE420",
-        "CSE421", "CSE422", "CSE423", "CSE430", "CSE460", "CSE461", "CSE471", "CSE474", "CSE490",
-        "CSE491", "EEE362"
-    ]
+    const labCourses = {!! json_encode($helper->lab_courses) !!};
 </script>

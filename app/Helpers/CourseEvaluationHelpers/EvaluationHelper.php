@@ -14,15 +14,54 @@ class EvaluationHelper extends Helper
     public $eval = null;
     public $year = null;
     public $semester = null;
+    public $lab_courses = null;
+    public $fractions = [];
+    public $courses;
 
     public function __construct($year, $semester)
     {
         $this->year = $year;
         $this->semester = $semester;
         $this->eval = CE::find($year . "_" . ucfirst($semester));
+        $this->getLabCourses();
+        $this->getFractions();
 
         if (is_null($this->eval)) {
             $this->eval = CE::create(['id' => $year . "_" . ucfirst($semester)]);
+        }
+    }
+
+    public function getLabCourses()
+    {
+        $is_lab = OC::where('run_id', $this->year . "_" . ucfirst($this->semester))->where('is_lab', true)->get()->pluck('course_id')->toArray();
+        $has_lab = OC::where('run_id', $this->year . "_" . ucfirst($this->semester))->where('has_lab', true)->get()->pluck('course_id')->toArray();
+        $cids = array_unique(array_merge($is_lab, $has_lab));
+        $this->lab_courses = Course::whereIn('id', $cids)->get()->pluck('code')->toArray();
+    }
+
+    public function getFractions()
+    {
+        $offereds = OC::where('run_id', $this->year . "_" . ucfirst($this->semester))->get();
+        $courses = Course::whereIn('id', $offereds->pluck('course_id')->toArray())->get();
+        $this->courses = $courses->pluck('code')->toArray();
+
+        foreach ($courses as $course) {
+            if (!array_key_exists($course->code, $this->fractions)) {
+                $this->fractions[$course->code] = [];
+
+                if (count($courses->where('code', $course->code)) > 1) {
+                    foreach ($courses->where('code', $course->code) as $c) {
+                        $sections = [];
+
+                        foreach ($offereds->where('course_id', $c->id)->first()->sections as $section)
+                            if (!in_array($section->section, $sections)) $sections[] = $section->section;
+
+                        $this->fractions[$course->code][] = ['frac' => $c->provider, 'sections' => implode(',', $sections)];
+                    }
+                } else {
+                    $this->fractions[$course->code][] = ['frac' => $course->provider, 'sections' => ''];
+                }
+            }
         }
     }
 
