@@ -64,12 +64,15 @@ class MassUploader extends Helper
 
     public function updateStudentData($row, $student)
     {
-        if (!is_null($row['updated_student_id'])) $student->id = $row['updated_student_id'];
-        if (!is_null($row['name'])) $student->name = $row['name'];
-        if (!is_null($row['program'])) $student->program = $row['program'];
-        if (!is_null($row['department'])) $student->department = $row['department'];
-        if (!is_null($row['school'])) $student->school = $row['school'];
-        $student->save();
+        $updatable = [];
+        
+        foreach (['updated_student_id', 'name', 'program', 'department', 'school'] as $item) {
+            if (!is_null($row[$item])) {
+                $updatable[$item] = $row[$item];
+            }
+        }
+
+        $student->update($updatable);
     }
 
     public function createStudentMap($row, $student, $email)
