@@ -41,14 +41,10 @@ class MassUploader extends Helper
         
         if (is_null($student)) {
             $student = StudentMap::where('email', $row['gsuite_email'])->first();
-
             if (is_null($student)) {
                 $student = StudentMap::where('email', $row['usis_email'])->first();
-
                 if (is_null($student)) {
                     $student = Student::create($data);
-                    foreach (['gsuite_email', 'usis_email'] as $email)
-                        $this->createStudentMap($row, $student, $email);
                 } else {
                     $student = $student->student;
                 }
@@ -56,6 +52,9 @@ class MassUploader extends Helper
                 $student = $student->student;
             }
         }
+
+        foreach (['gsuite_email', 'usis_email'] as $email)
+            $this->createStudentMap($row, $student, $email);
 
         return $student;
     }
@@ -65,7 +64,7 @@ class MassUploader extends Helper
     public function updateStudentData($row, $student)
     {
         $updatable = [];
-        
+
         foreach (['updated_student_id', 'name', 'program', 'department', 'school'] as $item) {
             if (!is_null($row[$item])) {
                 $updatable[$item] = $row[$item];
@@ -77,9 +76,13 @@ class MassUploader extends Helper
 
     public function createStudentMap($row, $student, $email)
     {
-        if (!is_null($row[$email])) StudentMap::create([
-            'student_id' => $student->id,
-            'email' => $row[$email]
-        ]);
+        if (is_null(StudentMap::where('email', $row[$email])->first())) {
+            if (!is_null($row[$email])) {
+                StudentMap::create([
+                    'student_id' => $student->id,
+                    'email' => $row[$email]
+                ]);
+            }
+        }
     }
 }
