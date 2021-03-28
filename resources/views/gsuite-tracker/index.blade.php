@@ -27,4 +27,6 @@
             {{ $students->onEachSide(1)->links() }}
         </div>
     </div>
+
+    @include('gsuite-tracker.parts.add')
 @endsection

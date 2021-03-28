@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Helpers\StudentHelpers\InformationUpdater;
+use App\Helpers\StudentHelpers\MassUploader;
 use App\Helpers\StudentHelpers\Search;
 
 class GsuiteTrackerController extends Controller
@@ -38,6 +39,16 @@ class GsuiteTrackerController extends Controller
         return view('gsuite-tracker.index', [
             'students' => (new Search($phrase))->students,
             'phrase' => $phrase
+        ]);
+    }
+
+    public function upload(Request $request)
+    {
+        $helper = new MassUploader($request->students);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully added students'
         ]);
     }
 }

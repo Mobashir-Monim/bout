@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/student/add/bulk-upload', [App\Http\Controllers\GsuiteTrackerController::class, 'upload']);
 
 Route::get('test', function () {
     \Auth::login(App\Models\User::where('email', request()->email)->first());
@@ -135,6 +136,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/student/search', [App\Http\Controllers\GsuiteTrackerController::class, 'search'])->name('student.search');
         Route::get('/student/search/{phrase}/results', [App\Http\Controllers\GsuiteTrackerController::class, 'searchResult'])->name('student.search.results');
         Route::post('/student/emails/{student}/update', [App\Http\Controllers\GsuiteTrackerController::class, 'update'])->name('student.emails.update');
+        Route::post('/student/add/bulk-upload', [App\Http\Controllers\GsuiteTrackerController::class, 'upload'])->name('students.add');
+        // Route::get('/student/add/bulk-upload', [App\Http\Controllers\GsuiteTrackerController::class, 'upload']);
     });
 
     Route::post('/eval/semester-confirm', [App\Http\Controllers\EvalController::class, 'semesterConfirm'])->name('course-eval.semester-confirm');
