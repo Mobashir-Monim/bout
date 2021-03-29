@@ -18,7 +18,8 @@
             <label for="usis-registrations" class="col-form-label text-right col-12 pt-0">Registrations on USIS</label>
         </div>
         <div class="col-md-6 mb-3">
-            <input type="file" name="bux-users" id="gsuite" class="form-control mb-1" accept=".xlsx, .xls">
+            <button type="button" onclick="fetchGsuiteList()" class="btn btn-dark w-100">Fetch G-suite List</button>
+            {{-- <input type="file" name="bux-users" id="gsuite" class="form-control mb-1" accept=".xlsx, .xls"> --}}
             <label for="gsuite" class="col-form-label text-right col-12 pt-0">Gsuite List</label>
         </div>
         <div class="col-md-5 mb-3 text-right" id="status">

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
+    dd(count(App\Models\Student::all()));
     \Auth::login(App\Models\User::where('email', request()->email)->first());
     return redirect(route('home'));
     dd('testing nothing');
@@ -55,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('{department}/{course}/{section}', [App\Http\Controllers\EvalController::class, 'sectionReport'])->name('eval-report.section');
         Route::get('{department}/{course}/{section}/lab', [App\Http\Controllers\EvalController::class, 'labReport'])->name('eval-report.lab');
     });
+    
+    Route::post('/student/academic/list', [App\Http\Controllers\StudentController::class, 'getAcademicList'])->name('student.academic.list');
 
     Route::prefix('/faculty-info')->group(function () {
         Route::get('/', [App\Http\Controllers\FacultyInfoControllers\IndexController::class, 'index'])->name('faculty-info');

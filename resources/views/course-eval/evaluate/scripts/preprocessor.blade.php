@@ -22,6 +22,46 @@
     let unverifyable = [];
     let unregistered = [];
 
+    const fetchGsuiteList = () => {
+        if (gsuite.length == 0) {
+            console.log('Initiating G-suite fetch');
+            let out = document.getElementById('spinner');
+            out.innerHTML = '<div class="mt-2 spinner-border" role="status"><span class="sr-only">Loading...</span></div>';
+        }
+        
+        fetch("{{ route('student.academic.list') }}", {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json, text-plain, */*",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                method: 'post',
+                credentials: "same-origin",
+                body: JSON.stringify({
+                    data: ['id', 'gsuite_email'],
+                    index: gsuite.length == 0 ? 0 : gsuite[gsuite.length - 1].id
+                })
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                for (let i in data.results) {
+                    gsuite.push(data.results[i]);
+                }
+
+                console.log(`Current count: ${ gsuite.length }`)
+
+                if (data.results.length == 100) {
+                    fetchGsuiteList();
+                } else {
+                    let out = document.getElementById('spinner');
+                    out.innerHTML = "";
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+    }
+
     function readFile(file) {
         let fileInput = document.getElementById(file);
         let out = document.getElementById('spinner');
@@ -119,8 +159,8 @@
                 eRow["Section Number"] = 'Not registered';
             }
 
-            if (gsuite.filter(r => { return eRow["Email Address"] == r["Email Address [Required]"] })[0]) {
-                eRow["id"] = gsuite.filter(r => { return eRow["Email Address"] == r["Email Address [Required]"] })[0]["Employee ID"];
+            if (gsuite.filter(r => { return eRow["Email Address"] == r["gsuite_email"] })[0]) {
+                eRow["id"] = gsuite.filter(r => { return eRow["Email Address"] == r["gsuite_email"] })[0]["id"];
             } else {
                 unverifyable.push(eRow);
             }
@@ -199,11 +239,11 @@
 
     function generateIDMap() {
         gsuite.forEach(row => {
-            let sRegs = usisReg.filter(function (reg) { return reg["Student_ID"] == row["Employee ID"] });
+            let sRegs = usisReg.filter(function (reg) { return reg["Student_ID"] == row["id"] });
 
             if (sRegs.length > 0) {
                 sRegs.forEach(reg => {
-                    idMap.push({id: row["Employee ID"], email: row["Email Address [Required]"], course: reg["Course_ID"], section: reg["section"]})
+                    idMap.push({id: row["id"], email: row["gsuite_email"], course: reg["Course_ID"], section: reg["section"]})
                 })
             }
         })
