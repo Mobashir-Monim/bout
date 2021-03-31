@@ -56,6 +56,12 @@
                 } else {
                     let out = document.getElementById('spinner');
                     out.innerHTML = "";
+                    gsuiteHeader = ['id', 'gsuite_email'];
+                    
+                    if (usisRegHeader != null && gsuiteHeader != null && file != 'backup') { console.log('Generating ID Map'); generateIDMap(); }
+                    if (usisRegHeader != null && evalsHeader != null && gsuiteHeader != null && file != 'backup') {
+                        document.getElementById('evaluator').classList.remove('hidden');
+                    }
                 }
             }).catch(error => {
                 console.log(error);
