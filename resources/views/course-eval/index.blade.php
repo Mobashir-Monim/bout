@@ -50,6 +50,20 @@
                                     <div class="col-md-2 my-1">
                                         <button class="btn btn-dark w-100"><span class="material-icons-outlined" style="font-size: 1.2em">thumb_up_alt</span></button>
                                     </div>
+                                    @if (auth()->user()->email == 'mobashir.monim@bracu.ac.bd' && isset($helper))
+                                        <div class="col-md-12 my-2 mt-4">
+                                            <h5 class="border-bottom text-left">Evaluation Configurations</h5>
+                                            <button onclick="configFactors()" class="btn btn-dark d-inline-block m-1">Factors</button>
+                                            <button onclick="configMatrix()" class="btn btn-dark d-inline-block m-1">Matrix</button>
+                                            <button onclick="evaluateCourses()" class="btn btn-dark d-inline-block m-1">Evaluate</button>
+                                            @if ($helper->isPublishable())
+                                                <form action="{{ route('eval-report.publish-toggle', ['year' => $helper->year, 'semester' => $helper->semester]) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-dark d-inline-block m-1">{{ !$helper->eval->is_published ? 'Publish' : 'Unpublish' }}</button>
+                                                </form>
+                                            @endif
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -78,27 +92,6 @@
                 </div>
             </div>
         </div>
-
-        @if (auth()->user()->email == 'mobashir.monim@bracu.ac.bd')
-            <div class="row mb-4">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body text-center" id="eval-config">
-                            <h5 class="border-bottom text-left">Evaluation Configurations</h5>
-                            <button onclick="configFactors()" class="btn btn-dark d-inline-block m-1">Configure Factors</button>
-                            <button onclick="configMatrix()" class="btn btn-dark d-inline-block m-1">Configure Matrix</button>
-                            <button onclick="evaluateCourses()" class="btn btn-dark d-inline-block m-1">Evaluate</button>
-                            @if ($helper->isPublishable())
-                                <form action="{{ route('eval-report.publish-toggle', ['year' => $helper->year, 'semester' => $helper->semester]) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <button type="submit" class="btn btn-dark d-inline-block m-1">{{ !$helper->eval->is_published ? 'Publish' : 'Unpublish' }}</button>
-                                </form>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif   
     @endif
 @endsection
 
