@@ -148,12 +148,12 @@
 
     const compileDeptCourses = () => {
         for (let c in courseList) {
+            if (!fractions.hasOwnProperty(c)) {
+                console.log(c)
+                fractions[c] = [{frac: courseMap[c.slice(0,3)], sections: ""}]
+            }
+            
             if (fractions[c].length > 1) {
-                if (!fractions.hasOwnProperty(c)) {
-                    console.log(c)
-                    fractions[c] = [{frac: courseMap[c.slice(0,3)], sections: ""}]
-                }
-
                 fractions[c].forEach(f => {
                     let tempC = createCourse(c), secs = f.sections.split(',');
                     let dept = gd(f.frac);
