@@ -58,7 +58,7 @@
                     out.innerHTML = "";
                     gsuiteHeader = ['id', 'gsuite_email'];
                     
-                    if (usisRegHeader != null && gsuiteHeader != null) { console.log('Generating ID Map'); generateIDMap(); }
+                    if (usisRegHeader != null && gsuiteHeader != null && idMap.length == 0) { console.log('Generating ID Map'); generateIDMap(); }
                     if (usisRegHeader != null && evalsHeader != null && gsuiteHeader != null) {
                         document.getElementById('evaluator').classList.remove('hidden');
                     }
@@ -133,7 +133,7 @@
                 storeResults();
             }
 
-            if (usisRegHeader != null && gsuiteHeader != null && file != 'backup') { console.log('Generating ID Map'); generateIDMap(); }
+            if (usisRegHeader != null && gsuiteHeader != null && file != 'backup' && idMap.length == 0) { console.log('Generating ID Map'); generateIDMap(); }
             if (usisRegHeader != null && evalsHeader != null && gsuiteHeader != null && file != 'backup') {
                 document.getElementById('evaluator').classList.remove('hidden');
             }
