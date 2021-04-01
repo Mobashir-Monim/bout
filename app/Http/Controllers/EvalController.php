@@ -97,8 +97,10 @@ class EvalController extends Controller
             return view('course-eval.reports.error', ['status' => $helper->status]);
         }
 
-        if (is_null(json_decode($helper->report))) {
-            return view('course-eval.reports.error', ['status' => ['error' => true, 'message' => 'No students evaluated this course']]);
+        if (gettype($helper->report) == 'string') {
+            if (is_null(json_decode($helper->report))) {
+                return view('course-eval.reports.error', ['status' => ['error' => true, 'message' => 'No students evaluated this course']]);
+            }
         }
 
         return view('course-eval.reports.course-template', ['helper' => $helper]);
@@ -112,8 +114,10 @@ class EvalController extends Controller
             return view('course-eval.reports.error', ['status' => $helper->status]);
         }
 
-        if (is_null(json_decode($helper->report))) {
-            return view('course-eval.reports.error', ['status' => ['error' => true, 'message' => 'No students evaluated this section']]);
+        if (gettype($helper->report) == 'string') {
+            if (is_null(json_decode($helper->report))) {
+                return view('course-eval.reports.error', ['status' => ['error' => true, 'message' => 'No students evaluated this section']]);
+            }
         }
 
         return view('course-eval.reports.section-template', ['helper' => $helper]);
@@ -127,8 +131,10 @@ class EvalController extends Controller
             return view('course-eval.reports.error', ['status' => $helper->status]);
         }
 
-        if (is_null(json_decode($helper->report))) {
-            return view('course-eval.reports.error', ['status' => ['error' => true, 'message' => 'No students evaluated this course']]);
+        if (gettype($helper->report) == 'string') {
+            if (is_null(json_decode($helper->report))) {
+                return view('course-eval.reports.error', ['status' => ['error' => true, 'message' => 'No students evaluated this course']]);
+            }
         }
 
         return view('course-eval.reports.lab-template', ['helper' => $helper]);
