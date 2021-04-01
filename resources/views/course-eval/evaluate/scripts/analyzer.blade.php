@@ -150,6 +150,7 @@
         for (let c in courseList) {
             if (fractions[c].length > 1) {
                 if (!fractions.hasOwnProperty(c)) {
+                    console.log(c)
                     fractions[c] = [{frac: courseMap[c.slice(0,3)], sections: ""}]
                 }
 
