@@ -8,7 +8,7 @@
             <form action="{{ route('course-eval.factors-config', ['year' => $helper->year, 'semester' => $helper->semester]) }}" method="POST">
                 @csrf
                 <div id="factors-cont">
-                    @if (!is_null($helper->eval->factors))
+                    @if (!is_null($helper->factorsArray()))
                         @foreach ($helper->factorsArray() as $key => $factor)
                             <div class="card my-3" id="{{ $key }}">
                                 <div class="card-body">
