@@ -89,18 +89,22 @@
     const findLabSection = (row) => {
         let section = undefined, flag = false;
 
-        Object.keys(clfq).forEach(key => {
-            if (row[key] != 'NADA BADA' && row[key] != '' && row[key] != undefined && (section == undefined || isNaN(section))) {
-                section = parseInt(row[key].split(',')[1]);
-                flag = true;
+        if (!Object.keys(row).includes('Lab Section')) {
+            Object.keys(clfq).forEach(key => {
+                if (row[key] != 'NADA BADA' && row[key] != '' && row[key] != undefined && (section == undefined || isNaN(section))) {
+                    section = parseInt(row[key].split(',')[1]);
+                    flag = true;
+                }
+            })
+
+            if (flag) {
+                section = row["Section Number"];
             }
-        })
 
-        if (flag) {
-            section = row["Section Number"];
+            return isNaN(parseInt(section)) ? "undefined" : section;
+        } else {
+            return row['Lab Section'];
         }
-
-        return isNaN(parseInt(section)) ? "undefined" : section;
     }
 
     const evalCheckbox = (qbank, q, row, temp, cont = null) => {
