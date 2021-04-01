@@ -150,10 +150,9 @@
         for (let c in courseList) {
             if (fractions[c].length > 1) {
                 if (!fractions.hasOwnProperty(c)) {
-                    let frac = c.slice(0,3)
                     fractions[c] = [{frac: courseMap[c.slice(0,3)], sections: ""}]
                 }
-                
+
                 fractions[c].forEach(f => {
                     let tempC = createCourse(c), secs = f.sections.split(',');
                     let dept = gd(f.frac);
