@@ -13,7 +13,7 @@
             evalCSRow(q, temp, row, cs);
             aggregateSectionComments(cs, row, csc);
 
-            if (labCourses.includes(row["Course Code"])) {
+            if (labCourses.includes(row["Course Code"]) && !isNaN(parseInt(row["Lab Section"]))) {
                 cl = gcl(row["Course Code"], findLabSection(row));
                 templ = evalCLRow(q, row, cl);
                 aggregateSectionComments(cl, row, lsc);
@@ -152,7 +152,7 @@
                 console.log(c)
                 fractions[c] = [{frac: courseMap[c.slice(0,3)], sections: ""}]
             }
-            
+
             if (fractions[c].length > 1) {
                 fractions[c].forEach(f => {
                     let tempC = createCourse(c), secs = f.sections.split(',');
