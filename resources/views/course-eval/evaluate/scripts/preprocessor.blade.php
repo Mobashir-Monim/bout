@@ -104,7 +104,7 @@
                     });
                 } else {
                     headers.forEach(key => {
-                        if (file == "eval-response" && key == "Course") {
+                        if (file == "eval-response" && key == "Course Code") {
                             imm[key] = oJS[index][key] != undefined ? oJS[index][key].toString().replace(/\s+/g,' ').trim().replaceAll(/\s/g, '').replaceAll('-', '.') : oJS[index][key];
                         } else {
                             imm[key] = oJS[index][key] != undefined ? oJS[index][key].toString().replace(/\s+/g,' ').trim() : oJS[index][key];
@@ -157,12 +157,12 @@
 
     function setEvalSections() {
         evals.forEach(eRow => {
-            row = idMap.find(r => { return (eRow["Email Address"] == r.email && eRow["Course"].includes(r.course)) });
+            row = idMap.find(r => { return (eRow["Email Address"] == r.email && eRow["Course Code"].includes(r.course)) });
             
             if (row != undefined) {
-                eRow["Section Number"] = row.section;
+                eRow["Theory Section"] = row.section;
             } else {
-                eRow["Section Number"] = 'Not registered';
+                eRow["Theory Section"] = 'Not registered';
             }
 
             if (gsuite.filter(r => { return eRow["Email Address"] == r["gsuite_email"] })[0]) {
@@ -185,7 +185,7 @@
     }
 
     function removeUnregistered() {
-        evals.filter(row => { return row["Section Number"] == 'Not registered'; }).forEach(u => {
+        evals.filter(row => { return row["Theory Section"] == 'Not registered'; }).forEach(u => {
             unregistered.push(u);
             let index = evals.map(item => item["timed-identifier"]).indexOf(u["timed-identifier"]);
             evals.splice(index, 1);
@@ -220,7 +220,7 @@
 
             let rows = evals.filter(r => { return r[evalsHeader[3]] == row[evalsHeader[3]] });
             if (rows.length > 1 && duplicates.filter(d => { return d.email == rows[0]["Email Address"] }).length == 0) {
-                duplicates.push({id: rows[0]["id"], email: rows[0]["Email Address"], course: rows[0]["Course"], count: rows.length, section: rows[0]['Section Number']});
+                duplicates.push({id: rows[0]["id"], email: rows[0]["Email Address"], course: rows[0]["Course Code"], count: rows.length, section: rows[0]['Section Number']});
                 rows.shift();
                 rows.forEach(dup => {
                     let index = evals.map((item) => item["timed-identifier"]).indexOf(dup["timed-identifier"]);

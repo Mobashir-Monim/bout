@@ -9,12 +9,12 @@
     const analyzeCourseSection = () => {
         console.log('Analyzing data with given factors and matrix');
         evals.forEach(row => {
-            let temp = cst(), q, templ = null, cs = gcs(row["Course"], row["Section Number"]), cl = null;
+            let temp = cst(), q, templ = null, cs = gcs(row["Course Code"], row["Theory Section"]), cl = null;
             evalCSRow(q, temp, row, cs);
             aggregateSectionComments(cs, row, csc);
 
-            if (labCourses.includes(row["Course"])) {
-                cl = gcl(row["Course"], findLabSection(row));
+            if (labCourses.includes(row["Course Code"])) {
+                cl = gcl(row["Course Code"], findLabSection(row));
                 templ = evalCLRow(q, row, cl);
                 aggregateSectionComments(cl, row, lsc);
             }
@@ -103,7 +103,7 @@
 
             return isNaN(parseInt(section)) ? "undefined" : section;
         } else {
-            return row['Lab Section'];
+            return row["Lab Section"];
         }
     }
 
