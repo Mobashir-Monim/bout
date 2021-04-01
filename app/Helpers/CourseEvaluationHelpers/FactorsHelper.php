@@ -22,9 +22,9 @@ class FactorsHelper extends Helper
         }
     }
 
-    public function copyFromPrev($year, $semester)
+    public function copyFromPrev($prev_factor)
     {
-        $prev = CE::find($year . "_" . ucfirst($semester));
+        $prev = CE::find($prev_factor);
         $this->eval->factors = $prev->factors;
         $this->eval->save();
     }

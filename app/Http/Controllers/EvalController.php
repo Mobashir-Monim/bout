@@ -169,7 +169,8 @@ class EvalController extends Controller
     public function copyFromPrev($year, $semester)
     {
         $helper = new FactorsHelper($year, $semester);
-        $helper->copyFromPrev(request()->year, request()->semester);
+        $helper->copyFromPrev(request()->prev_factor);
+        // dd('here', $helper, request()->all());
 
         return redirect(route('course-eval.matrix-config', ['year' => $year, 'semester' => $semester]));
     }
