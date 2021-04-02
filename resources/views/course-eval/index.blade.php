@@ -57,10 +57,7 @@
                                             <button onclick="configMatrix()" type="button" class="btn btn-dark d-inline-block m-1">Matrix</button>
                                             <button onclick="evaluateCourses()" type="button" class="btn btn-dark d-inline-block m-1">Evaluate</button>
                                             @if ($helper->isPublishable())
-                                                <form action="{{ route('eval-report.publish-toggle', ['year' => $helper->year, 'semester' => $helper->semester]) }}" method="POST" class="d-inline">
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-dark d-inline-block m-1">{{ !$helper->eval->is_published ? 'Publish' : 'Unpublish' }}</button>
-                                                </form>
+                                                <button type="button" onclick="toggleEvalPublish()" class="btn btn-dark d-inline-block m-1">{{ !$helper->eval->is_published ? 'Publish' : 'Unpublish' }}</button>
                                             @endif
                                         </div>
                                     @endif
@@ -71,6 +68,10 @@
                 </div>
             </div>
         </div>
+    </form>
+    <form action="{{ route('eval-report.publish-toggle', ['year' => $helper->year, 'semester' => $helper->semester]) }}" method="POST" class="d-inline">
+        @csrf
+        <button type="submit" class="hidden" id="publish-btn">{{ !$helper->eval->is_published ? 'Publish' : 'Unpublish' }}</button>
     </form>
 
     @if (isset($helper))

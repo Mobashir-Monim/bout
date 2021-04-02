@@ -41,4 +41,8 @@
     const evaluateCourses = () => {
         window.location.href = "{{ route('course-eval.evaluate', ['year' => 'year', 'semester' => 'semester']) }}".replace('semester', document.getElementById('semester').value).replace('year', document.getElementById('year').value)
     }
+
+    const toggleEvalPublish = () => {
+        document.getElementById('publish-btn').click();
+    }
 </script>
