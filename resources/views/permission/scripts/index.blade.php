@@ -63,5 +63,7 @@
         desctiptionPanel.innerHTML = c.description;
         namePanel.innerHTML = c.title;
         detailsPanel.innerHTML = `Type: <b>${ c.type }</b>    |    Name: <b>${ c.name }</b>`;
+        document.getElementById('permission-type-inp').value = c.type;
+        document.getElementById('permission-name-inp').value = c.name;
     }
 </script>

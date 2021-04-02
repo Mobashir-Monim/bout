@@ -48,7 +48,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-2 my-1">
-                                        <button class="btn btn-dark w-100"><span class="material-icons-outlined" style="font-size: 1.2em">thumb_up_alt</span></button>
+                                        <button class="btn btn-dark w-100"><span class="material-icons-outlined" style="font-size: 1.2em">check</span></button>
                                     </div>
                                     @if (auth()->user()->email == 'mobashir.monim@bracu.ac.bd' && isset($helper))
                                         <div class="col-md-12 my-2 mt-4">

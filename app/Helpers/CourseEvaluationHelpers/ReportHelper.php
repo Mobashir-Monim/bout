@@ -3,6 +3,7 @@
 namespace App\Helpers\CourseEvaluationHelpers;
 
 use App\Helpers\Helper;
+use App\Models\EnterprisePart as EP;
 use App\Models\CourseEvaluation as CE;
 use App\Models\OfferedCourse as OC;
 use App\Models\OfferedCourseSection as OCS;
@@ -113,8 +114,16 @@ class ReportHelper extends Helper
 
     public function generatePermissionedFilter()
     {
+        $access_list = gettype($this->userPermissions['filter']) == 'string' ?
+                        EP::whereIn('id', explode(',', $this->userPermissions['filter']))->get()->pluck('name')->toArray() :
+                        EP::where('is_academic_part', true)->get()->pluck('name')->toArray();
+
+        if ($this->userPermissions['isHead']) $this->generateReportFilter();
+
         foreach ($this->eval->skeleton as $dept => $data) {
-            $this->results[$dept] = $data;
+            if (in_array($dept, $access_list)) {
+                $this->results[$dept] = $data;
+            }
         }
 
         $this->data = ['available' => true, 'type' => 'filter'];

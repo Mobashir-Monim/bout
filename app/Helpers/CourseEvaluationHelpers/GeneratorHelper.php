@@ -7,6 +7,7 @@ use App\Models\CourseEvaluation as CE;
 use App\Models\Course;
 use App\Models\OfferedCourse as OC;
 use App\Models\OfferedCourseSection as OCS;
+use App\Models\EnterprisePart as EP;
 
 class GeneratorHelper extends Helper
 {
@@ -167,19 +168,31 @@ class GeneratorHelper extends Helper
     public function checkPermissions()
     {
         if (is_null($this->section) && is_null($this->course)) {
-            return $this->userPermissions['dept-report'];
+            return $this->checkPartWisePermission('dept-report');
         } elseif (is_null($this->section)) {
-            return $this->userPermissions['course-report'];
+            return $this->checkPartWisePermission('course-report');
         } elseif (!$this->lab) {
             $this->report = json_decode($this->report->first()->evaluation, true);
             
-            return $this->userPermissions['section-report'];
+            return $this->checkPartWisePermission('section-report');
         } elseif ($this->lab) {
             $this->report = json_decode($this->report->first()->evaluation, true);
 
-            return $this->userPermissions['lab-report'];
+            return $this->checkPartWisePermission('lab-report');
         }
 
         return false;
+    }
+
+    public function checkPartWisePermission($type)
+    {
+        if (gettype($this->userPermissions[$type]) != 'string') {
+            return $this->userPermissions[$type];
+        }
+
+        return in_array(
+            $this->dept,
+            EP::whereIn('id', explode(',', $this->userPermissions[$type]))->get()->pluck('name')->toArray()
+        );
     }
 }

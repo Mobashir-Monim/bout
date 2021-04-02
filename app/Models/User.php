@@ -50,7 +50,7 @@ class User extends Authenticatable
 
     public function permissions()
     {
-        return $this->belongsToMany('App\Models\Permission');
+        return $this->belongsToMany('App\Models\Permission')->withPivot('enterprise_parts');
     }
 
     public function headOf()
@@ -84,7 +84,8 @@ class User extends Authenticatable
     {
         foreach ($this->permissions as $permission) {
             if ($permission->type == $type && $permission->name == $name) {
-                return true;
+                return is_null($permission->pivot->enterprise_parts) ?
+                        true : $permission->pivot->enterprise_parts;
             }
         }
 
