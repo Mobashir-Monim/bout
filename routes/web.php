@@ -13,7 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
-    \Auth::login(App\Models\User::where('email', request()->email)->first());
+    $user = App\Models\User::where('email', request()->email)->first();
+
+    if (is_null($user)) {
+        flash('User does not exist on system')->error();
+        return redirect()->back();
+    }
+
+    \Auth::login($user);
     return redirect(route('home'));
     dd('testing nothing');
 })->name('tester')->middleware('checkRole:super-admin');
@@ -106,6 +113,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/{part}/head', [App\Http\Controllers\EnterprisePartController::class, 'changeHead'])->name('change-head');
             Route::post('/{part}/dco', [App\Http\Controllers\EnterprisePartController::class, 'changeDCO'])->name('change-dco');
             Route::post('/{part}/member', [App\Http\Controllers\EnterprisePartController::class, 'changeMember'])->name('change-member');
+            Route::post('/{part}/children', [App\Http\Controllers\EnterprisePartController::class, 'changeChildren'])->name('change-children');
             Route::post('/{part}/update', [App\Http\Controllers\EnterprisePartController::class, 'update'])->name('update');
         });
 

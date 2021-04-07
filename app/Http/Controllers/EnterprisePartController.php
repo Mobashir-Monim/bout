@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Helpers\EnterprisePartHelpers\MembersHelper;
 use App\Helpers\EnterprisePartHelpers\FindMembers;
+use App\Helpers\EnterprisePartHelpers\RelationshipHelper;
 use App\Http\Requests\EnterprisePartCreationRequest;
 
 class EnterprisePartController extends Controller
@@ -75,6 +76,15 @@ class EnterprisePartController extends Controller
 
         $message = "$part->name changed to " . ($part->is_academic_part ? "academic" : "non academic");
         $this->flashMessage('success', $message);
+
+        return redirect()->route('enterprise-parts.show', ['part' => $part->id]);
+    }
+
+    public function changeChildren(EnterprisePart $part, Request $request)
+    {
+        $child = EnterprisePart::find($request->child);
+        $helper = new RelationshipHelper($part, $child, $request->mode);
+        $this->flashMessage('success', $helper->message);
 
         return redirect()->route('enterprise-parts.show', ['part' => $part->id]);
     }
