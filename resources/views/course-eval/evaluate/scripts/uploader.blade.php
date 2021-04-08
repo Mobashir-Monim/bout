@@ -131,9 +131,9 @@
 
         let temp = [], max = maxParts, i = 0;
 
-        for (; (i + startingIndex - 1) < parts.length && max > 0; i++, max--) {
-            console.log(i + startingIndex - 1);
-            temp.push(deepCopy(parts[i + startingIndex - 1]));
+        for (; (i + startingIndex) < parts.length && max > 0; i++, max--) {
+            console.log(i + startingIndex);
+            temp.push(deepCopy(parts[i + startingIndex]));
         }
         
         startingIndex += maxParts;
