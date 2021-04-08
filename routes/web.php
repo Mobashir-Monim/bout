@@ -49,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/init/seed', [App\Http\Controllers\InitController::class, 'seedPart'])->name('student-map-seeder')->middleware('checkRole:super-admin');
 
     Route::get('/eval', [App\Http\Controllers\EvalController::class, 'index'])->name('eval');
+    Route::post('/eval/copy', [App\Http\Controllers\EvalController::class, 'copyEvaluation'])->name('eval.copy');
     Route::get('/evaluate/{year}/{semester}', [App\Http\Controllers\EvalController::class, 'evaluate'])->name('evaluate')->middleware('checkRole:super-admin');
     
     Route::get('/eval/{type}/sample', [App\Http\Controllers\EvalController::class, 'report'])->name('eval-report-sample')->middleware('checkRole:super-admin');

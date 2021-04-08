@@ -9,6 +9,7 @@ use App\Helpers\CourseEvaluationHelpers\MatrixHelper;
 use App\Helpers\CourseEvaluationHelpers\EvaluationHelper;
 use App\Helpers\CourseEvaluationHelpers\ReportHelper;
 use App\Helpers\CourseEvaluationHelpers\GeneratorHelper;
+use App\Helpers\CourseEvaluationHelpers\EvaluationCopyHelper;
 use App\Imports\CourseEvaluationFactorsImport as CEFI;
 use App\Models\CourseEvaluation as CE;
 use Excel;
@@ -97,7 +98,7 @@ class EvalController extends Controller
             return view('course-eval.reports.error', ['status' => $helper->status]);
         }
 
-        if (gettype($helper->report) == 'string') {
+        if (gettype($helper->report) == 'string' || is_null($helper->report)) {
             if (is_null(json_decode($helper->report))) {
                 return view('course-eval.reports.error', ['status' => ['error' => true, 'message' => 'No students evaluated this course']]);
             }
@@ -114,7 +115,7 @@ class EvalController extends Controller
             return view('course-eval.reports.error', ['status' => $helper->status]);
         }
 
-        if (gettype($helper->report) == 'string') {
+        if (gettype($helper->report) == 'string' || is_null($helper->report)) {
             if (is_null(json_decode($helper->report))) {
                 return view('course-eval.reports.error', ['status' => ['error' => true, 'message' => 'No students evaluated this section']]);
             }
@@ -131,7 +132,7 @@ class EvalController extends Controller
             return view('course-eval.reports.error', ['status' => $helper->status]);
         }
 
-        if (gettype($helper->report) == 'string') {
+        if (gettype($helper->report) == 'string' || is_null($helper->report)) {
             if (is_null(json_decode($helper->report))) {
                 return view('course-eval.reports.error', ['status' => ['error' => true, 'message' => 'No students evaluated this course']]);
             }
@@ -212,5 +213,20 @@ class EvalController extends Controller
             'success' => true,
             'message' => 'Ready for next package'
         ]);
+    }
+
+    public function copyEvaluation(Request $request)
+    {
+        $helper = new EvaluationCopyHelper(
+            $request->course,
+            $request->source,
+            $request->destination,
+            $request->course_copy,
+            $request->section_copy
+        );
+
+        $this->flashMessage('success', "Copied data of $request->course% from $request->source to $request->destination");
+
+        return redirect()->route('eval');
     }
 }

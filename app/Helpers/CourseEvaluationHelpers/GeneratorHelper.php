@@ -61,6 +61,7 @@ class GeneratorHelper extends Helper
                 } else {
                     $this->status = ['error' => false];
                     $this->report = gettype($this->report) == 'string' ? json_decode($this->report, true) : $this->report;
+                    $this->checkLinkedEval();
                 }
             } else {
                 $this->status = ['error' => true, 'message' => 'The requested report does not exist'];
@@ -194,5 +195,18 @@ class GeneratorHelper extends Helper
             $this->dept,
             EP::whereIn('id', explode(',', $this->userPermissions[$type]))->get()->pluck('name')->toArray()
         );
+    }
+
+    public function checkLinkedEval()
+    {
+        if (gettype($this->report) == 'array') {
+            if (array_key_exists('links_to', $this->report)) {
+                if (is_null($this->section)) {
+                    $this->report = json_decode(OC::find($this->report['links_to'])->evaluation, true);
+                } else {
+                    $this->report = json_decode(OCS::find($this->report['links_to'])->evaluation, true);
+                }
+            }
+        }
     }
 }
