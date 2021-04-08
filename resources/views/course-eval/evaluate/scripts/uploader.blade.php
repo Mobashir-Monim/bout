@@ -98,7 +98,6 @@
                     parts: generateParts(),
                 })
             }).then(response => {
-                console.log(response)
                 return response.json();
             }).then(data => {
                 console.log(data);
@@ -133,6 +132,7 @@
         let temp = [], max = maxParts, i = 0;
 
         for (; (i + startingIndex - 1) < parts.length && max > 0; i++, max--) {
+            console.log(i + startingIndex - 1);
             temp.push(deepCopy(parts[i + startingIndex - 1]));
         }
         
