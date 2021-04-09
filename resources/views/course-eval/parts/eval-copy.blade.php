@@ -59,6 +59,27 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-10 my-1">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input type="checkbox" name="dept_copy">
+                                        </div>
+                                    </div>
+                                    {{-- <input type="text" class="form-control disabled" disabled value="Copy dept evaluations"> --}}
+                                    <select name="dept" class="form-control">
+                                        <option value="">Select department</option>
+                                        @foreach (App\Models\EnterprisePart::where('is_academic_part', true)->get() as $dept)
+                                            <option value="{{ $dept->name }}">{{ $dept->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col-md-2 my-1">
                                 <button class="btn btn-dark w-100"><span class="material-icons-outlined" style="font-size: 1.2em">check</span></button>
                             </div>

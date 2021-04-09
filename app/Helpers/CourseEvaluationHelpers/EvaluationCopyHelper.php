@@ -4,6 +4,7 @@ namespace App\Helpers\CourseEvaluationHelpers;
 
 use App\Helpers\Helper;
 use App\Models\Course;
+use App\Models\CourseEvaluationResult as CER;
 use App\Models\OfferedCourse as OC;
 use App\Models\OfferedCourseSection as OCS;
 
@@ -12,9 +13,12 @@ class EvaluationCopyHelper extends Helper
     protected $offered_source;
     protected $offered_destination;
 
-    public function __construct($course, $source, $destination, $course_copy, $section_copy)
+    public function __construct($course, $source, $destination, $dept, $dept_copy, $course_copy, $section_copy)
     {
-        try {
+        if (!is_null($dept_copy))
+            $this->deptCopy($dept, $source, $destination);
+
+        if (!is_null($course)) {
             foreach (Course::where('code', 'like', "$course%")->get() as $course) {
                 if (!$this->setOffereds($course, $source, $destination, $course_copy))
                     continue;
@@ -25,8 +29,46 @@ class EvaluationCopyHelper extends Helper
                 if (!is_null($section_copy))
                     $this->copySectionEvals();
             }
-        } catch (\Throwable $th) {
-            dd($this->offered_source, $this->offered_destination);
+        }
+    }
+
+    public function deptCopy($dept, $source, $destination)
+    {
+        $this->updateSkeleton(
+            $dept,
+            CER::where('course_evaluation_id', $source)->where('dept', 'skeleton')->first(),
+            CER::where('course_evaluation_id', $destination)->where('dept', 'skeleton')->first()
+        );
+
+        $this->updateDeptReport(
+            CER::where('course_evaluation_id', $source)->where('dept', $dept)->first(),
+            CER::where('course_evaluation_id', $destination)->where('dept', $dept)->first(),
+            $destination
+        );
+    }
+
+    public function updateSkeleton($dept, $source, $destination)
+    {
+        $source_sk = json_decode($source->value, true);
+        $destination_sk = json_decode($destination->value, true);
+        $destination_sk[$dept] = $source_sk[$dept];
+        $destination->value = json_encode($destination_sk);
+        $destination->save();
+    }
+
+    public function updateDeptReport($source_report, $destination_report, $destination)
+    {
+        if (!is_null($source_report)) {
+            if (is_null($destination_report)) {
+                CER::create([
+                    'course_evaluation_id' => $destination,
+                    'dept' => $source_report->dept,
+                    'value' => $source_report->value
+                ]);
+            } else {
+                $destination_report->value = $source_report->value;
+                $destination_report->save();
+            }
         }
     }
 

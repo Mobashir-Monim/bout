@@ -221,6 +221,8 @@ class EvalController extends Controller
             $request->course,
             $request->source,
             $request->destination,
+            $request->dept,
+            $request->dept_copy,
             $request->course_copy,
             $request->section_copy
         );
