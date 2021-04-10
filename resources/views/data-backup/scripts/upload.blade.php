@@ -5,8 +5,21 @@
     let uploadTableIndex = null;
     let uploadMode = null;
     const uploadSelect = document.getElementById('upload-select');
+    const uploadModeRow = document.getElementById('upload-mode');
+    const uploadSpinnerRow = document.getElementById('upload-spinner');
+
+    const toggleUploadStatusVisual = () => {
+        if (uploadModeRow.classList.contains('hidden')) {
+            uploadModeRow.classList.remove('hidden');
+            uploadSpinnerRow.classList.add('hidden');
+        } else {
+            uploadModeRow.classList.add('hidden');
+            uploadSpinnerRow.classList.remove('hidden');
+        }
+    }
 
     function readFile() {
+        toggleUploadStatusVisual();
         let fileInput = document.getElementById(`upload_file`);
         let reader = new FileReader();
 
@@ -187,6 +200,7 @@
                 if (data.success) {
                     uploadIndex += 1;
                     if (uploadIndex < uploadable.length) { setTimeout(() => { uploadTable(); }, 100); }
+                    else { toggleUploadStatusVisual(); }
                 } else {
                     throw `${ data.message }`;
                 }

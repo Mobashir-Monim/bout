@@ -5,9 +5,12 @@
     let downloadTableIndex = null;
     let downloadMode = null;
     const downloadSelect = document.getElementById('download-select');
+    const downloadModeRow = document.getElementById('download-mode');
+    const downloadSpinnerRow = document.getElementById('download-spinner');
 
     const initiateDownload = () => {
         if (validateDownloadSelect()) {
+            toggleDownloadStatusVisual();
             downloadable = {};
             downloadIndex = 0;
             setDownloadTableIndex();
@@ -25,6 +28,16 @@
         } else {
             setTimeout(() => { alert("Please select a table to download") }, 10);
             return false;
+        }
+    }
+
+    const toggleDownloadStatusVisual = () => {
+        if (downloadModeRow.classList.contains('hidden')) {
+            downloadModeRow.classList.remove('hidden');
+            downloadSpinnerRow.classList.add('hidden');
+        } else {
+            downloadModeRow.classList.add('hidden');
+            downloadSpinnerRow.classList.remove('hidden');
         }
     }
 
@@ -83,6 +96,7 @@
                 }
             }).catch(error => {
                 console.log(error);
+                toggleDownloadStatusVisual();
                 alert(`Whoops! Something went wrong while trying to download. Please try again later.`);
             });
     }
@@ -101,6 +115,7 @@
         } else {
             downloadModeUpdateStatus = true;
             exportTables(downloadMode == 'multi' ? 'db-bout' : tables[downloadTableIndex].name);
+            toggleDownloadStatusVisual();
         }
     }
 
