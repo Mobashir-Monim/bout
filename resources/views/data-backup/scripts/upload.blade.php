@@ -36,7 +36,7 @@
             
         cfb.SheetNames.forEach(function(sheetName) {
             if (tables.find(x => x.name == sheetName) != undefined) {
-                let oJS = XLS.utils.sheet_to_json(cfb.Sheets[sheetName], {raw: true, defval: "N/A"});
+                let oJS = XLS.utils.sheet_to_json(cfb.Sheets[sheetName], {raw: true, defval: null});
                 
                 if (oJS.length > 0) {
                     let headers = Object.keys(oJS[0]);
