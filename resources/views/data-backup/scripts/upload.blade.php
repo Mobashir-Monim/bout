@@ -91,10 +91,14 @@
     }
 
     const handleTimestampData = (des, val) => {
-        if (val.includes('N/A')) {
-            return null;
+        if (val != null) {
+            if (val.includes('N/A')) {
+                return null;
+            } else {
+                return val;
+            }
         } else {
-            return val;
+            return null;
         }
     }
 
