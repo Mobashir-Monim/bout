@@ -1,4 +1,4 @@
-@if (auth()->user()->email == 'mobashir.monim@bracu.ac.bd')
+@if (auth()->user()->email == 'mobashir.monim@bracu.ac.bd' && !isset($helper))
     <form action="{{ route('eval.copy') }}" method="POST">
         @csrf
         <div class="row mb-4">
