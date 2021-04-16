@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
-    dd(json_decode(App\Models\CourseEvaluation::first()->factors, true));
     $user = App\Models\User::where('email', request()->email)->first();
 
     if (is_null($user)) {

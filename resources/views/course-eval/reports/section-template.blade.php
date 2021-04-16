@@ -40,6 +40,19 @@
                         </div>
                         <div class="col-md-2"></div>
                     </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="row border-bottom">
+                                <div class="col-md-8"><p>Overall Score</p></div>
+                                <div class="col-md text-right">
+                                    <p id="overall-score">
+                                        <span style="font-size: 0.5em" class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
                 </div>
                 <div class="col-md-2"></div>
                 <div class="col-md">
@@ -262,5 +275,31 @@
             </div>
         </div>
         <button class="btn btn-danger d-print-none" id="print-btn" onclick="window.print()">Print Report</button>
+        <script src="https://cdn.jsdelivr.net/npm/mathjs@9.3.2/lib/browser/math.min.js"></script>
+        <script>
+            let factorsMatrix = {!! $helper->getFactorVals() !!};
+            let cats = {!! json_encode($helper->report['cats']) !!};
+            let computeExpression = '{{ $helper->getScoreExpression() }}';
+
+            window.onload = () => {
+                normalizeCats();
+                setScore();
+            }
+
+            const normalizeCats = () => {
+                for (let cat in cats) {
+                    let val = 100 * (cats[cat] - factorsMatrix[cat].minVal) / factorsMatrix[cat].diff;
+                    cats[cat] = val >= 0 ? val : 0;
+                }
+            }
+
+            const setScore = () => {
+                if (computeExpression == null || computeExpression == '') {
+                    document.getElementById('overall-score').innerHTML = 'Score formula not decided by HOD/Dean';
+                } else {
+                    document.getElementById('overall-score').innerHTML = math.evaluate(computeExpression, cats).toFixed(2);
+                }
+            }
+        </script>
     </body>
 </html>

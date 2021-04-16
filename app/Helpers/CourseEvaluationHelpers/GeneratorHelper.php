@@ -4,6 +4,7 @@ namespace App\Helpers\CourseEvaluationHelpers;
 
 use App\Helpers\Helper;
 use App\Models\CourseEvaluation as CE;
+use App\Models\CourseEvaluationResult as CER;
 use App\Models\Course;
 use App\Models\OfferedCourse as OC;
 use App\Models\OfferedCourseSection as OCS;
@@ -22,6 +23,7 @@ class GeneratorHelper extends Helper
     public $lab = null;
     public $accessList = [];
     public $userPermissions = ['isHead' => false, 'dept-report' => false, 'course-report' => false, 'section-report' => false, 'lab-report' => false];
+    public $sem;
 
 
     public function __construct($year, $semester, $dept = null, $course = null, $section = null, $lab = false)
@@ -202,11 +204,27 @@ class GeneratorHelper extends Helper
         if (gettype($this->report) == 'array') {
             if (array_key_exists('links_to', $this->report)) {
                 if (is_null($this->section)) {
-                    $this->report = json_decode(OC::find($this->report['links_to'])->evaluation, true);
+                    $oc = OC::find($this->report['links_to']);
+                    $this->report = json_decode($oc->evaluation, true);
+                    $this->sem = $oc->run_id;
                 } else {
-                    $this->report = json_decode(OCS::find($this->report['links_to'])->evaluation, true);
+                    $ocs = OCS::find($this->report['links_to']);
+                    $this->report = json_decode($ocs->evaluation, true);
+                    $this->sem = $ocs->sectionOf->run_id;
                 }
             }
         }
+
+        $this->sem = $this->year . '_' . ucfirst($this->semester);
+    }
+
+    public function getFactorVals()
+    {
+        return CE::find($this->sem)->factors;
+    }
+
+    public function getScoreExpression()
+    {
+        return CER::where('course_evaluation_id', $this->sem)->where('dept', $this->dept)->first()->score_expression;
     }
 }
