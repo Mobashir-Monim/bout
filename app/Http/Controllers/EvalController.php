@@ -86,6 +86,8 @@ class EvalController extends Controller
         if ($helper->status['error']) {
             return view('course-eval.reports.error', ['status' => $helper->status]);
         }
+                
+        dd($helper->report);
 
         return view('course-eval.reports.dept-template', ['helper' => $helper]);
     }
@@ -103,6 +105,8 @@ class EvalController extends Controller
                 return view('course-eval.reports.error', ['status' => ['error' => true, 'message' => 'No students evaluated this course']]);
             }
         }
+                
+        dd($helper->report);
 
         return view('course-eval.reports.course-template', ['helper' => $helper]);
     }
@@ -120,6 +124,8 @@ class EvalController extends Controller
                 return view('course-eval.reports.error', ['status' => ['error' => true, 'message' => 'No students evaluated this section']]);
             }
         }
+        
+        dd($helper->report);
 
         return view('course-eval.reports.section-template', ['helper' => $helper]);
     }
@@ -137,6 +143,8 @@ class EvalController extends Controller
                 return view('course-eval.reports.error', ['status' => ['error' => true, 'message' => 'No students evaluated this course']]);
             }
         }
+
+        dd($helper->report);
 
         return view('course-eval.reports.lab-template', ['helper' => $helper]);
     }
@@ -171,6 +179,17 @@ class EvalController extends Controller
         $helper->addFactors($request->name, $request->short_hand, $request->description);
 
         return redirect(route('course-eval.matrix-config', ['year' => $year, 'semester' => $semester]));
+    }
+
+    public function upadateMinMax($year, $semester, Request $request)
+    {
+        $helper = new FactorsHelper($year, $semester);
+        $helper->upadateMinMax($request->factors);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Updated factors min and max vals'
+        ]);
     }
 
     public function copyFromPrev($year, $semester)

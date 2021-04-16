@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
+    dd(json_decode(App\Models\CourseEvaluation::first()->factors, true));
     $user = App\Models\User::where('email', request()->email)->first();
 
     if (is_null($user)) {
@@ -157,6 +158,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/eval/matrix-config/{year}/{semester}', [App\Http\Controllers\EvalController::class, 'matrixConfigSave'])->name('course-eval.matrix-config');
     Route::get('/eval/evaluate/{year}/{semester}', [App\Http\Controllers\EvalController::class, 'evaluate'])->name('course-eval.evaluate')->middleware('checkRole:super-admin');
     Route::post('/eval/evaluate/{year}/{semester}', [App\Http\Controllers\EvalController::class, 'storeResults'])->name('course-eval.evaluate.store');
+    Route::post('/eval/factors-config/{year}/{semester}/upadateMinMax', [App\Http\Controllers\EvalController::class, 'upadateMinMax'])->name('course-eval.factors-config.store-min-max');
 
     Route::get('/role', [App\Http\Controllers\RoleController::class, 'index'])->name('role')->middleware('checkRole:super-admin');
     Route::name('role.')->prefix('/role')->middleware(['checkRole:super-admin'])->group(function () {

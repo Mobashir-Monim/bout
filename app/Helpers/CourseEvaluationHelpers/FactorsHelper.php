@@ -50,4 +50,10 @@ class FactorsHelper extends Helper
         $this->eval->factors = json_encode($factors);
         $this->eval->save();
     }
+
+    public function upadateMinMax($factors)
+    {
+        $this->eval->factors = $factors;
+        $this->eval->save();
+    }
 }

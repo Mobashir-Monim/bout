@@ -1,5 +1,6 @@
 <script>
     window.onload = () => {
+        setAllMinMaxValsToZero();
         for (const question in questionMatrix) {
             if (!questionMatrix[question].calc.includes('non-eval')) {
                 const temp = stripCatVals(questionMatrix[question]);
@@ -13,6 +14,15 @@
         }
 
         wFactorAndDiff();
+        upadateMinMax();
+    }
+
+    const setAllMinMaxValsToZero = () => {
+        for (let factor in factorsMatrix) {
+            factorsMatrix[factor].diff = 0;
+            factorsMatrix[factor].maxVal = 0;
+            factorsMatrix[factor].minVal = 0;
+        }
     }
 
     const stripCatVals = (question) => {
@@ -77,6 +87,33 @@
         Object.keys(factorsMatrix).forEach(f => {
             factorsMatrix[f].diff = factorsMatrix[f].maxVal - factorsMatrix[f].minVal;
         })
+    }
+
+    const upadateMinMax = () => {
+        fetch("{{ route('course-eval.factors-config.store-min-max', ['year' => $helper->year, 'semester' => $helper->semester]) }}", {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json, text-plain, */*",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                method: 'post',
+                credentials: "same-origin",
+                body: JSON.stringify({
+                    factors: JSON.stringify(factorsMatrix),
+                })
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                if (data.success != true) {
+                    throw 'error';
+                } else {
+                    console.log(data.message)
+                }
+            }).catch(error => {
+                console.log(error);
+                alert('Whoop! Factors min and max vals update failed. Please refresh the page.');
+            });
     }
 
     const factorsMatrix = {!! $helper->eval->factors !!};
