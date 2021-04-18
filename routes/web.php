@@ -106,6 +106,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['checkRole:super-admin'])->group(function () {
         Route::get('/permission', [App\Http\Controllers\PermissionController::class, 'index'])->name('permissions');
         Route::post('/permission/add', [App\Http\Controllers\PermissionController::class, 'addPermission'])->name('permissions.add');
+        Route::post('/permission/create', [App\Http\Controllers\PermissionController::class, 'store'])->name('permissions.create');
         
         Route::get('/enterprise-parts', [App\Http\Controllers\EnterprisePartController::class, 'index'])->name('enterprise-parts');
         Route::name('enterprise-parts.')->prefix('enterprise-parts')->group(function () {

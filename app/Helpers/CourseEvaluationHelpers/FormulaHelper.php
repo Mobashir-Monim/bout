@@ -74,8 +74,8 @@ class FormulaHelper extends Helper
         foreach (['build-formula', 'view-formula'] as $access_level) {
             if ($this->userPermissions[$access_level]) {
                 $parts = gettype($this->userPermissions[$access_level]) == 'string' ?
-                    EP::whereIn('id', explode(',', $this->userPermissions[$access_level]))->get()->pluck('name')->toArray() :
-                    EP::all()->pluck('name')->toArray();
+                    EP::whereIn('id', explode(',', $this->userPermissions[$access_level]))->get() :
+                    EP::all();
     
                 foreach ($parts as $part) {
                     $this->addToAccessList($part->name, [$access_level]);

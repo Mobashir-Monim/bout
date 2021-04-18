@@ -11,6 +11,7 @@
                     </div>
                 </div>
             </div>
+            @include('permission.parts.create')
         </div>
         <div class="col-md">
             <div class="card">

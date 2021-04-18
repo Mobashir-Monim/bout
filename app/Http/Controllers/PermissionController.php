@@ -15,6 +15,18 @@ class PermissionController extends Controller
         return view('permission.index', ['permissions' => $permissions]);
     }
 
+    public function store(Request $request)
+    {
+        Permission::create([
+            'type' => $request->type,
+            'name' => $request->name,
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('permissions');
+    }
+
     public function addPermission(Request $request)
     {
         $helper = new PermissionHelper;
