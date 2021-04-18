@@ -297,8 +297,53 @@
                 if (computeExpression == null || computeExpression == '') {
                     document.getElementById('overall-score').innerHTML = 'Score formula not decided by HOD/Dean';
                 } else {
-                    document.getElementById('overall-score').innerHTML = math.evaluate(computeExpression, cats).toFixed(2);
+                    try {
+                        document.getElementById('overall-score').innerHTML = math.evaluate(unmarkExpression(computeExpression), buildScope()).toFixed(2);
+                    } catch (error) {
+                        document.getElementById('overall-score').innerHTML = 'Error in formula, please contact HOD/Dean';
+                    }
                 }
+            }
+
+            const unmarkExpression = (exp) => {
+                return exp.replaceAll('$', '');
+            }
+
+            const buildScope = () => {
+                let scope = {};
+
+                for (let f in factorsMatrix) {
+                    if (computeExpression.includes(`$${ f }$`)) {
+                        if (cats.hasOwnProperty(f)) {
+                            scope[f] = cats[f];
+                        } else {
+                            scope[f] = 0;
+                        }
+                    }
+                }
+
+                return scope;
+            }
+
+            const getIndicesOf = (searchStr, str, caseSensitive = false) => {
+                let searchStrLen = searchStr.length;
+
+                if (searchStrLen == 0) {
+                    return [];
+                }
+
+                let startIndex = 0, index, indices = [];
+                if (!caseSensitive) {
+                    str = str.toLowerCase();
+                    searchStr = searchStr.toLowerCase();
+                }
+
+                while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+                    indices.push(index);
+                    startIndex = index + searchStrLen;
+                }
+
+                return indices;
             }
         </script>
     </body>
