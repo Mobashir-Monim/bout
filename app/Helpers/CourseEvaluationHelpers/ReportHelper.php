@@ -25,6 +25,7 @@ class ReportHelper extends Helper
         $this->eval = CE::find($year . "_" . ucfirst($semester));
         $this->contructPermissions();
         $this->getReports();
+        $this->buildFormulaHelper();
     }
 
     public function contructPermissions()
@@ -302,5 +303,18 @@ class ReportHelper extends Helper
         $output = rtrim($output, "");
 
         return $output;
+    }
+
+    public function buildFormulaHelper()
+    {
+        $this->formulaHelper = new FormulaHelper($this->eval);
+
+        if (sizeof($this->formulaHelper->access_list) == 0) {
+            $this->formulaHelper = null;
+        } else {
+            $this->formulaHelper->factorShorts = array_keys($this->formulaHelper->factors);
+            usort($this->formulaHelper->factorShorts, function ($a, $b) { return strlen($b) - strlen($a); });
+            $this->formulaHelper->factorShorts = json_encode($this->formulaHelper->factorShorts);
+        }
     }
 }

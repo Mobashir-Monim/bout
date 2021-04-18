@@ -10,6 +10,7 @@ use App\Helpers\CourseEvaluationHelpers\EvaluationHelper;
 use App\Helpers\CourseEvaluationHelpers\ReportHelper;
 use App\Helpers\CourseEvaluationHelpers\GeneratorHelper;
 use App\Helpers\CourseEvaluationHelpers\EvaluationCopyHelper;
+use App\Helpers\CourseEvaluationHelpers\FormulaHelper;
 use App\Imports\CourseEvaluationFactorsImport as CEFI;
 use App\Models\CourseEvaluation as CE;
 use Excel;
@@ -242,5 +243,16 @@ class EvalController extends Controller
         $this->flashMessage('success', "Copied data of $request->course% from $request->source to $request->destination");
 
         return redirect()->route('eval');
+    }
+
+    public function storeExpression($year, $semester, $dept, Request $request)
+    {
+        $helper = new FormulaHelper(CE::find($year . "_" . ucfirst($semester)));
+        $helper->storeExpression($dept, $request->expression);
+
+        return response()->json([
+            'success' => !$helper->status['error'],
+            'message' => $helper->status['message'],
+        ]);
     }
 }

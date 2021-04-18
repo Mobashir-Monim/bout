@@ -18,6 +18,7 @@
 
     @include('course-eval.parts.eval-copy')
     @include('course-eval.parts.eval-box')
+    @include('course-eval.parts.eval-score-formula.index')
 
 @endsection
 

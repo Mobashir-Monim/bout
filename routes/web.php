@@ -50,6 +50,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/eval', [App\Http\Controllers\EvalController::class, 'index'])->name('eval');
     Route::post('/eval/copy', [App\Http\Controllers\EvalController::class, 'copyEvaluation'])->name('eval.copy');
+    Route::post('/eval/expression/{year}/{semester}/{dept}/store', [App\Http\Controllers\EvalController::class, 'storeExpression'])->name('eval.score-expression.store');
     Route::get('/evaluate/{year}/{semester}', [App\Http\Controllers\EvalController::class, 'evaluate'])->name('evaluate')->middleware('checkRole:super-admin');
     
     Route::get('/eval/{type}/sample', [App\Http\Controllers\EvalController::class, 'report'])->name('eval-report-sample')->middleware('checkRole:super-admin');
