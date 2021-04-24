@@ -9,12 +9,12 @@
     const analyzeCourseSection = () => {
         console.log('Analyzing data with given factors and matrix');
         evals.forEach(row => {
-            let temp = cst(), q, templ = null, cs = gcs(row["Course Code"], row["Theory Section"]), cl = null;
+            let temp = cst(), q, templ = null, cs = gcs(row[markers['course-code-header']], getTheorySection(row)), cl = null;
             evalCSRow(q, temp, row, cs);
             aggregateSectionComments(cs, row, csc);
 
-            if (labCourses.includes(row["Course Code"]) && !isNaN(parseInt(row["Lab Section"]))) {
-                cl = gcl(row["Course Code"], findLabSection(row));
+            if (labCourses.includes(row[markers['course-code-header']]) && !isNaN(parseInt(findLabSection(row)))) {
+                cl = gcl(row[markers['course-code-header']], findLabSection(row));
                 templ = evalCLRow(q, row, cl);
                 aggregateSectionComments(cl, row, lsc);
             }
@@ -24,6 +24,14 @@
 
         compileDeptCourses();
         aggregateDeptCourseScores();
+    }
+
+    const getTheorySection = (row) => {
+        if (markers['rs-indicator-header'] != null) {
+            return markers['theory-section-header'] + 1000;
+        } else {
+            return row[markers['theory-section-header']];
+        }
     }
 
     const evalCSRow = (q, temp, row, cs) => {
@@ -158,7 +166,8 @@
                     let dept = gd(f.frac);
                     secs.forEach(sec => {
                         if (courseList[c].sections.hasOwnProperty(sec)) {
-                            tempC.sections[sec] = deepCopy(courseList[c].sections[sec]); }});
+                            tempC.sections[sec] = deepCopy(courseList[c].sections[sec]);    
+                        }});
                     
                     tempC.labs = deepCopy(courseList[c].labs);
                     dept.courses[c] = tempC;

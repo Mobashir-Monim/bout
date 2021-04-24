@@ -6,16 +6,20 @@
 
         for (let d in evaluationResults) {
             averageValues(evaluationResults[d]);
+            normalizeCats(evaluationResults[d]);
 
             for (let c in evaluationResults[d].courses) {
                 averageValues(evaluationResults[d].courses[c]);
+                normalizeCats(evaluationResults[d].courses[c]);
                 
                 for (s in evaluationResults[d].courses[c].sections) {
                     averageValues(evaluationResults[d].courses[c].sections[s]);
+                    normalizeCats(evaluationResults[d].courses[c].sections[s]);
                 }
 
                 for (let l in evaluationResults[d].courses[c].labs) {
                     averageValues(evaluationResults[d].courses[c].labs[l]);
+                    normalizeCats(evaluationResults[d].courses[c].labs[l]);
                 }
             }
         }
@@ -78,6 +82,15 @@
             }
 
             cont.cats[cat] /= cont.respondents;
+        }
+    }
+
+    const normalizeCats = (cont) => {
+        for (let cat in factorsMatrix) {
+            if (cont.cats.hasOwnProperty(cat)) {
+                let val = 100 * (cont.cats[cat] - factorsMatrix[cat].minVal) / factorsMatrix[cat].diff;
+                cont.cats[cat] = val >= 0 ? val : 0;
+            }
         }
     }
 

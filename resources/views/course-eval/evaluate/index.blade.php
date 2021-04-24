@@ -9,19 +9,36 @@
     </div>
 
     <div class="row mb-4 text-center">
-        <div class="col-md-6 mb-3">
+        <div class="col-md-6 mb-3 eval-data-inp hidden">
             <input type="file" name="eval-response" id="eval-response" class="form-control mb-1" accept=".xlsx, .xls">
             <label for="eval-response" class="col-form-label text-right col-12 pt-0">Eval Responses (consolidated)</label>
         </div>
-        <div class="col-md-6 mb-3">
+        <div class="col-md-6 mb-3 eval-data-inp hidden">
             <input type="file" name="bux-users" id="usis-registrations" class="form-control mb-1" accept=".xlsx, .xls">
             <label for="usis-registrations" class="col-form-label text-right col-12 pt-0">Registrations on USIS</label>
         </div>
-        <div class="col-md-6 mb-3">
+        <div class="col-md-6 mb-3 eval-data-inp hidden">
             <button type="button" onclick="fetchGsuiteList()" class="btn btn-dark w-100">Fetch G-suite List</button>
             {{-- <input type="file" name="bux-users" id="gsuite" class="form-control mb-1" accept=".xlsx, .xls"> --}}
             <label for="gsuite" class="col-form-label text-right col-12 pt-0">Gsuite List</label>
         </div>
+
+        <div class="col-md-6 mb-3 eval-data-selector">
+            <input type="text" class="form-control"  placeholder="Course Code Header" id="course-code-header">
+            <label for="eval-response" class="col-form-label text-right col-12 pt-0">Course Code Header</label>
+        </div>
+        <div class="col-md-6 mb-3 eval-data-selector">
+            <input type="text" class="form-control" placeholder="Theory Section Header" id="theory-section-header">
+            <label for="eval-response" class="col-form-label text-right col-12 pt-0">Theory Section Header</label>
+        </div>
+        <div class="col-md-6 mb-3 eval-data-selector">
+            <input type="text" class="form-control" placeholder="RS Indicator Header" id="rs-indicator-header">
+            <label for="eval-response" class="col-form-label text-right col-12 pt-0">RS Indicator Header</label>
+        </div>
+        <div class="col-md-6 mb-3 eval-data-selector">
+            <button class="btn btn-dark w-100" type="button" onclick="setMarkers()">Set Markers</button>
+        </div>
+
         <div class="col-md-5 mb-3 text-right" id="status">
             <button class="btn btn-dark w-100 hidden" id="evaluator" onclick="startEvaluating()">Evaluate</button>
             <button class="btn btn-dark w-100 hidden" id="uploader" onclick="storeResults();">Upload Results to server</button>

@@ -120,6 +120,12 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/{part}/update', [App\Http\Controllers\EnterprisePartController::class, 'update'])->name('update');
         });
 
+        Route::get('/eval-analysis', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'index'])->name('eval-analysis');
+        Route::name('eval-analysis.')->prefix('eval-analysis')->group(function () {
+            Route::get('/create', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'create'])->name('create');
+            Route::post('/create', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'store'])->name('create');
+        });
+
         Route::get('/data-backup', [App\Http\Controllers\DataBackupController::class, 'index'])->name('data-backup');
         Route::post('/data-backup/download', [App\Http\Controllers\DataBackupController::class, 'download'])->name('data-backup.download');
         Route::post('/data-backup/upload', [App\Http\Controllers\DataBackupController::class, 'upload'])->name('data-backup.upload');
