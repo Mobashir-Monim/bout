@@ -28,7 +28,11 @@
 
     const getTheorySection = (row) => {
         if (markers['rs-indicator-header'] != null) {
-            return markers['theory-section-header'] + 1000;
+            if (row[markers['rs-indicator-header']] == 'No') {
+                return row[markers['theory-section-header']];
+            } else {
+                return row[markers['theory-section-header']] + 1000;
+            }
         } else {
             return row[markers['theory-section-header']];
         }
