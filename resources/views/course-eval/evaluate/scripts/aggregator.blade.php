@@ -61,7 +61,12 @@
                             
                 if (flag) {
                     qStatAgSec(segment, part);
-                    segment[contName][part].students = usisReg.filter(reg => { return reg["Course_ID"] == segment.name && reg["section"] == segment[contName][part].section }).length;
+
+                    if (segment[contName][part].section > 1000) {
+                        segment[contName][part].students = usisReg.filter(reg => { return reg["Course_ID"] == segment.name && reg["section"] == (segment[contName][part].section - 1000) }).length;
+                    } else {
+                        segment[contName][part].students = usisReg.filter(reg => { return reg["Course_ID"] == segment.name && reg["section"] == segment[contName][part].section }).length;
+                    }
                 } else {
                     segment.students += segment[contName][part].students;
                 }
