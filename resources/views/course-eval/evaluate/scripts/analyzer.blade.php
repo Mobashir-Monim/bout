@@ -28,10 +28,10 @@
 
     const getTheorySection = (row) => {
         if (markers['rs-indicator-header'] != null) {
-            if (row[markers['rs-indicator-header']] == 'No') {
-                return row[markers['theory-section-header']];
-            } else {
+            if (row[markers['rs-indicator-header']] == 'Yes' && row[markers['course-code-header']].includes('ENG')) {
                 return row[markers['theory-section-header']] + 1000;
+            } else {
+                return row[markers['theory-section-header']];
             }
         } else {
             return row[markers['theory-section-header']];
