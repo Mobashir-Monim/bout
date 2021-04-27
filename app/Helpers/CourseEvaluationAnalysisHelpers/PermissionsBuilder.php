@@ -1,24 +1,23 @@
 <?php
 
-namespace App\Helpers\CourseEvaluationHelpers;
+namespace App\Helpers\CourseEvaluationAnalysisHelpers;
 
 use App\Helpers\Helper;
-use App\Models\CourseEvaluation as CE;
 use App\Models\CourseEvaluationResult as CER;
-use App\Models\EnterprisePart as EP;
 
-class FormulaHelper extends Helper
+class PermissionsBuilder extends Helper
 {
-    public $eval = null;
     public $access_list = [];
-    public $userPermissions = ['isHead' => false, 'build-formula' => false, 'view-formula' => false];
-    
-    public function __construct($eval)
+    public $userPermissions;
+    public $run;
+    public $skeleton = [];
+
+    public function __construct($run)
     {
-        $this->eval = $eval;
-        $this->factors = json_decode($eval->factors, true);
+        $this->run = $run;
         $this->constructPermissions();
         $this->buildAccessList();
+        $this->buildSkeleton();
     }
 
     public function constructPermissions()
@@ -27,8 +26,8 @@ class FormulaHelper extends Helper
 
         $this->userPermissions = [
             'isHead' => $user->isHead,
-            'build-formula' => $user->hasPermission('course-evaluation', 'build-formula'),
-            'view-formula' => $user->hasPermission('course-evaluation', 'view-formula')
+            'dept-report' => $user->hasPermission('course-evaluation', 'dept-report'),
+            'course-report' => $user->hasPermission('course-evaluation', 'course-report'),
         ];
     }
 
@@ -38,10 +37,9 @@ class FormulaHelper extends Helper
         $this->getPermissionAccessList();
         $access_list = [];
 
-        foreach (CER::where('course_evaluation_id', $this->eval->id)->get() as $cer) {
+        foreach (CER::where('course_evaluation_id', $this->run)->get() as $cer) {
             if (array_key_exists($cer->dept, $this->access_list)) {
                 $access_list[$cer->dept]['access_levels'] = $this->access_list[$cer->dept];
-                $access_list[$cer->dept]['expression'] = $cer->score_expression;
             }
         }
 
@@ -59,7 +57,7 @@ class FormulaHelper extends Helper
 
     public function iterateChildrenParts($part)
     {
-        $this->addToAccessList($part->name, ['build-formula', 'view-formula']);
+        $this->addToAccessList($part->name, ['dept-report', 'course-report']);
 
         if ($part->hasChildren) {
             foreach ($part->children as $child) {
@@ -71,7 +69,7 @@ class FormulaHelper extends Helper
 
     public function getPermissionAccessList()
     {
-        foreach (['build-formula', 'view-formula'] as $access_level) {
+        foreach (['dept-report', 'course-report'] as $access_level) {
             if ($this->userPermissions[$access_level]) {
                 $parts = gettype($this->userPermissions[$access_level]) == 'string' ?
                     EP::whereIn('id', explode(',', $this->userPermissions[$access_level]))->get() :
@@ -96,39 +94,16 @@ class FormulaHelper extends Helper
         }
     }
 
-    public function storeExpression($dept, $expression)
+    public function buildSkeleton()
     {
-        $this->status = ['error' => '', 'message' => ''];
+        $skeleton = json_decode(CER::where('course_evaluation_id', $this->run)->where('dept', 'skeleton')->first()->value, true);
 
-        if ($this->hasBuildAccess($dept)) {
-            $cer = CER::where('course_evaluation_id', $this->eval->id)->where('dept', $dept)->first();
-            $cer->score_expression = $expression;
-            $cer->save();
-        }
-    }
+        foreach ($this->access_list as $dept => $access_levels) {
+            $this->skeleton[$dept] = [];
 
-    public function hasBuildAccess($dept)
-    {
-        if (array_key_exists($dept, $this->access_list)) {
-            if (in_array('build-formula', $this->access_list[$dept]['access_levels'])) {
-                $this->setStatus(false, "Score formula for $dept updated.");
-
-                return true;
-            } else {
-                $this->setStatus(true, "You do not have access to set/edit $dept's score formula.");
+            if (in_array('course-report', $access_levels['access_levels'])) {
+                $this->skeleton[$dept] = $skeleton[$dept];
             }
-        } else {
-            $this->setStatus(true, "You do not have access to $dept.");
         }
-
-        return false;
-    }
-
-    public function setStatus($is_error, $message)
-    {
-        $this->status = [
-            'error' => $is_error,
-            'message' => $message
-        ];
     }
 }

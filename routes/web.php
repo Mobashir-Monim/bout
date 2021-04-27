@@ -103,6 +103,14 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
+    Route::get('/eval-analysis', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'index'])->name('eval-analysis');
+    Route::post('/eval-analysis', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'getAnalysisReport'])->name('eval-analysis');
+    Route::post('/eval-analysis/data', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'getAnalysisData'])->name('eval-analysis.json');
+    Route::name('eval-analysis.')->prefix('eval-analysis')->group(function () {
+        Route::get('/create', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'create'])->name('create');
+        Route::post('/create', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'store'])->name('create');
+    });
+
     Route::middleware(['checkRole:super-admin'])->group(function () {
         Route::get('/permission', [App\Http\Controllers\PermissionController::class, 'index'])->name('permissions');
         Route::post('/permission/add', [App\Http\Controllers\PermissionController::class, 'addPermission'])->name('permissions.add');
@@ -118,12 +126,6 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/{part}/member', [App\Http\Controllers\EnterprisePartController::class, 'changeMember'])->name('change-member');
             Route::post('/{part}/children', [App\Http\Controllers\EnterprisePartController::class, 'changeChildren'])->name('change-children');
             Route::post('/{part}/update', [App\Http\Controllers\EnterprisePartController::class, 'update'])->name('update');
-        });
-
-        Route::get('/eval-analysis', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'index'])->name('eval-analysis');
-        Route::name('eval-analysis.')->prefix('eval-analysis')->group(function () {
-            Route::get('/create', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'create'])->name('create');
-            Route::post('/create', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'store'])->name('create');
         });
 
         Route::get('/data-backup', [App\Http\Controllers\DataBackupController::class, 'index'])->name('data-backup');

@@ -282,15 +282,7 @@
             let computeExpression = '{{ $helper->getScoreExpression() }}';
 
             window.onload = () => {
-                normalizeCats();
                 setScore();
-            }
-
-            const normalizeCats = () => {
-                for (let cat in cats) {
-                    let val = 100 * (cats[cat] - factorsMatrix[cat].minVal) / factorsMatrix[cat].diff;
-                    cats[cat] = val >= 0 ? val : 0;
-                }
             }
 
             const setScore = () => {
