@@ -203,7 +203,7 @@
             }).then(data => {
                 if (data.success) {
                     uploadIndex += 1;
-                    if (uploadIndex < uploadable.length) { setTimeout(() => { uploadTable(); }, 100); }
+                    if (uploadIndex < uploadable.length) { setTimeout(() => { uploadTable(); }, 500); }
                     else { toggleUploadStatusVisual(); }
                 } else {
                     throw `${ data.message }`;
