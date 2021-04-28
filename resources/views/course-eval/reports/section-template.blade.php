@@ -43,7 +43,9 @@
                     <div class="row">
                         <div class="col-md">
                             <div class="row border-bottom">
-                                <div class="col-md-8"><p>Overall Score</p></div>
+                                <div class="col-md-8">
+                                    <p>Overall Score <br> (out of 100)</p>
+                                </div>
                                 <div class="col-md text-right">
                                     <p id="overall-score">
                                         <span style="font-size: 0.5em" class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></span>
@@ -121,7 +123,11 @@
                         <thead>
                             <tr>
                                 <th scope="col"><p>Assessment Item</p></th>
-                                <th scope="col"><p class="text-center">Score</p></th>
+                                <th scope="col">
+                                    <p class="text-center">
+                                        Score <br> (out of 100)
+                                    </p>
+                                </th>
                                 <th scope="col"><p class="text-center">Percentile<br>(course)</p></th>
                                 <th scope="col"><p class="text-center">Section Highest<br>(course)</p></th>
                                 <th scope="col"><p class="text-center">Percentile<br>(department)</p></th>
