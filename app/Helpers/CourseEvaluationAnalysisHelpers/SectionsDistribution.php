@@ -40,15 +40,15 @@ class SectionsDistribution extends Helper
     public function getDeptSections()
     {
         $this->sections = Course::where('provider', $this->dept)->get()->pluck('id')->toArray();
-        $this->sections = OC::where('run_id', $this->semester)->whereIn('course_id', $this->sections)->get();
-        $this->sections = OCS::whereIn('offered_course_id')->get();
+        $this->sections = OC::where('run_id', $this->semester)->whereIn('course_id', $this->sections)->get()->pluck('id')->toArray();
+        $this->sections = OCS::whereIn('offered_course_id', $this->sections)->get();
     }
 
     public function getCourseSections()
     {
         $this->sections = Course::where('provider', $this->dept)->where('code', $course)->first()->id;
-        $this->sections = OC::where('run_id', $this->semester)->where('course_id', $this->sections)->get();
-        $this->sections = OCS::whereIn('offered_course_id')->get();
+        $this->sections = OC::where('run_id', $this->semester)->where('course_id', $this->sections)->get()->pluck('id')->toArray();
+        $this->sections = OCS::whereIn('offered_course_id', $this->sections)->get();
     }
 
     public function getLables()
