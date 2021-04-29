@@ -9,7 +9,7 @@ use App\Models\OfferedCourseSection as OCS;
 
 class SectionsDistribution extends Helper
 {
-    protected $sections = [];
+    public $sections = [];
     public $title = '';
 
     public function __construct($semester, $dept = null, $course = null)
@@ -27,26 +27,30 @@ class SectionsDistribution extends Helper
         } else {
             $this->getAllSections();
         }
-
-        $this->sections = OCS::whereIn('offered_course_id', $this->sections->pluck('id')->toArray())->get();
     }
 
     public function getAllSections()
     {
-        $this->sections = OC::where('run_id', $this->semester)->get();
-        $this->title = 'University wide sections score distribution';   
+        $this->sections = OCS::whereIn(
+            'offered_course_id',
+            OC::where('run_id', $this->semester)->get()->pluck('id')->toArray()
+        )->get(); 
     }
 
     public function getDeptSections()
     {
-        $this->sections = Course::where('provider', $this->dept)->get()->pluck('id')->toArray();
-        $this->sections = OC::where('run_id', $this->semester)->whereIn('course_id', $this->sections)->get()->pluck('id')->toArray();
-        $this->sections = OCS::whereIn('offered_course_id', $this->sections)->get();
+        $this->sections = OCS::whereIn(
+            'offered_course_id',
+            OC::where('run_id', $this->semester)->whereIn(
+                'course_id',
+                Course::where('provider', $this->dept)->get()->pluck('id')->toArray()
+            )->get()->pluck('id')->toArray()
+        )->get();
     }
 
     public function getCourseSections()
     {
-        $this->sections = Course::where('provider', $this->dept)->where('code', $course)->first()->id;
+        $this->sections = Course::where('provider', $this->dept)->where('code', $this->course)->first()->id;
         $this->sections = OC::where('run_id', $this->semester)->where('course_id', $this->sections)->get()->pluck('id')->toArray();
         $this->sections = OCS::whereIn('offered_course_id', $this->sections)->get();
     }
@@ -66,7 +70,7 @@ class SectionsDistribution extends Helper
     {
         $labels = $this->getLables();
         $cats = array_fill_keys($labels, []);
-
+        
         foreach ($this->sections as $section) {
             $eval = json_decode($section->evaluation, true);
             if ($eval != null) {

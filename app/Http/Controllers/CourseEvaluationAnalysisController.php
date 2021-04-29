@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Helpers\CourseEvaluationAnalysisHelpers\Helper;
+use App\Helpers\CourseEvaluationAnalysisHelpers\DistributionHelper;
 
 class CourseEvaluationAnalysisController extends Controller
 {
@@ -14,7 +14,7 @@ class CourseEvaluationAnalysisController extends Controller
 
     public function getAnalysisReport(Request $request)
     {
-        $helper = new Helper(
+        $helper = new DistributionHelper(
             $request->dist_type,
             $request->semester,
             $request->year,
@@ -33,7 +33,7 @@ class CourseEvaluationAnalysisController extends Controller
 
     public function getAnalysisData(Request $request)
     {
-        $helper = new Helper(
+        $helper = new DistributionHelper(
             $request->dist_type,
             $request->semester,
             $request->year,

@@ -2,11 +2,11 @@
 
 namespace App\Helpers\CourseEvaluationAnalysisHelpers;
 
-use App\Helpers\Helper as ParentHelper;
+use App\Helpers\Helper;
 use App\Models\CourseEvaluation as CE;
 use App\Models\CourseEvaluationResult as CER;
 
-class Helper extends ParentHelper
+class DistributionHelper extends Helper
 {
     public $skeleton;
     public $dist_helper;
@@ -50,7 +50,7 @@ class Helper extends ParentHelper
 
     public function buildChartConfig($dist_type)
     {
-        $this->dist_helper = $this->buildDistHelper($dist_type);
+        $this->buildDistHelper($dist_type);
         $this->chart_helper = new ChartBuilder(
             $this->dist_helper->getCats(),
             $this->dist_helper->getLables(),
@@ -62,22 +62,15 @@ class Helper extends ParentHelper
 
     public function buildDistHelper($dist_type)
     {
-        switch ($dist_type) {
-            case 'dept-comparison':
-                $this->dist_view = 'eval-analysis.parts.dept-comparison';
-                return new DeptComparison($this->run);
-                break;
-            case 'course-overall-score-distribution':
-                $this->dist_view = 'eval-analysis.parts.course-comparison';
-                return new CoursesDistribution($this->run, $this->dept);
-                break;
-            case 'section-score-distribution':
-                $this->dist_view = 'eval-analysis.parts.section-comparison';
-                return new SectionsDistribution($this->run);
-                break;
-            default:
-                return null;
-                break;
+        if ($dist_type == 'dept-comparison') {
+            $this->dist_view = 'eval-analysis.parts.dept-comparison';
+            $this->dist_helper = new DeptComparison($this->run);
+        } elseif ($dist_type == 'course-overall-score-distribution') {
+            $this->dist_view = 'eval-analysis.parts.course-comparison';
+            $this->dist_helper = new CoursesDistribution($this->run, $this->dept);
+        } else {
+            $this->dist_view = 'eval-analysis.parts.section-comparison';
+            $this->dist_helper = new SectionsDistribution($this->run, $this->dept, $this->course);
         }
     }
 
