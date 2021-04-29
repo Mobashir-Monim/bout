@@ -19,11 +19,7 @@
 
     const validateInputs = () => {
         if (deptCont.value != "") {
-            // if (courseCont.value != "") {
-            //     return true;
-            // } else {
-            //     alert('Please select a course first');
-            // }
+            return true;
         } else {
             alert('Please select a department/school first');
         }
