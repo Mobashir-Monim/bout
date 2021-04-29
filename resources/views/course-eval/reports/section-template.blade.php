@@ -296,7 +296,9 @@
                     document.getElementById('overall-score').innerHTML = 'Score formula not decided by HOD/Dean';
                 } else {
                     try {
-                        document.getElementById('overall-score').innerHTML = math.evaluate(unmarkExpression(computeExpression), buildScope()).toFixed(2);
+                        let finalScore = math.evaluate(unmarkExpression(computeExpression), buildScope()).toFixed(2);
+                        finalScore = typeof(finalScore) == 'string' ? finalScore : finalScore.entries[0];
+                        document.getElementById('overall-score').innerHTML = finalScore;
                     } catch (error) {
                         document.getElementById('overall-score').innerHTML = 'Error in formula, please contact HOD/Dean';
                     }
