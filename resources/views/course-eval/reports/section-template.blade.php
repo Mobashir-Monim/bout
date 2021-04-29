@@ -295,13 +295,13 @@
                 if (computeExpression == null || computeExpression == '') {
                     document.getElementById('overall-score').innerHTML = 'Score formula not decided by HOD/Dean';
                 } else {
-                    try {
+                    // try {
                         let finalScore = math.evaluate(unmarkExpression(computeExpression), buildScope());
                         finalScore = typeof(finalScore.toFixed(2)) == 'string' ? finalScore.toFixed(2) : finalScore.entries[0];
                         document.getElementById('overall-score').innerHTML = finalScore;
-                    } catch (error) {
-                        document.getElementById('overall-score').innerHTML = 'Error in formula, please contact HOD/Dean';
-                    }
+                    // } catch (error) {
+                    //     document.getElementById('overall-score').innerHTML = 'Error in formula, please contact HOD/Dean';
+                    // }
                 }
             }
 
