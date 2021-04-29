@@ -19,11 +19,11 @@
 
     const validateInputs = () => {
         if (deptCont.value != "") {
-            if (courseCont.value != "") {
-                return true;
-            } else {
-                alert('Please select a course first');
-            }
+            // if (courseCont.value != "") {
+            //     return true;
+            // } else {
+            //     alert('Please select a course first');
+            // }
         } else {
             alert('Please select a department/school first');
         }
@@ -54,7 +54,7 @@
                     return response.json();
                 }).then(data => {
                     sectionDist.destroy();
-                    data.chart_config.options.plugins.title.text = `${ courseCont.value } sections score distribution`;
+                    data.chart_config.options.plugins.title.text = `${ courseCont.value == "" ? deptCont.value : courseCont.value } sections score distribution`;
                     sectionDist = new Chart(document.getElementById('section-distribution'), data.chart_config);
                 }).catch(error => {
                     console.log(error);
