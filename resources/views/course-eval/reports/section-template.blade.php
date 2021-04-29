@@ -297,7 +297,7 @@
                 } else {
                     try {
                         let finalScore = math.evaluate(unmarkExpression(computeExpression), buildScope());
-                        finalScore = typeof(finalScore) != 'object' ? finalScore.toFixed(2) : finalScore.entries[0];
+                        finalScore = typeof(finalScore) != 'object' ? finalScore.toFixed(2) : finalScore.entries[0].toFixed(2);
                         document.getElementById('overall-score').innerHTML = finalScore;
                     } catch (error) {
                         document.getElementById('overall-score').innerHTML = 'Error in formula, please contact HOD/Dean';
