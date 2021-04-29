@@ -297,6 +297,7 @@
                 } else {
                     // try {
                         let finalScore = math.evaluate(unmarkExpression(computeExpression), buildScope());
+                        console.log(finalScore, finalScore);
                         finalScore = typeof(finalScore.toFixed(2)) == 'string' ? finalScore.toFixed(2) : finalScore.entries[0];
                         document.getElementById('overall-score').innerHTML = finalScore;
                     // } catch (error) {
