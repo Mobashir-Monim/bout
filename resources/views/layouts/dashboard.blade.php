@@ -21,8 +21,9 @@
             
             <span class="navbar-brand col-md-3 col-lg-2 mr-0 px-3">
                 <i class="fas fa-list text-white pr-3 d-md-none" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation"></i>
+                <i class="fas fa-list ml-5 text-white pr-3 d-none d-md-inline-block" type="button" onclick="toggleSideNav()"></i>
                 <a class="text-white d-md-none" href="{{ route('home') }}">Bout</a>
-                <a class="text-white ml-5 d-none d-md-block" href="{{ route('home') }}">Bout</a>
+                <a class="text-white d-none d-md-inline-block" href="{{ route('home') }}">Bout</a>
             </span>
             
             <ul class="navbar-nav pr-5 py-1 d-none d-md-block">
@@ -60,6 +61,22 @@
     @yield('scripts')
     <script>
         $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+        let sideNav = document.getElementById('sidebarMenu');
+        let mainDisplay = document.getElementById('main');
+
+        const toggleSideNav = () => {
+            if (!sideNav.classList.contains('d-none')) {
+                sideNav.classList.remove('col-md-3', 'col-lg-2', 'd-md-block');
+                sideNav.classList.add('d-none');
+                mainDisplay.classList.remove('col-md-9', 'col-lg-10');
+                mainDisplay.classList.add('col-md-12', 'col-lg-12');
+            } else {
+                sideNav.classList.add('col-md-3', 'col-lg-2', 'd-md-block');
+                sideNav.classList.remove('d-none');
+                mainDisplay.classList.add('col-md-9', 'col-lg-10');
+                mainDisplay.classList.remove('col-md-12', 'col-lg-12');
+            }
+        }
     </script>
     
     <!-- <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
