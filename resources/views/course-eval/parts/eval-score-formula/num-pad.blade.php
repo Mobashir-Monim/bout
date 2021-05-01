@@ -28,5 +28,8 @@
             <td class="btn btn-sm btn-dark rounded-0 p-1 w-25" onclick="insertFactor('(')">(</td>
             <td class="btn btn-sm btn-dark rounded-0 p-1 w-25" onclick="insertFactor(')')">)</td>
         </tr>
+        <tr>
+            <td colspan="4" class="btn btn-sm btn-dark rounded-0 p-2 w-100" id="active-formula-toggler" onclick="changeActiveFormula()">Lab score formula</td>
+        </tr>
     </tbody>
 </table>

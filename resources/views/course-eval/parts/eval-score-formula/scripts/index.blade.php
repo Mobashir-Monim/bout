@@ -6,6 +6,15 @@
     const formulaBuilder = document.getElementById('formula-builder');
     const formulaViewer = document.getElementById('formula-viewer');
     const expressionViewer = document.getElementById('score-expression-viwer');
+    const activeFormula = {
+        element: document.getElementById('active-formula'),
+        toggle_element: document.getElementById('active-formula-toggler'),
+        text: {
+            theory: 'Theory score formula',
+            lab: 'Lab score formula',
+        },
+        active: 'theory',
+    };
 
     window.onload = () => {
         if (Object.keys(accessParts).length == 1) {
@@ -21,11 +30,11 @@
             if (accessParts[enterprisePart.value].access_levels.includes("build-formula")) {
                 hideSegment(formulaViewer);
                 showSegment(formulaBuilder);
-                parseExpressionIntoSegment(accessParts[enterprisePart.value].expression, expressionInput);
+                parseExpressionIntoSegment(accessParts[enterprisePart.value].expression[activeFormula.active], expressionInput);
             } else {
                 hideSegment(formulaBuilder);
                 showSegment(formulaViewer);
-                parseExpressionIntoSegment(accessParts[enterprisePart.value].expression, expressionViewer);
+                parseExpressionIntoSegment(accessParts[enterprisePart.value].expression[activeFormula.active], expressionViewer);
             }
         }
     }
@@ -52,5 +61,13 @@
         } else {
             segment.value = exp
         }
+    }
+
+    const changeActiveFormula = () => {
+        let inactivate = activeFormula.active;
+        activeFormula.active = inactivate == 'theory' ? 'lab' : 'theory'
+        activeFormula.element.innerText = activeFormula.text[activeFormula.active];
+        activeFormula.toggle_element.innerText = activeFormula.text[inactivate];
+        changeEnterprisePart();
     }
 </script>

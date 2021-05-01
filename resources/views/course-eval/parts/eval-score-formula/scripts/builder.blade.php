@@ -26,6 +26,8 @@
         if (typeof(exp) != 'boolean') {
             try {
                 let unmarkedExp = exp.replaceAll('$', '')
+                console.log(unmarkedExp)
+                console.log(scopes)
                 math.evaluate(unmarkedExp, scopes);
                 saveExpression(exp);
             } catch (error) {
@@ -86,6 +88,7 @@
     }
 
     const saveExpression = (exp) => {
+        accessParts[enterprisePart.value].expression[activeFormula.active] = exp;
         fetch("{{ route('eval.score-expression.store', ['year' => $helper->year, 'semester' => $helper->semester, 'dept' => 'dept']) }}".replace('dept', enterprisePart.value), {
                 headers: {
                     "Content-Type": "application/json",
@@ -96,7 +99,7 @@
                 method: 'post',
                 credentials: "same-origin",
                 body: JSON.stringify({
-                    expression: exp,
+                    expression: JSON.stringify(accessParts[enterprisePart.value].expression),
                 })
             }).then(response => {
                 console.log(response);
@@ -105,10 +108,10 @@
                 console.log(data);
 
                 if (data.success) {
-                    // accessParts[enterprisePart.value].expression = exp;
+                    alert(data.message);
+                } else {
+                    throw `Error`;
                 }
-
-                alert(data.message);
             }).catch(error => {
                 console.log(error);
                 alert('Whoop! Something went wrong, please refresh the page and try again');

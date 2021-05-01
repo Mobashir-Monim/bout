@@ -26,6 +26,26 @@
             </div>
             <div class="row mb-4">
                 <div class="col-md">
+                    <div class="row mb-2 border-bottom">
+                        <div class="col-md-12">
+                            <h6 class="mb-0"><b>Course Statistics</b></h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="row border-bottom">
+                                <div class="col-md-8">
+                                    <p>Overall Score <br> (out of 100)</p>
+                                </div>
+                                <div class="col-md text-right">
+                                    <p id="overall-score">
+                                        <span style="font-size: 0.5em" class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
                 </div>
                 <div class="col-md-2"></div>
                 <div class="col-md">
@@ -225,5 +245,70 @@
             </div>
         </div>
         <button class="btn btn-danger d-print-none" id="print-btn" onclick="window.print()">Print Report</button>
+        <script src="https://cdn.jsdelivr.net/npm/mathjs@9.3.2/lib/browser/math.min.js"></script>
+        <script>
+            let factorsMatrix = {!! $helper->getFactorVals() !!};
+            let cats = {!! json_encode($helper->report['cats']) !!};
+            let computeExpression = `{!! preg_replace( "/\r|\n/", "", $helper->getScoreExpression('lab') ) !!}`;
+
+            window.onload = () => {
+                setScore();
+            }
+
+            const setScore = () => {
+                if (computeExpression == null || computeExpression == '') {
+                    document.getElementById('overall-score').innerHTML = 'Score formula not decided by HOD/Dean';
+                } else {
+                    try {
+                        let finalScore = math.evaluate(unmarkExpression(computeExpression), buildScope());
+                        finalScore = typeof(finalScore) != 'object' ? finalScore.toFixed(2) : finalScore.entries[0].toFixed(2);
+                        document.getElementById('overall-score').innerHTML = finalScore;
+                    } catch (error) {
+                        document.getElementById('overall-score').innerHTML = 'Error in formula, please contact HOD/Dean';
+                    }
+                }
+            }
+
+            const unmarkExpression = (exp) => {
+                return exp.replaceAll('$', '');
+            }
+
+            const buildScope = () => {
+                let scope = {};
+
+                for (let f in factorsMatrix) {
+                    if (computeExpression.includes(`$${ f }$`)) {
+                        if (cats.hasOwnProperty(f)) {
+                            scope[f] = cats[f] == null ? 0 : cats[f];
+                        } else {
+                            scope[f] = 0;
+                        }
+                    }
+                }
+
+                return scope;
+            }
+
+            const getIndicesOf = (searchStr, str, caseSensitive = false) => {
+                let searchStrLen = searchStr.length;
+
+                if (searchStrLen == 0) {
+                    return [];
+                }
+
+                let startIndex = 0, index, indices = [];
+                if (!caseSensitive) {
+                    str = str.toLowerCase();
+                    searchStr = searchStr.toLowerCase();
+                }
+
+                while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+                    indices.push(index);
+                    startIndex = index + searchStrLen;
+                }
+
+                return indices;
+            }
+        </script>
     </body>
 </html>

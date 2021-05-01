@@ -6,6 +6,7 @@
                     <div class="card-body">
                         <h5 class="border-bottom">Section Score Formula</h5>
                         @include('course-eval.parts.eval-score-formula.enterprise-parts')
+                        <h6 class="border-bottom" id="active-formula">Theory score formula</h6>
                         @include('course-eval.parts.eval-score-formula.viewer')
                         @include('course-eval.parts.eval-score-formula.builder')
                         @include('course-eval.parts.eval-score-formula.factors-info')

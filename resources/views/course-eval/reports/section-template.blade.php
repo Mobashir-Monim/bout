@@ -285,7 +285,7 @@
         <script>
             let factorsMatrix = {!! $helper->getFactorVals() !!};
             let cats = {!! json_encode($helper->report['cats']) !!};
-            let computeExpression = `{!! preg_replace( "/\r|\n/", "", $helper->getScoreExpression() ) !!}`;
+            let computeExpression = `{!! preg_replace( "/\r|\n/", "", $helper->getScoreExpression('theory') ) !!}`;
 
             window.onload = () => {
                 setScore();

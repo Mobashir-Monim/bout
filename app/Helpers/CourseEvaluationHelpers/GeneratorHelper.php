@@ -223,8 +223,17 @@ class GeneratorHelper extends Helper
         return CE::find($this->sem)->factors;
     }
 
-    public function getScoreExpression()
+    public function getScoreExpression($type)
     {
-        return CER::where('course_evaluation_id', $this->sem)->where('dept', $this->dept)->first()->score_expression;
+        return json_decode(
+            CER::where(
+                'course_evaluation_id',
+                $this->sem
+            )->where(
+                'dept',
+                $this->dept
+            )->first()->score_expression,
+            true
+        )[$type];
     }
 }

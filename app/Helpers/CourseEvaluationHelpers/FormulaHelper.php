@@ -41,7 +41,18 @@ class FormulaHelper extends Helper
         foreach (CER::where('course_evaluation_id', $this->eval->id)->get() as $cer) {
             if (array_key_exists($cer->dept, $this->access_list)) {
                 $access_list[$cer->dept]['access_levels'] = $this->access_list[$cer->dept];
-                $access_list[$cer->dept]['expression'] = $cer->score_expression;
+
+                if (is_null(json_decode($cer->score_expression))) {
+                    if (!is_null($cer->score_expression)) {
+                        $cer->score_expression = "{\"theory\": \"$cer->score_expression\", \"lab\": \"\"}";
+                        $cer->save();
+                    } else {
+                        $cer->score_expression = "{\"theory\": \"\", \"lab\": \"\"}";
+                        $cer->save();
+                    }
+                }
+
+                $access_list[$cer->dept]['expression'] = json_decode($cer->score_expression);
             }
         }
 
