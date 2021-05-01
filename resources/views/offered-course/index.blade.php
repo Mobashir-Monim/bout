@@ -4,16 +4,16 @@
     <form action="{{ route('offered-courses') }}" method="POST" id="run-confirm">
         @csrf
         <div class="row mb-4">
-            <div class="col-md-12">
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
                         <div class="row mb-2">
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <h5 class="mb-0 border-bottom">Select semester</h5>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-3 col-12 my-1">
+                            <div class="col-md-5 col-12 my-1">
                                 <select name="semester" id="semester" class="form-control">
                                     @if (!isset($helper))
                                         <option value="">Please select a semester</option>
@@ -30,7 +30,7 @@
                                     @endif
                                 </select>
                             </div>
-                            <div class="col-md-3 col-12 my-1">
+                            <div class="col-md-5 col-12 my-1">
                                 <select name="year" id="year" class="form-control">
                                     @if (isset($helper))
                                         <option value="{{ $helper->year }}">{{ $helper->year }}</option>
@@ -47,7 +47,7 @@
                                     @endif
                                 </select>
                             </div>
-                            <div class="col-md-1 my-1 offset-md-1">
+                            <div class="col-md-2 my-1">
                                 <button class="btn btn-dark w-100"><i class="fas fa-check"></i></button>
                             </div>
                         </div>

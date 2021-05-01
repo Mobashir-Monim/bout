@@ -1,10 +1,10 @@
 <div class="row mt-3 mb-2">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <h5 class="mb-0 border-bottom">Upload Offered Courses {{ sizeof($helper->courses) > 1 ? "(Department wise)" : "" }}</h5>
     </div>
 </div>
 <div class="row my-1">
-    <div class="col-md-6 my-auto">
+    <div class="col-md-10 my-auto">
         @if (sizeof($helper->courses) > 1)
             <select name="dept" class="form-control" id="upload-dept">
                 <option value="">Please select a department</option>
@@ -19,7 +19,7 @@
 
         <input type="file" name="file" id="file" class="form-control my-1" accept=".xlsx, .xls">
     </div>
-    <div class="col-md-1 my-1 offset-md-1">
+    <div class="col-md-2 my-1">
         <button class="btn btn-dark w-100" id="uploader" type="button"><i class="fas fa-upload"></i></button>
     </div>
     <div class="col-md-4 text-right hidden my-auto" id="upload-spinner">
