@@ -11,6 +11,7 @@ use App\Helpers\CourseEvaluationHelpers\ReportHelper;
 use App\Helpers\CourseEvaluationHelpers\GeneratorHelper;
 use App\Helpers\CourseEvaluationHelpers\EvaluationCopyHelper;
 use App\Helpers\CourseEvaluationHelpers\FormulaHelper;
+use App\Helpers\CourseEvaluationHelpers\FacultyFilter;
 use App\Imports\CourseEvaluationFactorsImport as CEFI;
 use App\Models\CourseEvaluation as CE;
 use Excel;
@@ -142,8 +143,6 @@ class EvalController extends Controller
             }
         }
 
-        
-
         return view('course-eval.reports.lab-template', ['helper' => $helper]);
     }
 
@@ -259,6 +258,16 @@ class EvalController extends Controller
         return response()->json([
             'success' => !$helper->status['error'],
             'message' => $helper->status['message'],
+        ]);
+    }
+
+    public function filterFaculty($year, $semester, Request $request)
+    {
+        $helper = new FacultyFilter($year, $semester, $request->search_phrase);
+
+        return response()->json([
+            'success' => true,
+            'results' => $helper->results
         ]);
     }
 }

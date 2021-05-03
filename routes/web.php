@@ -54,7 +54,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/evaluate/{year}/{semester}', [App\Http\Controllers\EvalController::class, 'evaluate'])->name('evaluate')->middleware('checkRole:super-admin');
     
     Route::get('/eval/{type}/sample', [App\Http\Controllers\EvalController::class, 'report'])->name('eval-report-sample')->middleware('checkRole:super-admin');
-
+    Route::post('eval/faculty-filter/{year}/{semester}', [App\Http\Controllers\EvalController::class, 'filterFaculty'])->name('eval-report.faculty-filter');
     Route::prefix('eval/report/{year}/{semester}')->group(function () {
         // Matches The "/admin/users" URL
         Route::get('/', [App\Http\Controllers\EvalController::class, 'overallReport'])->name('eval-report');

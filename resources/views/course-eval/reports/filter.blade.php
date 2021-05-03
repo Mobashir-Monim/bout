@@ -67,3 +67,4 @@
 </div>
 
 @include('course-eval.reports.scripts.filter')
+@include('course-eval.reports.faculty-filter.index')

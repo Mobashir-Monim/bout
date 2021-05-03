@@ -18,14 +18,17 @@ class ReportHelper extends Helper
     public $report = null;
     public $userPermissions = ['isHead' => false, 'filter' => false, 'dept-report' => false, 'course-report' => false, 'section-report' => false, 'lab-report' => false];
 
-    public function __construct($year, $semester)
+    public function __construct($year, $semester, $faculty_filter = false)
     {
         $this->year = $year;
         $this->semester = $semester;
         $this->eval = CE::find($year . "_" . ucfirst($semester));
         $this->contructPermissions();
         $this->getReports();
-        $this->buildFormulaHelper();
+        
+        if (!$faculty_filter) {
+            $this->buildFormulaHelper();
+        }
     }
 
     public function contructPermissions()
