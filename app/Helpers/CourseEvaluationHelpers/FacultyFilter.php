@@ -54,7 +54,7 @@ class FacultyFilter extends Helper
             $courses
         )->where('email', 'like', "%$search_phrase%")->get());
 
-        $this->results = $this->results->unique();
+        // $this->results = $this->results->unique();
     }
 
     public function formatResults()
@@ -62,13 +62,13 @@ class FacultyFilter extends Helper
         $formatted = [];
 
         foreach ($this->results as $result) {
-            if (array_key_exists($result->email, $formatted))
+            if (!array_key_exists($result->email, $formatted))
                 $formatted[$result->email] = [
                     'name' => $result->name,
                     'reports' => []
                 ];
 
-                $formatted[$result->email]['reports'][] = $this->buildResultItem($result);
+            $formatted[$result->email]['reports'][] = $this->buildResultItem($result);
         }
 
         $this->results = $formatted;
