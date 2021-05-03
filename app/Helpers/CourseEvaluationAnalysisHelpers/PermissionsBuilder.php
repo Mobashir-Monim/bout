@@ -12,12 +12,24 @@ class PermissionsBuilder extends Helper
     public $run;
     public $skeleton = [];
 
-    public function __construct($run)
+    public function __construct($run, $build_access_list = true)
     {
         $this->run = $run;
         $this->constructPermissions();
-        $this->buildAccessList();
-        $this->buildSkeleton();
+        
+        if ($build_access_list) {
+            $this->buildAccessList();
+            $this->buildSkeleton();
+        }
+    }
+
+    public function hasPermission()
+    {
+        foreach ($this->userPermissions as $permission)
+            if ($permission)
+                return true;
+
+        return false;
     }
 
     public function constructPermissions()

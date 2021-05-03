@@ -103,13 +103,16 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
-    Route::get('/eval-analysis', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'index'])->name('eval-analysis');
-    Route::post('/eval-analysis', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'getAnalysisReport'])->name('eval-analysis');
-    Route::post('/eval-analysis/data', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'getAnalysisData'])->name('eval-analysis.json');
-    Route::name('eval-analysis.')->prefix('eval-analysis')->group(function () {
-        Route::get('/create', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'create'])->name('create');
-        Route::post('/create', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'store'])->name('create');
+    Route::middleware(['hasEvaluationAnalysisAccess'])->group(function () {
+        Route::get('/eval-analysis', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'index'])->name('eval-analysis');
+        Route::post('/eval-analysis', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'getAnalysisReport'])->name('eval-analysis');
+        Route::post('/eval-analysis/data', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'getAnalysisData'])->name('eval-analysis.json');
     });
+
+    // Route::name('eval-analysis.')->prefix('eval-analysis')->group(function () {
+    //     Route::get('/create', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'create'])->name('create');
+    //     Route::post('/create', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'store'])->name('create');
+    // });
 
     Route::middleware(['checkRole:super-admin'])->group(function () {
         Route::get('/permission', [App\Http\Controllers\PermissionController::class, 'index'])->name('permissions');

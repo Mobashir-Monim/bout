@@ -14,13 +14,16 @@ use App\Helpers\CourseEvaluationHelpers\FormulaHelper;
 use App\Imports\CourseEvaluationFactorsImport as CEFI;
 use App\Models\CourseEvaluation as CE;
 use Excel;
+use App\Helpers\CourseEvaluationAnalysisHelpers\PermissionsBuilder;
 use App\Imports\SeedImport;
 
 class EvalController extends Controller
 {
     public function index(Request $request)
     {
-        return view('course-eval.index');
+        return view('course-eval.index', [
+            'has_analytics_access' => (new PermissionsBuilder(null, false))->hasPermission()
+        ]);
     }
 
     public function evaluate($year, $semester)
@@ -148,7 +151,10 @@ class EvalController extends Controller
     {
         $helper = new ReportHelper($request->year, $request->semester);
 
-        return view('course-eval.index', ['helper' => $helper]);
+        return view('course-eval.index', [
+            'helper' => $helper,
+            'has_analytics_access' => (new PermissionsBuilder(null, false))->hasPermission()
+        ]);
     }
 
     public function publishReport(Request $request)
