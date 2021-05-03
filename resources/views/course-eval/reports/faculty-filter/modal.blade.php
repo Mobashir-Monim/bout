@@ -12,7 +12,7 @@
                     <div class="col-md-6 my-2">
                         <input type="text" name="faculty-filter-search-phrase" id="faculty-filter-search-phrase" class="form-control" minlength="5" placeholder="Search phrase (name/email address)">
                     </div>
-                    <div class="col-md-2 my-2">
+                    <div class="col-md-2 my-2 offset-md-0 offset-10">
                         <button class="btn btn-dark" type="button" onclick="fetchReports()"><span class="material-icons-outlined">search</span></button>
                     </div>
                     <div class="col-md-2 my-2">
