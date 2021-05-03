@@ -4,29 +4,40 @@
     const filterSpinner = document.getElementById('faculty-filter-spinner');
 
     const fetchReports = () => {
-        filterSpinner.classList.remove('hidden');
-        filterBody.innerHTML = '';
-        fetch("{{ route('eval-report.faculty-filter', ['year' => $helper->year, 'semester' => $helper->semester]) }}", {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json, text-plain, */*",
-                    "X-Requested-With": "XMLHttpRequest",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                    },
-                method: 'post',
-                credentials: "same-origin",
-                body: JSON.stringify({
-                    search_phrase: filterPhrase.value,
-                })
-            }).then(response => {
-                return response.json();
-            }).then(data => {
-                addResults(data.results)
-            }).catch(error => {
-                console.log(error);
-                filterSpinner.classList.add('hidden');
-                alert('Whoop! Something went wrong, please refresh the page and try again');
-            });
+        if (validateSearchPhrase()) {
+            filterSpinner.classList.remove('hidden');
+            filterBody.innerHTML = '';
+            fetch("{{ route('eval-report.faculty-filter', ['year' => $helper->year, 'semester' => $helper->semester]) }}", {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json, text-plain, */*",
+                        "X-Requested-With": "XMLHttpRequest",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        },
+                    method: 'post',
+                    credentials: "same-origin",
+                    body: JSON.stringify({
+                        search_phrase: filterPhrase.value,
+                    })
+                }).then(response => {
+                    return response.json();
+                }).then(data => {
+                    addResults(data.results)
+                }).catch(error => {
+                    console.log(error);
+                    filterSpinner.classList.add('hidden');
+                    alert('Whoop! Something went wrong, please refresh the page and try again');
+                });
+        }
+    }
+
+    const validateSearchPhrase = () => {
+        if (filterPhrase.value.trim().length >= 5) {
+            return true;
+        }
+
+        alert('Search phrase must be at least 5 characters without spaces!');
+        return false;
     }
 
     const addResults = results => {
