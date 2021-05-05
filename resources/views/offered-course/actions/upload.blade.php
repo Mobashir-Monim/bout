@@ -22,8 +22,10 @@
     <div class="col-md-2 my-1">
         <button class="btn btn-dark w-100" id="uploader" type="button"><i class="fas fa-upload"></i></button>
     </div>
-    <div class="col-md-4 text-right hidden my-auto" id="upload-spinner">
+    <div class="col-md-12 text-right hidden my-auto my-2" id="upload-spinner">
         <p class="mb-0">Uploading Data, please do not close browser/tab. The page will automatically refresh after completion</p>
         <div class="mt-2 spinner-border" role="status"><span class="sr-only">Loading...</span></div>
     </div>
+
+    <div class="col-md-12 my-2" id="error-list"></div>
 </div>

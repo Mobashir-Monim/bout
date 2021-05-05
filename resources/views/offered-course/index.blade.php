@@ -48,7 +48,7 @@
                                 </select>
                             </div>
                             <div class="col-md-2 my-1">
-                                <button class="btn btn-dark w-100"><i class="fas fa-check"></i></button>
+                                <button class="btn btn-dark w-100"><span class="material-icons-outlined">check</span></button>
                             </div>
                         </div>
 
@@ -61,6 +61,8 @@
             </div>
         </div>
     </form>
+
+    @include('offered-course.actions.provider-update')
 
     @isset($helper)
         @include('offered-course.show')

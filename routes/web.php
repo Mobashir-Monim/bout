@@ -150,6 +150,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/create/{year}/{semester}', [App\Http\Controllers\OfferedCourseController::class, 'create'])->name('create');
             Route::post('/update/{year}/{semester}', [App\Http\Controllers\OfferedCourseController::class, 'update'])->name('update');
             Route::post('/delete/{year}/{semester}', [App\Http\Controllers\OfferedCourseController::class, 'delete'])->name('delete');
+            Route::post('/update/provider', [App\Http\Controllers\OfferedCourseController::class, 'updateProvider'])->name('update.provider')->middleware('checkRole:super-admin');
         });
     });
 

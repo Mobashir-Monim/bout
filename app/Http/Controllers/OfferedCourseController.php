@@ -7,6 +7,8 @@ use App\Helpers\OfferedCourseHelpers\Index as OCHI;
 use App\Helpers\OfferedCourseHelpers\Creator as OCHC;
 use App\Helpers\OfferedCourseHelpers\Updator as OCHU;
 use App\Helpers\OfferedCourseHelpers\Deletor as OCHD;
+use App\Models\Course;
+use DB;
 
 class OfferedCourseController extends Controller
 {
@@ -54,5 +56,20 @@ class OfferedCourseController extends Controller
             'message' => "Successfully deleted $request->type",
             'sent' => $request->all()
         ]);
+    }
+
+    public function updateProvider(Request $request)
+    {
+        $courses = Course::where(\DB::raw('BINARY `provider`'), $request->old_provider)->get();
+        $count = count($courses);
+
+        foreach ($courses as $course) {
+            $course->provider = strtoupper($request->new_provider);
+            $course->save();
+        }
+
+        flash("Updated \"$request->old_provider\" to \"$request->new_provider\" for $count course(s)")->success();
+
+        return $this->index($request);
     }
 }

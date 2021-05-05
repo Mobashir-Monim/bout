@@ -4,8 +4,12 @@
     let diffTable = {};
     const uploadDept = document.getElementById('upload-dept');
     const uploadSpinner = document.getElementById('upload-spinner');
+    const fileErrorList = document.getElementById('error-list');
+    let fileErrorLog = [];
 
     $("#uploader").click(function(){
+        setErrorList();
+
         if (uploadDept.value != "") {
             if (file.value != "") {
                 uploadSpinner.classList.remove('hidden');
@@ -18,6 +22,15 @@
             alert("Please select a department before trying to uplaod the offered course data");
         }
     });
+
+    const setErrorList = () => {
+        fileErrorLog = [];
+        if (!fileErrorList.classList.contains('hidden')) {
+            fileErrorList.classList.add('hidden');
+        }
+
+        fileErrorList.innerHTML = '';
+    }
 
     const readFile = () => {
         uploaded = {};
@@ -40,6 +53,7 @@
             let oJS = XLS.utils.sheet_to_json(cfb.Sheets[sheetName], {defval: ""});
 
             for (let index = 0; index < oJS.length; index++) {
+                oJS[index].department = oJS[index].department.toUpperCase();
                 keyCheck(uploaded, oJS[index].department, {});
                 keyCheck(uploaded[oJS[index].department], oJS[index].code, {});
                 keyCheck(uploaded[oJS[index].department][oJS[index].code], 'sections', {});
@@ -67,8 +81,15 @@
         }
 
         markDeletes(dept);
-        console.log('Uploading changes');
-        performChanges();
+        if (fileErrorLog.length == 0) {
+            console.log('Uploading changes');
+            performChanges();
+        } else {
+            console.log('Printing Errors');
+            printErrorLog();
+            uploadSpinner.classList.add('hidden');
+            console.log(diffTable);
+        }
     }
 
     const markDeletes = (dept) => {
@@ -124,7 +145,7 @@
             diffTable = {};
             uploaded = {};
             uploadSpinner.classList.add('hidden');
-            alert(`All sections has to be numeric. Non-numeric section found for ${ row.code } '${ row.section }'. Please correct it and reupload the file`);
+            fileErrorLog.push(`All sections has to be numeric. Non-numeric section found for ${ row.code } '${ row.section }'. Please correct it and reupload the file`);
             throw 'Non-numeric section found!';
         }
     }
@@ -215,7 +236,7 @@
                 }
             }
         } else {
-            alert(`Error in file!!! ${ c } is defined to have ${ type }, but no ${ type } faculty record found in file. Press "OK" to continue`);
+            fileErrorLog.push(`Error in file!!! ${ c } is defined to have ${ type }, but no ${ type } faculty record found in file. Press "OK" to continue`);
         }
     }
 
@@ -427,6 +448,18 @@
         }
 
         return result;
+    }
+
+    const printErrorLog = () => {
+        let list = '<h5 class="border-bottom">Errors found!</h5><ul class="list-group">';
+
+        fileErrorLog.forEach(err => {
+            list = `${ list }<li class="list-group-item list-group-item-danger">${ err }</li>`;
+        })
+
+        list = `${ list }</ul>`;
+        fileErrorList.innerHTML = list;
+        fileErrorList.classList.remove('hidden');
     }
 
     Object.filterOut = (obj, key, value) => {
