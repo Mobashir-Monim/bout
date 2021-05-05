@@ -21,7 +21,7 @@ class Index extends Helper
         $this->semester = $semester;
         $this->year = $year;
         $this->departments = array_unique(EnterprisePart::whereIn('id', $this->getDepartmentsIDs())->where('is_academic_part', true)->get()->pluck('name')->toArray());
-        
+
         if (auth()->user()->hasRole('super-admin')) {
             $this->departments = array_unique(Course::all()->pluck('provider')->toArray());
         }
@@ -30,19 +30,20 @@ class Index extends Helper
     public function getDepartmentsIDs()
     {
         return DB::table('role_user')
-            ->where('role_id', Role::where('name', 'dco')->first()->id)
+            ->where('role_id', Role::where('name', 'like', '%dco%')->first()->id)
             ->where('user_id', auth()->user()->id)
             ->get()->pluck('enterprise_part_id')->toArray();
     }
 
     public function getCourses()
     {
-        $courses = OfferedCourse::whereIn('course_id', Course::whereIn('provider', $this->departments)
-                        ->get()
-                        ->pluck('id')
-                        ->toArray())
-                    ->where('run_id', $this->year . "_" . ucfirst($this->semester))
-                    ->get();
+        $courses = OfferedCourse::whereIn(
+            'course_id',
+            Course::whereIn(
+                'provider',
+                $this->departments
+            )->get()->pluck('id')->toArray()
+        )->where('run_id', $this->year . "_" . ucfirst($this->semester))->get();
 
         if (auth()->user()->hasRole('super-admin')) {
             $courses = OfferedCourse::where('run_id', $this->year . "_" . ucfirst($this->semester))->get();

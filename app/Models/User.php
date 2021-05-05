@@ -45,7 +45,7 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany('App\Models\Role');
+        return $this->belongsToMany('App\Models\Role')->withPivot('enterprise_part_id');
     }
 
     public function permissions()
@@ -71,13 +71,22 @@ class User extends Authenticatable
 
     public function hasRole($name)
     {
+        $parts = [];
+        $role_name = str_replace('%', '', $name);
+
         foreach ($this->roles as $role) {
-            if ($role->name == $name) {
+            if (gettype(strpos($name, '%')) == 'boolean' && $role->name == $name) {
                 return true;
+            } elseif (startsWith($name, '%') && endsWith($name, '%') && gettype(strpos($role->name, $role_name)) != 'boolean') {
+                $parts[] = $role->pivot->enterprise_part_id;
+            } elseif (startsWith($name, '%') && startsWith($role->name, $role_name)) {
+                $parts[] =  $role->pivot->enterprise_part_id;
+            } elseif (endsWith($role->name, $role_name)) {
+                $parts[] =  $role->pivot->enterprise_part_id;
             }
         }
 
-        return false;
+        return sizeof($parts) == 0 ? false : $parts;
     }
 
     public function hasPermission($type, $name)

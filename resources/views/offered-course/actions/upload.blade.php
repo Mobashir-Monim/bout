@@ -5,7 +5,7 @@
 </div>
 <div class="row my-1">
     <div class="col-md-10 my-auto">
-        @if (sizeof($helper->courses) > 1)
+        @if (sizeof($helper->departments) > 1)
             <select name="dept" class="form-control" id="upload-dept">
                 <option value="">Please select a department</option>
                 @foreach ($helper->departments as $dept)
