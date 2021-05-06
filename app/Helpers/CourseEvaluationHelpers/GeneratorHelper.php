@@ -77,6 +77,7 @@ class GeneratorHelper extends Helper
     {
         if (is_null($this->course) && is_null($this->section)) {
             $this->report = $this->eval->deptResults($this->dept);
+            $this->setCourseSectionData();
             
             return gettype($this->report) != 'boolean';
         }
@@ -235,5 +236,34 @@ class GeneratorHelper extends Helper
             )->first()->score_expression,
             true
         )[$type];
+    }
+
+    public function setCourseSectionData()
+    {
+        $rows = [];
+
+        foreach (OC::whereIn(
+            'course_id',
+            Course::where(
+                'provider',
+                $this->dept
+            )->get()->pluck('id')->toArray()
+        )->where('run_id', $this->year . "_" . ucfirst($this->semester))->get() as $offered) {
+            foreach ($offered->sections as $section) {
+                $rows[] = $this->setRowData($section);
+            }
+        }
+
+        $this->report['course_section_data'] = $rows;
+    }
+
+    public function setRowData($section)
+    {
+        $row = $section->sectionDetails;
+        $row['name'] = $section->name;
+        $row['email'] = $section->email;
+        $row['evaluation'] = json_decode($section->evaluation, true);
+
+        return $row;
     }
 }

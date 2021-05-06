@@ -6,6 +6,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
         <link rel="stylesheet" href="/css/report.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
         <title>Evaluation Report for {{ $helper->dept . " - " .  $helper->year . " " . $helper->semester }}</title>
     </head>
     <body>
@@ -289,7 +290,199 @@
                     </table>
                 </div>
             </div>
+
+            <hr>
+
+            <div class="row d-print-none mb-4">
+                <div class="col-md-6 my-1">
+                    <input type="text" class="form-control" id="filter-text" placeholder="Search using faculty email address or name">
+                </div>
+                <div class="col-md-4 my-1">
+                    <select class="form-control" id="filter-type" onchange="setFilterType()">
+                        <option value="faculty">Faculty</option>
+                        <option value="lab">Labs Only</option>
+                        <option value="theory">Theory Only</option>
+                        <option value="code">Course Code</option>
+                    </select>
+                </div>
+                <div class="col-md-2 my-1">
+                    <button class="btn btn-dark w-100" type="button" onclick="setFilterType(true)"><span class="material-icons-outlined" style="font-size: 1em">search</span></button>
+                </div>
+            </div>
+            
+            <hr class="pb">
+
+            <div class="row">
+                <div class="col-md-12 mb-4">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="row"><p class="text-center">Faculty</p></th>
+                                <th scope="row"><p class="text-center">Course</p></th>
+                                <th scope="row"><p class="text-center">Section</p></th>
+                                <th scope="row"><p class="text-center">Respondents</p></th>
+                                <th scope="row"><p class="text-center">Students</p></th>
+                                <th scope="row"><p class="text-center">Score</p></th>
+                            </tr>
+                        </thead>
+                        <tbody id="faculty-info">
+                            {{-- <tr>
+                                <td><p>Faculty</p></td>
+                                <td><p>Course</p></td>
+                                <td><p>Section</p></td>
+                                <td><p>Respondents</p></td>
+                                <td><p>Students</p></td>
+                                <td><p>Score</p></td>
+                            </tr> --}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <button class="btn btn-danger d-print-none" id="print-btn" onclick="window.print()">Print Report</button>
+        <script src="https://cdn.jsdelivr.net/npm/mathjs@9.3.2/lib/browser/math.min.js"></script>
+        <script>
+            const courseSectionData = {!! json_encode($helper->report['course_section_data']) !!};
+            const facultyInfo = document.getElementById('faculty-info');
+            const filterText = document.getElementById('filter-text');
+            const filterType = document.getElementById('filter-type');
+            let factorsMatrix = {!! $helper->getFactorVals() !!};
+            let theoryComputeExpression = `{!! preg_replace( "/\r|\n/", "", $helper->getScoreExpression('theory') ) !!}`;
+            let labComputeExpression = `{!! preg_replace( "/\r|\n/", "", $helper->getScoreExpression('lab') ) !!}`;
+
+            window.onload = () => {
+                setTable(courseSectionData);
+            }
+
+            const setTable = dataRows => {
+                let count = 0;
+                facultyInfo.innerHTML = '';
+                dataRows.forEach(row => {
+                    let eval = getEvalVals(row.evaluation);
+
+                    setTimeout(() => {
+                        facultyInfo.innerHTML += `
+                            <tr>
+                                <th scope="row"><p class="text-center">${ row.name }<br>${ row.email }</p></th>
+                                <td><p class="text-center">${ row.code }</p></td>
+                                <td><p class="text-center">${ row.section }<br>(${ row.is_lab ? 'Lab' : 'Theory' })</p></td>
+                                <td><p class="text-center">${ eval.respondents }</p></td>
+                                <td><p class="text-center">${ eval.students }</p></td>
+                                <td><p class="text-center">${ eval.score }</p></td>
+                            </tr>
+                        `;
+                        count += 1;
+                        console.log(count)
+                    }, 100);
+                });
+            }
+
+            const getEvalVals = (eval, is_lab) => {
+                if (eval == null) {
+                    return {
+                        respondents: 0,
+                        students: '??',
+                        score: 'N/A'
+                    };
+                } else {
+                    let computeExpression = is_lab ? labComputeExpression : theoryComputeExpression;
+
+                    return {
+                        respondents: eval.respondents,
+                        students: eval.hasOwnProperty('students') ? eval.students : '??',
+                        score: getScore(eval.cats, computeExpression)
+                    };
+                }
+            }
+            
+            const getScore = (cats, computeExpression) => {
+                if (computeExpression == null || computeExpression == '') {
+                    return 'No formula set'
+                } else {
+                    try {
+                        let finalScore = math.evaluate(unmarkExpression(computeExpression), buildScope(cats, computeExpression));
+                        finalScore = typeof(finalScore) != 'object' ? finalScore.toFixed(2) : finalScore.entries[0].toFixed(2);
+                        return finalScore;
+                    } catch (error) {
+                        return 'Error in formula, please correct it!';
+                    }
+                }
+            }
+
+            const unmarkExpression = (exp) => {
+                return exp.replaceAll('$', '');
+            }
+
+            const buildScope = (cats, computeExpression) => {
+                let scope = {};
+
+                for (let f in factorsMatrix) {
+                    if (computeExpression.includes(`$${ f }$`)) {
+                        if (cats.hasOwnProperty(f)) {
+                            scope[f] = cats[f];
+                        } else {
+                            scope[f] = 0;
+                        }
+                    }
+                }
+
+                return scope;
+            }
+
+            const setFilterType = (filterBtnClicked = false) => {
+                if (filterType.value == 'lab') {
+                    filterBySectionType(true);
+                } else if (filterType.value == 'theory') {
+                    filterBySectionType(false);
+                } else if (filterType.value == 'faculty') {
+                    filterByFaculty(filterBtnClicked);
+                } else {
+                    filterByCourse(filterBtnClicked);
+                }
+            }
+
+            const filterBySectionType = type => {
+                filterText.disabled = true;
+                filterText.placeholder = 'Filtered Automatically';
+                filterText.value = '';
+
+                if (!filterText.classList.contains('disabled')) {
+                    filterText.classList.add('disabled');
+                }
+
+                setTable(courseSectionData.filter(x => x.is_lab == type));
+            }
+
+            const filterByFaculty = filterBtnClicked => {
+                filterText.disabled = false;
+                filterText.placeholder = 'Search using faculty email address or name';
+
+                if (!filterText.classList.contains('disabled')) {
+                    filterText.classList.add('disabled');
+                }
+
+                if (filterBtnClicked) {
+                    setTable(courseSectionData.filter(x => {
+                        return x.name.toLowerCase().includes(filterText.value.toLowerCase())
+                        || x.email.toLowerCase().includes(filterText.value.toLowerCase());
+                    }));
+                }
+            }
+
+            const filterByCourse = filterBtnClicked => {
+                filterText.disabled = false;
+                filterText.placeholder = 'Search using course code';
+
+                if (!filterText.classList.contains('disabled')) {
+                    filterText.classList.add('disabled');
+                }
+
+                if (filterBtnClicked) {
+                    setTable(courseSectionData.filter(x => {
+                        return x.code.toLowerCase().includes(filterText.value.toLowerCase());
+                    }));
+                }
+            }
+        </script>
     </body>
 </html>
