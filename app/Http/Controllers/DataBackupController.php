@@ -32,7 +32,7 @@ class DataBackupController extends Controller
         $helper->setBackupRows($request->table, $request->rows, $request->current);
 
         if ($request->current == $request->last) {
-            UploadBackupData::dispatch()->delay(now()->addSeconds(300));
+            UploadBackupData::dispatch()->delay(now()->addSeconds(30));
             $message = 'Data backup scheduled to be performed after 5 minutes';
         }
 
