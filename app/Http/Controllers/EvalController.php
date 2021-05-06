@@ -163,7 +163,10 @@ class EvalController extends Controller
         $eval->save();
         $helper = new ReportHelper($request->year, $request->semester);
         
-        return view('course-eval.index', ['helper' => $helper]);
+        return view('course-eval.index', [
+            'helper' => $helper,
+            'has_analytics_access' => (new PermissionsBuilder(null, false))->hasPermission()
+        ]);
     }
 
     public function factorsConfig($year, $semester)
