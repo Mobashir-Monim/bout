@@ -358,7 +358,7 @@
                 let count = 0;
                 facultyInfo.innerHTML = '';
                 dataRows.forEach(row => {
-                    let eval = getEvalVals(row.evaluation);
+                    let eval = getEvalVals(row.evaluation, row.is_lab);
 
                     setTimeout(() => {
                         facultyInfo.innerHTML += `
