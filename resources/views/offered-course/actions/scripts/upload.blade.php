@@ -55,6 +55,11 @@
             for (let index = 0; index < oJS.length; index++) {
                 oJS[index].department = oJS[index].department.toUpperCase();
                 oJS[index].code = oJS[index].code..replaceAll(' ', '');
+
+                if (isNaN(parseFloat(oJS[index].code.slice(3,10)))) {
+                    fileErrorLog.push(`Last part of code must be number for ${ oJS[index].code } '${ oJS[index].section }'. Please correct it and reupload the file`);
+                }
+
                 keyCheck(uploaded, oJS[index].department, {});
                 keyCheck(uploaded[oJS[index].department], oJS[index].code, {});
                 keyCheck(uploaded[oJS[index].department][oJS[index].code], 'sections', {});
