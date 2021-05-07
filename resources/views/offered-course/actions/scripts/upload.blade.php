@@ -54,6 +54,7 @@
 
             for (let index = 0; index < oJS.length; index++) {
                 oJS[index].department = oJS[index].department.toUpperCase();
+                oJS[index].code = oJS[index].code..replaceAll(' ', '');
                 keyCheck(uploaded, oJS[index].department, {});
                 keyCheck(uploaded[oJS[index].department], oJS[index].code, {});
                 keyCheck(uploaded[oJS[index].department][oJS[index].code], 'sections', {});

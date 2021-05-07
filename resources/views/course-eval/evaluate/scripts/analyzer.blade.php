@@ -161,7 +161,7 @@
     const compileDeptCourses = () => {
         for (let c in courseList) {
             if (!fractions.hasOwnProperty(c)) {
-                fractions[c] = [{frac: courseMap[c.slice(0,3)], sections: ""}]
+                fractions[c] = [{frac: courseMap[c.slice(0,3)], sections: ""}];
             }
 
             if (fractions[c].length > 1) {
