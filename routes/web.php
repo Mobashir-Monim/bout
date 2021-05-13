@@ -147,7 +147,6 @@ Route::middleware(['auth'])->group(function () {
             Route::middleware(['checkRole:super-admin'])->group(function () {
                 Route::post('/update/provider', [App\Http\Controllers\OfferedCourseController::class, 'updateProvider'])->name('update.provider');
                 Route::get('/list', [App\Http\Controllers\OfferedCourseController::class, 'listCourses'])->name('list');
-                Route::post('/list', [App\Http\Controllers\OfferedCourseController::class, 'listCourses'])->name('list');
                 Route::post('/list/details', [App\Http\Controllers\OfferedCourseController::class, 'listCourseDetails'])->name('details');
                 Route::post('/list/update', [App\Http\Controllers\OfferedCourseController::class, 'updateOfferedInformation'])->name('list.update');
                 Route::post('/list/copy/eval', [App\Http\Controllers\OfferedCourseController::class, 'copyEvaluation'])->name('list.copy-eval');

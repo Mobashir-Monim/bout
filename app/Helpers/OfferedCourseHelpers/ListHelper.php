@@ -63,7 +63,7 @@ class ListHelper extends Helper
     {
         if (array_key_exists('filter_course', $this->list_details)) {
             if ($this->list_details['filter_course'] != 'duplicates') {
-                return Course::where('code', $this->list_details['filter_course'])->orderBy('code')->paginate(20);
+                return Course::where('code', $this->list_details['filter_course'])->orderBy('code')->paginate(20)->withQueryString();
             } else {
                 $duplicate_sets = DB::select('select code, provider from courses group by code, provider having count(*) >1;');
                 $duplicates = [];
@@ -71,7 +71,7 @@ class ListHelper extends Helper
                 foreach ($duplicate_sets as $set)
                     $duplicates = array_merge($duplicates, Course::where('code', $set->code)->where('provider', $set->provider)->get()->pluck('id')->toArray());
 
-                return Course::whereIn('id', $duplicates)->paginate(20);
+                return Course::whereIn('id', $duplicates)->paginate(20)->withQueryString();
             }
         }
 

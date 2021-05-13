@@ -15,8 +15,7 @@
         }
     </style>
     
-    <form action="{{ route('offered-courses.list') }}" method="post">
-        @csrf
+    <form action="{{ route('offered-courses.list') }}" method="get">
         <div class="row">
             <div class="col-md"></div>
             <div class="col-md-4 col-10 my-2">
