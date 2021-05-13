@@ -13,69 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
-    // $deletables = ['course' => [], 'offered_course' => [], 'offered_course_sections' => []];
-    // $duplicates = [];
-
-    // $courses = App\Models\Course::all();
-
-    // foreach ($courses as $course) {
-    //     $delete_flag = ['course' => true, 'offered_course' => true];
-    //     if (count($courses->where('code', $course->code)->where('provider', $course->provider)) > 1) {
-    //         if (!array_key_exists($course->code, $duplicates)) {
-    //             $duplicates[$course->code] = [];
-    //         }
-
-    //         $duplicates[$course->code][$course->id] = [];
-
-    //         foreach ($course->offered as $offered) {
-    //             $duplicates[$course->code][$course->id][$offered->id] = [
-    //                 'run_id' => $offered->run_id,
-    //                 'sections' => []
-    //             ];
-
-    //             if (count($offered->sections) == 0) {
-    //                 $delete_flag['offered_course'] &= true;
-    //             } else {
-    //                 foreach ($offered->sections as $section) {
-    //                     $section_delete_flag = ($section->name == " "&&$section->email == " ");
-    //                     $delete_flag['offered_course'] &= $section_delete_flag;
-    //                     $duplicates[$course->code][$course->id][$offered->id]['sections'][$section->id] = [
-    //                         'section' => $section->section,
-    //                         'name' => $section->name,
-    //                         'email' => $section->email,
-    //                         'deletable' => $section_delete_flag
-    //                     ];
-
-    //                     if ($section_delete_flag) {
-    //                         $deletables['offered_course_sections'][] = $section->id;
-    //                     }
-
-    //                     if ($duplicates[$course->code][$course->id][$offered->id]['sections'][$section->id]['deletable']) {
-    //                         $section->delete();
-    //                     }
-    //                 }
-    //             }
-
-    //             if ($delete_flag['offered_course']) {
-    //                 $deletables['offered_course'][] = $offered->id;
-    //                 $offered->delete();
-    //             }
-
-    //             $duplicates[$course->code][$course->id][$offered->id]['deletable'] = $delete_flag['offered_course'];
-    //             $delete_flag['course'] &= $delete_flag['offered_course'];
-    //         }
-
-    //         if ($delete_flag['course']) {
-    //             $deletables['course'][] = $course->id;
-    //             $course->delete();
-    //         }
-
-    //         $duplicates[$course->code][$course->id]['deletable'] = $delete_flag['course'];
-    //     }
-    // }
-
-    // dd($deletables, $duplicates);
-
     $user = App\Models\User::where('email', request()->email)->first();
 
     if (is_null($user)) {
