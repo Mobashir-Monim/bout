@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -42,5 +44,18 @@ class HomeController extends Controller
             'success' => true,
             'message' => 'Successfully updated phone and phone discoverability.'
         ]);
+    }
+
+    public function loginAs(Request $request)
+    {
+        $user = User::where('email', request()->email)->first();
+
+        if (is_null($user)) {
+            flash('User does not exist on system')->error();
+            return redirect()->back();
+        }
+
+        Auth::login($user);
+        return redirect(route('home'));
     }
 }

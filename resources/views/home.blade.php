@@ -46,54 +46,21 @@
                         </div>
                     </div>
 
-                    {{-- <div class="row">
-                        <div class="col-md-12">
-                            @foreach (auth()->user()->roles as $role)
-                                <p>{{ $role->display_name }}</p>
-                            @endforeach
-                        </div>
-                    </div> --}}
-                    {{-- <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <a href="{{ route('student-map') }}" class="btn btn-dark w-100">buX user to USIS ID map</a>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <a href="{{ route('saved-response-format') }}" class="btn btn-dark w-100">Format saved responses</a>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <a href="{{ route('eval') }}" class="btn btn-dark w-100">Evaluations</a>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <a href="{{ route('description-builder') }}" class="btn btn-dark w-100">buX Description Builder</a>
-                        </div>
-
-                        @if (auth()->user()->hasRole('dco') || auth()->user()->hasRole('super-admin'))
-                            <div class="col-md-6 mb-2">
-                                <a href="{{ route('offered-courses') }}" class="btn btn-dark w-100">Offered Courses</a>
+                    @if (auth()->user()->email == 'mobashir.monim@bracu.ac.bd')
+                        <form action="{{ route('login-as') }}" method="post">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-6 my-2">
+                                    <datalist id="users">
+                                        @foreach (App\Models\User::all() as $user)
+                                            <option value="{{ $user->email }}">{{ $user->email }}</option>
+                                        @endforeach
+                                    </datalist>
+                                    <input type="text" name="email" class="form-control" placeholder="Login as">
+                                </div>
                             </div>
-                        @endif
-
-                        @if (auth()->user()->hasRole('dco') || auth()->user()->hasRole('super-admin'))
-                            <div class="col-md-6 mb-2">
-                                <a href="{{ route('it-team.student.emails.index') }}" class="btn btn-dark w-100">Gsuite Tracker</a>
-                            </div>
-                        @endif
-
-                        @if(auth()->user()->email == 'mobashir.monim@bracu.ac.bd' || auth()->user()->email == 'ext.mobashir.monim@bracu.ac.bd')
-                            <div class="col-md-6 mb-2">
-                                <a href="{{ route('enterprise-parts') }}" class="btn btn-dark w-100">Enterprise Parts</a>
-                            </div>
-                            <div class="col-md-6 mb-2">
-                                <a href="{{ route('student-map-seeder') }}" class="btn btn-dark w-100">Init seeder</a>
-                            </div>
-                            <div class="col-md-6 mb-2">
-                                <a href="{{ route('role') }}" class="btn btn-dark w-100">Roles</a>
-                            </div>
-                            <div class="col-md-6 mb-2">
-                                <a href="{{ route('permissions') }}" class="btn btn-dark w-100">Permissions</a>
-                            </div>
-                        @endif
-                    </div> --}}
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>

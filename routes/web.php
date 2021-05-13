@@ -13,15 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
-    $user = App\Models\User::where('email', request()->email)->first();
-
-    if (is_null($user)) {
-        flash('User does not exist on system')->error();
-        return redirect()->back();
-    }
-
-    \Auth::login($user);
-    return redirect(route('home'));
     dd('testing nothing');
 })->name('tester')->middleware('checkRole:super-admin');
 // })->name('tester');
@@ -29,6 +20,8 @@ Route::get('test', function () {
 Route::get('/home', function () {
     return redirect(route('home'));
 });
+
+Route::post('login-as', [App\Http\Controllers\HomeController::class, 'loginAs'])->name('login-as')->middleware('checkRole:super-admin');
 
 Auth::routes(['register' => false]);
 Route::get('auth/google', [App\Http\Controllers\Auth\GoogleAuthController::class, 'redirectToGoogle'])->name('initiate-login');
