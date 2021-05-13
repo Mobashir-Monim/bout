@@ -16,4 +16,12 @@
             </div>
         </li>
     </a>
+    <a class="nav-item container-fluid" href="{{ route('offered-courses.list') }}">
+        <li class="nav-link text-white {{ startsWith(request()->url(), route('offered-courses.list')) ? 'active' : '' }}">
+            <div class="row">
+                <span class="pr-1 col-2 my-auto"></span>
+                <span class="d-inline-block col-10 my-auto">List Courses {!! request()->url() == route('offered-courses.list') ? '<span class="sr-only">(current)</span>' : '' !!}</span>
+            </div>
+        </li>
+    </a>
 @endif

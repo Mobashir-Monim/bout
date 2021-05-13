@@ -29,6 +29,12 @@ class EvaluationCopyHelper extends Helper
                 if (!is_null($section_copy))
                     $this->copySectionEvals();
             }
+        } else {
+            if ($course_copy) {
+                $this->copyTargettedCourseEval($source, $destination);
+            } else {
+                $this->copyTargettedSectionEval($source, $destination);
+            }
         }
     }
 
@@ -126,5 +132,21 @@ class EvaluationCopyHelper extends Helper
             'is_lab_faculty' => $section_source->is_lab_faculty,
             'evaluation' => '{"links_to":"' . $section_source->id . '"}'
         ]);
+    }
+
+    public function copyTargettedCourseEval($source, $destination)
+    {
+        $source = OC::find($source);
+        $destination = OC::find($destination);
+        $destination->evaluation = $source->evaluation;
+        $destination->save();
+    }
+
+    public function copyTargettedSectionEval($source, $destination)
+    {
+        $source = OCS::find($source);
+        $destination = OCS::find($destination);
+        $destination->evaluation = $source->evaluation;
+        $destination->save();
     }
 }

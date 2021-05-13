@@ -7,7 +7,9 @@ use App\Helpers\OfferedCourseHelpers\Index as OCHI;
 use App\Helpers\OfferedCourseHelpers\Creator as OCHC;
 use App\Helpers\OfferedCourseHelpers\Updator as OCHU;
 use App\Helpers\OfferedCourseHelpers\Deletor as OCHD;
+use App\Helpers\OfferedCourseHelpers\ListHelper as OCL;
 use App\Models\Course;
+use App\Helpers\CourseEvaluationHelpers\EvaluationCopyHelper;
 use DB;
 
 class OfferedCourseController extends Controller
@@ -71,5 +73,53 @@ class OfferedCourseController extends Controller
         flash("Updated \"$request->old_provider\" to \"$request->new_provider\" for $count course(s)")->success();
 
         return $this->index($request);
+    }
+
+    public function listCourses(Request $request)
+    {
+        $helper = new OCL($request->all());
+
+        return view('offered-course.list-group', [
+            'course_list' => $helper->getIndexCourses()
+        ]);
+    }
+
+    public function listCourseDetails(Request $request)
+    {
+        $helper = new OCL(['offered_course_id' => $request->offered_course_id]);
+
+        return response()->json([
+            'success' => true,
+            'details' => $helper->getOfferedCourseDetails(),
+        ]);
+    }
+
+    public function updateOfferedInformation(Request $request)
+    {
+        $helper = new OCHU(null, null, $request->type, $request->id);
+        $helper->update($request);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Updated information'
+        ]);
+    }
+
+    public function copyEvaluation(Request $request)
+    {
+        $helper = new EvaluationCopyHelper(
+            null,
+            $request->source,
+            $request->destination,
+            null,
+            null,
+            $request->type == 'course',
+            $request->type == 'section'
+        );
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Copied evaluation'
+        ]);
     }
 }

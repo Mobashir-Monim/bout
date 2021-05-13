@@ -12,17 +12,24 @@ class Updator extends Helper
     public $year;
     public $semester;
     public $type;
+    public $targetted;
     
-    public function __construct($year, $semester, $type)
+    public function __construct($year, $semester, $type, $targetted = null)
     {
         $this->year = $year;
         $this->semester = $semester;
         $this->type = $type;
+        $this->targetted = $targetted;
     }
 
     public function update($request)
     {
-        return $this->type == 'course' ? $this->updateOffered($request) : $this->updateSection($request);
+        if (is_null($this->targetted)) {
+            return $this->type == 'course' ? $this->updateOffered($request) : $this->updateSection($request);
+        } else {
+            
+            return $this->type == 'course' ? $this->targettedUpdateOffered($request) : $this->targettedUpdateSection($request);
+        }
     }
 
     public function updateCourse($code, $title, $provider, $course)
@@ -57,6 +64,24 @@ class Updator extends Helper
             $s->is_lab_faculty        = $section['details']['is_lab_faculty'];
             $s->save();
         }
+    }
+
+    public function targettedUpdateOffered($request)
+    {
+        $offered = OfferedCourse::find($request->id);
+        $offered->coordinator   = $this->isEmpty($request->name);
+        $offered->initials      = $this->isEmpty($request->initials);
+        $offered->email         = $this->isEmpty($request->email);
+        $offered->save();
+    }
+
+    public function targettedUpdateSection($request)
+    {
+        $section = OfferedCourseSection::find($request->id);
+        $section->name          = $this->isEmpty($request->name);
+        $section->initials      = $this->isEmpty($request->initials);
+        $section->email         = $this->isEmpty($request->email);
+        $section->save();
     }
 
     public function isEmpty($target)
