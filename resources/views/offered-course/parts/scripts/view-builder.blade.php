@@ -110,7 +110,7 @@
         for (let i in instructors) {
             instructorCont = `
                 ${ instructorCont }
-                <div class="col-md-6 my-2">
+                <div class="col-md-6 my-2" id="${ instructors[i].id }-section">
                     <div class="card">
                         <div class="card-body bg-light">
                             <input type="text" name="" id="${ instructors[i].id }-instructor-name" placeholder="Instructor Name" class="form-control my-2" value="${ instructors[i].name }">
@@ -129,7 +129,10 @@
                                         <input type="text" name="" id="${ instructors[i].id }-section-id" class="form-control my-2" readonly value="${ instructors[i].id }">
                                     </p>
                                 </div>
-                                <div class="col-md-4 my-auto text-right">
+                                <div class="col-md-2 col-4 my-auto text-right">
+                                    <button class="btn btn-dark w-100" type="button" onclick="deletePart('${ instructors[i].id }', 'section')"><span class="material-icons-outlined" style="font-size: 1em">delete</span></button>
+                                </div>
+                                <div class="col-md-2 col-4 my-auto text-right">
                                     ${ instructors[i].has_evaluation ? 
                                         `<i class="far fa-check-circle" style="color: rgba(0,255,0,1); font-size: 1.5em"></i>` :
                                         `<i class="far fa-times-circle" style="color: rgba(255,0,0,1); font-size: 1.5em"></i>`

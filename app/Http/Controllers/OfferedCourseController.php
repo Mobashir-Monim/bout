@@ -105,6 +105,17 @@ class OfferedCourseController extends Controller
         ]);
     }
 
+    public function deleteOfferedInformation(Request $request)
+    {
+        $helper = new OCHD(null, null, $request->type, $request->id);
+        $helper->delete($request);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Deleted'
+        ]);
+    }
+
     public function copyEvaluation(Request $request)
     {
         $helper = new EvaluationCopyHelper(

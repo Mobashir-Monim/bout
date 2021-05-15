@@ -3,10 +3,12 @@
     const detailsModalBody = document.getElementById('details-modal-body');
     const detailsModalSpinner = document.getElementById('details-modal-spinner');
 
-    const showDetails = offeredCourseID => {
-        detailsModalBody.innerHTML = '<div class="mt-2 spinner-border" role="status"><span class="sr-only">Loading...</span></div>';
-        detailsModalBtn.click();
-        fetchOfferedCourseDetails(offeredCourseID);
+    const showDetails = (offeredCourseID, event) => {
+        if (event.target.tagName == 'TD' || event.target.tagName == 'TR') {
+            detailsModalBody.innerHTML = '<div class="mt-2 spinner-border" role="status"><span class="sr-only">Loading...</span></div>';
+            detailsModalBtn.click();
+            fetchOfferedCourseDetails(offeredCourseID);
+        }
     }
 
     const fetchOfferedCourseDetails = offeredCourseID => {
@@ -25,7 +27,6 @@
             }).then(response => {
                 return response.json();
             }).then(data => {
-                console.log(data.details)
                 detailsModalBody.innerHTML = buildHeaderSection(data.details, true);
             }).catch(error => {
                 console.log(error);

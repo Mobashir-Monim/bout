@@ -17,3 +17,4 @@
 @include('offered-course.parts.scripts.show-details')
 @include('offered-course.parts.scripts.view-builder')
 @include('offered-course.parts.scripts.list-updator')
+@include('offered-course.parts.scripts.list-deletor')
