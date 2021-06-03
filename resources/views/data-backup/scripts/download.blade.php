@@ -114,7 +114,7 @@
             downloadTable();
         } else {
             downloadModeUpdateStatus = true;
-            exportTables(downloadMode == 'multi' ? 'db-bout' : tables[downloadTableIndex].name);
+            exportTables(downloadMode == 'multi' ? `db-bout-${ new Date().getTime() }` : `${ tables[downloadTableIndex].name }-${ new Date().getTime() }`);
             toggleDownloadStatusVisual();
         }
     }
