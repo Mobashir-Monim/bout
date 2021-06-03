@@ -37,7 +37,7 @@ class EmailerController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Emailed student'
+            'message' => 'Emailed student',
             'fails' => $fails
         ]);
     }
