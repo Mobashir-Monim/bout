@@ -7,11 +7,14 @@ use App\Models\StudentMap;
 
 class InformationUpdater extends Helper
 {
-    public function __construct($student, $request)
+    public function __construct($student, $request, $update_id_only = false)
     {
         $this->updateStudentID($student, $request->student_id);
-        $this->updateStudentInfo($student, $request);
-        $this->updateMaps($request);
+        
+        if (!$update_id_only) {
+            $this->updateStudentInfo($student, $request);
+            $this->updateMaps($request);
+        }
     }
 
     public function updateStudentID($student, $id)

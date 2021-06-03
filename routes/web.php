@@ -13,10 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
+    $x = '{"id":19204061,"name":"ZARIFUL HAQ","email":"zarifhaq8@gmail.com","emailed":false,"courses":[{"code":"GEO101","title":"ECONOMIC GEOGRAPHY","section":2,"semester":"Spring 2021","has_lab":false,"url":"https://docs.google.com/forms/d/e/1FAIpQLSfr_YSNG3Bio_ahZncIaO8g4JsDYzP6HyPzG2cSUp9lH7bbFQ/viewform?entry.55736331=GEO101&entry.2049915700=2&entry.375660266=2"},{"code":"MGT301","title":"HUMAN RESOURCE MANAGEMENT","section":2,"semester":"Spring 2021","has_lab":false,"url":"https://docs.google.com/forms/d/e/1FAIpQLSfr_YSNG3Bio_ahZncIaO8g4JsDYzP6HyPzG2cSUp9lH7bbFQ/viewform?entry.55736331=MGT301&entry.2049915700=2&entry.375660266=2"},{"code":"MKT301","title":"MARKETING MANAGEMENT","section":4,"semester":"Spring 2021","has_lab":false,"url":"https://docs.google.com/forms/d/e/1FAIpQLSfr_YSNG3Bio_ahZncIaO8g4JsDYzP6HyPzG2cSUp9lH7bbFQ/viewform?entry.55736331=MKT301&entry.2049915700=4&entry.375660266=4"}]}';
+    dd(json_decode($x), urlencode($x));
     dd('testing nothing');
 })->name('tester')->middleware('checkRole:super-admin');
 // })->name('tester');
-
+Route::get('tester', [App\Http\Controllers\EmailerController::class, 'sendEvalMail']);
 Route::get('/home', function () {
     return redirect(route('home'));
 });
@@ -122,6 +124,12 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/{part}/member', [App\Http\Controllers\EnterprisePartController::class, 'changeMember'])->name('change-member');
             Route::post('/{part}/children', [App\Http\Controllers\EnterprisePartController::class, 'changeChildren'])->name('change-children');
             Route::post('/{part}/update', [App\Http\Controllers\EnterprisePartController::class, 'update'])->name('update');
+        });
+
+        Route::get('/emailer', [App\Http\Controllers\EmailerController::class, 'index'])->name('emailer');
+        Route::name('emailer.')->prefix('/emailer')->group(function () {
+            Route::get('/eval', [App\Http\Controllers\EmailerController::class, 'evalMailer'])->name('eval');
+            Route::post('/eval/mail', [App\Http\Controllers\EmailerController::class, 'sendEvalMail'])->name('eval.send');
         });
 
         Route::get('/data-backup', [App\Http\Controllers\DataBackupController::class, 'index'])->name('data-backup');
