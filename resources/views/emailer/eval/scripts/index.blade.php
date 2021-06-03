@@ -150,7 +150,7 @@
                 }
             }).catch(error => {
                 console.log(error);
-                alert('Whoop! Something went wrong, please refresh the page and try again');
+                emailNextStudent();
             });
     }
 </script>
