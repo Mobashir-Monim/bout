@@ -24,15 +24,21 @@ class EmailerController extends Controller
     {
         new StudentUpdator($request->student);
         $student = Student::find($request->student['id']);
+        $fails = [];
 
         foreach ($student->maps as $connection) {
-            $email = str_replace(" ", "", $connection->email);
-            Mail::to($email)->send(new EvalMail($request->subject, $request->student));
+            try {
+                $email = str_replace(" ", "", $connection->email);
+                Mail::to($email)->send(new EvalMail($request->subject, $request->student));
+            } catch (\Throwable $th) {
+                $fails[] = $th;
+            }
         }
 
         return response()->json([
             'success' => true,
             'message' => 'Emailed student'
+            'fails' => $fails
         ]);
     }
 }
