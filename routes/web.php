@@ -13,11 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
-    $x = '{"id":19204061,"name":"ZARIFUL HAQ","email":"zarifhaq8@gmail.com","emailed":false,"courses":[{"code":"GEO101","title":"ECONOMIC GEOGRAPHY","section":2,"semester":"Spring 2021","has_lab":false,"url":"https://docs.google.com/forms/d/e/1FAIpQLSfr_YSNG3Bio_ahZncIaO8g4JsDYzP6HyPzG2cSUp9lH7bbFQ/viewform?entry.55736331=GEO101&entry.2049915700=2&entry.375660266=2"},{"code":"MGT301","title":"HUMAN RESOURCE MANAGEMENT","section":2,"semester":"Spring 2021","has_lab":false,"url":"https://docs.google.com/forms/d/e/1FAIpQLSfr_YSNG3Bio_ahZncIaO8g4JsDYzP6HyPzG2cSUp9lH7bbFQ/viewform?entry.55736331=MGT301&entry.2049915700=2&entry.375660266=2"},{"code":"MKT301","title":"MARKETING MANAGEMENT","section":4,"semester":"Spring 2021","has_lab":false,"url":"https://docs.google.com/forms/d/e/1FAIpQLSfr_YSNG3Bio_ahZncIaO8g4JsDYzP6HyPzG2cSUp9lH7bbFQ/viewform?entry.55736331=MKT301&entry.2049915700=4&entry.375660266=4"}]}';
-    dd(json_decode($x), urlencode($x));
+    $a = App\Models\Announcement::first();
+    $a->enterprise_parts = [4];
+    $a->save();
     dd('testing nothing');
-})->name('tester')->middleware('checkRole:super-admin');
-// })->name('tester');
+// })->name('tester')->middleware('checkRole:super-admin');
+})->name('tester');
 Route::get('tester', [App\Http\Controllers\EmailerController::class, 'sendEvalMail']);
 Route::get('/home', function () {
     return redirect(route('home'));
@@ -70,7 +71,13 @@ Route::middleware(['auth'])->group(function () {
             
             // Forms CMS Route
             
-            Route::get('/announcemennts', [App\Http\Controllers\FacultyInfoControllers\AnnouncementsController::class, 'index'])->name('announcements');
+            Route::get('/announcements', [App\Http\Controllers\FacultyInfoControllers\AnnouncementsController::class, 'index'])->name('announcements');
+            Route::name('announcements.')->prefix('/announcements')->group(function () {
+                Route::middleware(['checkRole:super-admin,announcement-author'])->group(function () {
+                    Route::get('/create', [App\Http\Controllers\FacultyInfoControllers\AnnouncementsController::class, 'create'])->name('create');
+                    Route::post('/create', [App\Http\Controllers\FacultyInfoControllers\AnnouncementsController::class, 'store'])->name('create');
+                });
+            });
 
             // Announcements CMS Route
 
