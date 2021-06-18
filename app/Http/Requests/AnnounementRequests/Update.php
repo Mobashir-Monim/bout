@@ -17,9 +17,9 @@ class Update extends FormRequest
      */
     public function authorize()
     {
-        $post = Announcement::find($this->route('announcement'));
+        $announcement = Announcement::find($this->route('announcement'));
 
-        return auth()->user()->id == $post->user_id || auth()->user()->hasRole('super-admin');
+        return auth()->user()->id == $announcement->user_id || auth()->user()->hasRole('super-admin');
     }
 
     /**
@@ -33,17 +33,20 @@ class Update extends FormRequest
             'title' => 'required',
             'content' => 'required',
             'semester' => 'required|in:Summer,Fall,Spring',
-            'year' => 'required|integer|between:2020,' . Carbon::now()->year + 1,
+            'year' => 'required|integer|between:2020,' . (Carbon::now()->year + 1),
             'valid_till' => 'required|date',
             'keywords' => 'required|array|min:1',
             'announcement_target' => 'required|array|min:1',
-            'announcement_target.*' => 'required|in:' . implode(',', $this->getEnterprisePartIDs()),
+            'announcement_target.*' => 'in:' . implode(',', $this->getEnterprisePartIDs()),
         ];
     }
 
     public function getEnterprisePartIDs()
     {
         $epids = auth()->user()->hasRole('announcement-author%');
+        
+        if (gettype($epids) == 'boolean' && auth()->user()->hasRole('super-admin'))
+            $epids = [null];
 
         if (in_array(null, $epids)) {
             $epids[] = 'all';
@@ -71,6 +74,17 @@ class Update extends FormRequest
             'valid_till' => [
                 'required' => 'Announcement validity is required',
                 'integer' => 'Announcement validity must be of date type',
+            ],
+            'keywords' => [
+                'required' => 'Announcement must have keywords',
+                'min' => 'Minimum 1 keyword must be specified'
+            ],
+            'announcement_target' => [
+                'required' => 'Announcement must have announcement target',
+                'min' => 'Minimum 1 announcement target must be specified'
+            ],
+            'announcement_target.*' => [
+                'min' => 'Announcement must have valid announcement target'
             ],
         ];
     }

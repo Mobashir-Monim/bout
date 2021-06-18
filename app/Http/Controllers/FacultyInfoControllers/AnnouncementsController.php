@@ -21,7 +21,7 @@ class AnnouncementsController extends Controller
 
     public function create()
     {
-        return view('faculty-info.announcements.create');
+        return view('faculty-info.announcements.action');
     }
 
     public function store(Create $request)
@@ -31,7 +31,7 @@ class AnnouncementsController extends Controller
             'content' => $request->content,
             'user_id' => auth()->user()->id,
             'keywords' => $request->keywords,
-            'enterprise_parts' => $request->enterprise_parts,
+            'enterprise_parts' => $request->announcement_target,
             'run' => $request->year . "_" . $request->semester,
             'valid_till' => $request->valid_till,
         ]);
@@ -39,6 +39,29 @@ class AnnouncementsController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Announcement successfully posted!'
+        ]);
+    }
+
+    public function edit(Announcement $announcement, Request $request)
+    {
+        return view('faculty-info.announcements.action', [
+            'announcement' => $announcement
+        ]);
+    }
+
+    public function update(Announcement $announcement, Request $request)
+    {
+        $announcement->title = $request->title;
+        $announcement->content = $request->content;
+        $announcement->keywords = $request->keywords;
+        $announcement->enterprise_parts = $request->announcement_target;
+        $announcement->run = $request->year . "_" . $request->semester;
+        $announcement->valid_till = $request->valid_till;
+        $announcement->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Announcement successfully updated!'
         ]);
     }
 }

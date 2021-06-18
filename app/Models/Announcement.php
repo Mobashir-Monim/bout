@@ -20,4 +20,14 @@ class Announcement extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function getSemesterAttribute()
+    {
+        return explode('_', $this->attributes['run'])[1];
+    }
+
+    public function getYearAttribute()
+    {
+        return explode('_', $this->attributes['run'])[0];
+    }
 }

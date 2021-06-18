@@ -1,5 +1,6 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js" defer></script>
 <script defer>
+    let url = '{{ isset($announcement) ? route('faculty-info.announcements.update', ['announcement' => $announcement->id]) : route('faculty-info.announcements.create') }}';
     $(document).ready(function() {
         $('#summernote').summernote({
             placeholder: 'This is the announcement body, please type in the body here.',
@@ -7,7 +8,10 @@
         });
         $('.note-editable').css({"height": "250", "background-color": "white"});
         $('.panel-heading').addClass("bg-light border-bottom border-secondary");
-        $('.note-recent-color').css({"padding-left": "4px", "padding-right": "4px", "padding-bottom": "2px"})
+        $('.note-recent-color').css({"padding-left": "4px", "padding-right": "4px", "padding-bottom": "2px"});
+        @isset($announcement)
+            $('#summernote').summernote('code', `{!! $announcement->content !!}`)
+        @endif
     });
 
     const title = document.getElementById('title');
@@ -16,9 +20,9 @@
     const validTill = document.getElementById('valid_till');
     const keywordsCont = document.getElementById('keywords-cont');
     const keywordInp = document.getElementById('keyword');
-    let announcementTarget = [];
-    let keywords = [];
-    let keywordCount = 0;
+    let announcementTarget = {!! isset($announcement) ? json_encode($announcement->enterprise_parts) : '[]' !!};
+    let keywords = {!! isset($announcement) ? json_encode($announcement->keywords) : '[]' !!};
+    let keywordCount = {{ isset($announcement) ? sizeof($announcement->keywords) + 1 : 0 }};
     const notEmptyDOMEl = el => el.value != "";
     const notEmptyArray = arr => arr.length != 0;
     const errors = [
@@ -94,7 +98,7 @@
 
     const postAnnouncement = () => {
         if (verifyAnnouncementData()) {
-            fetch("{{ route('faculty-info.announcements.create') }}", {
+            fetch(url, {
                     headers: {
                         "Content-Type": "application/json",
                         "Accept": "application/json, text-plain, */*",

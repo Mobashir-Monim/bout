@@ -76,6 +76,8 @@ Route::middleware(['auth'])->group(function () {
                 Route::middleware(['checkRole:super-admin,announcement-author'])->group(function () {
                     Route::get('/create', [App\Http\Controllers\FacultyInfoControllers\AnnouncementsController::class, 'create'])->name('create');
                     Route::post('/create', [App\Http\Controllers\FacultyInfoControllers\AnnouncementsController::class, 'store'])->name('create');
+                    Route::get('/update/{announcement}', [App\Http\Controllers\FacultyInfoControllers\AnnouncementsController::class, 'edit'])->name('update');
+                    Route::post('/update/{announcement}', [App\Http\Controllers\FacultyInfoControllers\AnnouncementsController::class, 'update'])->name('update');
                 });
             });
 

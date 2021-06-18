@@ -10,24 +10,9 @@
         </div>
     @else
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 @foreach ($announcements as $announcement)
-                    <div class="card">
-                        <div class="card-body pb-0">
-                            <h3 class="border-bottom">{{ $announcement->title }}</h3>
-                            {!! $announcement->content !!}
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-12 text-right">
-                                    {{ Carbon\Carbon::parse($announcement->created_at)->format('d M, Y') }}
-                                    ({{ $announcement->run }})
-                                    <blockquote class="blockquote">
-                                        <footer class="blockquote-footer"><cite title="Source Title">{{ $announcement->author->name }}</cite></footer>
-                                    </blockquote>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @include('faculty-info.announcements.parts.announcement')
                 @endforeach
             </div>
         </div>
