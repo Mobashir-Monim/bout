@@ -127,17 +127,14 @@ body {
     margin-left: calc(1rem - 5px) !important;
 }
 
-.add-btn {
+.floater-btn {
     position: fixed;
-    bottom: 25px;
-    right: 20px;
     width: 3em;
     height: 3em;
     border-radius: 50%;
     text-align: center;
     padding: 5px !important;
     vertical-align: middle !important;
-    background-image: url('../img/plus.svg');
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
@@ -145,6 +142,27 @@ body {
     transition: ease-in-out 0.25s;
     box-shadow: 3px 3px 5px #3490dc;
     z-index: 3 !important;
+    box-align: center;
+    -moz-box-align: center;
+    -webkit-box-align: center;
+    box-orient: vertical;
+    -moz-box-orient: vertical;
+    -webkit-box-orient: vertical; 
+}
+
+.floater-btn-1 {
+    bottom: 25px;
+    right: 20px;
+}
+
+.floater-btn-2 {
+    bottom: 25px;
+    right: calc(3em + 28px);
+}
+
+.floater-btn-3 {
+    bottom: 25px;
+    right: calc(6em + 36px);
 }
 
 .tick-btn {

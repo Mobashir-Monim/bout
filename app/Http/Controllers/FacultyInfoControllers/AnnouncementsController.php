@@ -12,7 +12,12 @@ class AnnouncementsController extends Controller
 {
     public function index(Request $request)
     {
-        $helper = new Index($request->search_phrase);
+        $helper = new Index([
+            'search_phrase' => $request->search_phrase,
+            'validity' => $request->validity,
+            'semester' => $request->semester,
+            'year' => $request->year
+        ]);
 
         return view('faculty-info.announcements.index', [
             'announcements' => $helper->findAnnouncements()
