@@ -4,6 +4,7 @@ namespace App\Helpers\FacultyInfoHelpers\AnnouncementHelpers;
 
 use App\Helpers\Helper;
 use App\Models\Announcement;
+use App\Models\EnterprisePart;
 use Carbon\Carbon;
 
 class Index extends Helper
@@ -20,10 +21,14 @@ class Index extends Helper
 
         foreach ($parts as $part) {
             if (gettype($part) != 'boolean') {
-                foreach ($part as $ep) {
+                foreach ($part as $ep)
                     $this->parts[] = $ep;
-                }
             }
+        }
+
+        if (auth()->user()->hasRole('super-admin')) {
+            foreach (EnterprisePart::all() as $ep)
+                $this->parts[] = $ep->id;
         }
 
         $this->parts = array_unique($this->parts);
@@ -61,6 +66,6 @@ class Index extends Helper
             });
         }
 
-        return $query->orderBy('created_at', 'desc')->paginate(10);
+        return $query->orderBy('created_at', 'desc')->paginate(5);
     }
 }

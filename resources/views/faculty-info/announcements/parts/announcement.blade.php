@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card my-3">
     <div class="card-body pb-0">
         <div class="row">
             <div class="col-md-10">
@@ -6,7 +6,7 @@
             </div>
             <div class="col-md text-right">
                 @if (auth()->user()->id == $announcement->user_id || auth()->user()->hasRole('super-admin'))
-                    <a href="{{ route('faculty-info.announcements.update', ['post' => $announcement->id]) }}" class="btn btn-dark">
+                    <a href="{{ route('faculty-info.announcements.update', ['announcement' => $announcement->id]) }}" class="btn btn-dark">
                         <span class="material-icons-outlined">edit</span>
                     </a>
                 @endif
