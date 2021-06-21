@@ -11,7 +11,7 @@
                                 <option value="username_to_id">Map usernames to student ID</option>
                                 <option value="id_to_username">Map student ID to usernames</option>
                                 <option value="id_to_email">Map student ID USIS email address</option>
-                                <option value="id_to_gsuite">Map student ID USIS G-suite address</option>
+                                <option value="id_to_gsuite">Map student ID G-suite address</option>
                             </select>
                             <p id="map_description" class="bg-light p-2 border rounded border-primary text-center">
                                 Convert buX usernames of students to Student ID <br>

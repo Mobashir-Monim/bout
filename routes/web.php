@@ -13,12 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
-    $a = App\Models\Announcement::first();
-    $a->enterprise_parts = [4];
-    $a->save();
     dd('testing nothing');
-// })->name('tester')->middleware('checkRole:super-admin');
-})->name('tester');
+})->name('tester')->middleware('checkRole:super-admin');
+// })->name('tester');
 Route::get('tester', [App\Http\Controllers\EmailerController::class, 'sendEvalMail']);
 Route::get('/home', function () {
     return redirect(route('home'));
