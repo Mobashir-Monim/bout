@@ -87,4 +87,22 @@ class AnnouncementsController extends Controller
             'announcements' => $helper->findAnnouncements()
         ]);
     }
+
+    public function delete(Announcement $announcement, Request $request)
+    {
+        $status = false;
+
+        if (auth()->user()->hasRole('super-admin') || $announcement->user_id == auth()->user()->id) {
+            $announcement->delete();
+            $status = true;
+        }
+
+        if ($status) {
+            flash('Announcement deleted')->success();
+        } else {
+            flash('Sorry, you do not have the required authorization to perform this action')->error();
+        }
+
+        return redirect()->route('faculty-info.announcements');
+    }
 }
