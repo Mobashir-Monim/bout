@@ -43,7 +43,7 @@ class MapperHelper extends Helper
         foreach ($data as $k => $row) {
             foreach ($row as $key => $value) {
                 $usernames = StudentMap::where($key, $value)->get();
-                $data[$k]['username'] = sizeof($usernames) == 0 ? 'Not found, please let the devs know' : implode(', ', $usernames->pluck('username')->toArray());
+                $data[$k]['username'] = sizeof($usernames) == 0 ? 'Not found, please let the devs know' : $this->stripAndGlue($usernames->pluck('username')->toArray());
             }
         }
 
@@ -55,7 +55,7 @@ class MapperHelper extends Helper
         foreach ($data as $k => $row) {
             foreach ($row as $key => $value) {
                 $usernames = StudentMap::where($key, $value)->where('email', 'not like', '%@g.bracu.ac.bd')->get();
-                $data[$k]['usis_email'] = sizeof($usernames) == 0 ? 'Not found, please let the devs know' : implode(', ', $usernames->pluck('email')->toArray());
+                $data[$k]['usis_email'] = sizeof($usernames) == 0 ? 'Not found, please let the devs know' : $this->stripAndGlue($usernames->pluck('email')->toArray());
             }
         }
 
@@ -67,10 +67,18 @@ class MapperHelper extends Helper
         foreach ($data as $k => $row) {
             foreach ($row as $key => $value) {
                 $usernames = StudentMap::where($key, $value)->where('email', 'like', '%@g.bracu.ac.bd')->get();
-                $data[$k]['gsuite_email'] = sizeof($usernames) == 0 ? 'Not found, please let the devs know' : implode(', ', $usernames->pluck('email')->toArray());
+                $data[$k]['gsuite_email'] = sizeof($usernames) == 0 ? 'Not found, please let the devs know' : $this->stripAndGlue($usernames->pluck('email')->toArray());
             }
         }
 
         return $data;
+    }
+
+    public function stripAndGlue($values)
+    {
+        $values = array_filter($values, fn($value) => !is_null($value) && $value !== '');
+        $values = implode(',', $values);
+
+        return $values;
     }
 }
