@@ -56,6 +56,8 @@ class Index extends Helper
 
         if (auth()->user()->hasRole('super-admin') && (!is_null($search_data['user']) || $search_data['user'] != "")) {
             $this->search_data['user'] = $search_data['user'];
+        } elseif (auth()->user()->hasRole('announcement-author') && (!is_null($search_data['user']) || $search_data['user'] != "")) {
+            $this->search_data['user'] = [auth()->user()->id];
         }
     }
 

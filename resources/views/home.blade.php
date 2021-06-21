@@ -68,7 +68,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="border-bottom">Recent Announcements</h4>
-                    @if (count($announcements) >= 0)
+                    @if (count($announcements) > 0)
                         @foreach ($announcements as $announcement)
                             @include('faculty-info.announcements.parts.compact')
                         @endforeach
