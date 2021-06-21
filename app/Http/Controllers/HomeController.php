@@ -26,7 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $helper = new AnnouncementHelper(['search_phrase' => null, 'validity' => null, 'semester' => null, 'year' => null]);
+        $helper = new AnnouncementHelper(['search_phrase' => null, 'validity' => 'active', 'semester' => null, 'year' => null, 'user' => null]);
         
         return view('home', [
             'announcements' => $helper->findAnnouncements()

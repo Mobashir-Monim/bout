@@ -53,6 +53,10 @@ class Index extends Helper
             $this->parseRunSearch($search_data['semester'], 'semester');
 
         $this->parseValiditySearch($search_data['validity']);
+
+        if (auth()->user()->hasRole('super-admin') && (!is_null($search_data['user']) || $search_data['user'] != "")) {
+            $this->search_data['user'] = $search_data['user'];
+        }
     }
 
     public function parseSearchPhrase($search_phrase)
@@ -105,6 +109,9 @@ class Index extends Helper
         if (array_key_exists('validity', $this->search_data))
             $this->filterUsingValidity($query);
 
+        if (array_key_exists('user', $this->search_data))
+            $this->filterUsingUser($query);
+
         return $query->orderBy('created_at', 'desc')->paginate(5);
     }
 
@@ -126,5 +133,10 @@ class Index extends Helper
     public function filterUsingValidity(&$query)
     {
         $query = $query->where('valid_till', $this->search_data['validity'], $this->now);
+    }
+
+    public function filterUsingUser(&$query)
+    {
+        $query = $query->whereIn('user_id', $this->search_data['user']);
     }
 }

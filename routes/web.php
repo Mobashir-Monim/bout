@@ -78,6 +78,8 @@ Route::middleware(['auth'])->group(function () {
                     Route::post('/create', [App\Http\Controllers\FacultyInfoControllers\AnnouncementsController::class, 'store'])->name('create');
                     Route::get('/update/{announcement}', [App\Http\Controllers\FacultyInfoControllers\AnnouncementsController::class, 'edit'])->name('update');
                     Route::post('/update/{announcement}', [App\Http\Controllers\FacultyInfoControllers\AnnouncementsController::class, 'update'])->name('update');
+                    Route::get('/log', [App\Http\Controllers\FacultyInfoControllers\AnnouncementsController::class, 'log'])->name('log');
+                    Route::delete('/delete/{announcement}', [App\Http\Controllers\FacultyInfoControllers\AnnouncementsController::class, 'delete'])->name('delete');
                 });
             });
 

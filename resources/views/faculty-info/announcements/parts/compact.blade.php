@@ -1,6 +1,6 @@
 <div class="accordion my-3" id="announcement-{{ $announcement->id }}">
     <div class="card">
-      <div class="card-header bg-dark" id="heading-{{ $announcement->id }}">
+      <div class="card-header bg-dark p-0" id="heading-{{ $announcement->id }}">
             <h2 class="mb-0">
                 <button class="btn btn-dark w-100 text-left" type="button" data-toggle="collapse" data-target="#announcement-body-{{ $announcement->id }}" aria-expanded="true" aria-controls="announcement-body-{{ $announcement->id }}">
                     {{ $announcement->title }}

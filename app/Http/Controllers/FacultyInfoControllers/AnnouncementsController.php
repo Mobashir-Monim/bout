@@ -16,7 +16,8 @@ class AnnouncementsController extends Controller
             'search_phrase' => $request->search_phrase,
             'validity' => $request->validity,
             'semester' => $request->semester,
-            'year' => $request->year
+            'year' => $request->year,
+            'user' => null
         ]);
 
         return view('faculty-info.announcements.index', [
@@ -67,6 +68,23 @@ class AnnouncementsController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Announcement successfully updated!'
+        ]);
+    }
+
+    public function log(Request $request)
+    {
+        $users = [];
+
+        if (auth()->user()->hasRole('super-admin')) {
+            $users = is_null($request->users) ? null : $request->users;
+        } else {
+            $users[] = auth()->user()->id;
+        }
+
+        $helper = new Index(['search_phrase' => null, 'validity' => 'both', 'semester' => null, 'year' => null, 'user' => $users]);
+
+        return view('faculty-info.announcements.index', [
+            'announcements' => $helper->findAnnouncements()
         ]);
     }
 }
