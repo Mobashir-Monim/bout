@@ -12,15 +12,15 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-12 my-2">
-                                        <input type="text" name="name" class="form-control" value="{{ $part->name }}" placeholder="Enterprise Part Name">
+                                        <input type="text" name="name" {!! !$is_super_admin ? 'class="form-control disabled" disabled' : 'class="form-control"' !!} value="{{ $part->name }}" placeholder="Enterprise Part Name">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 my-2">
-                                        <input type="text" name="acronym" class="form-control" value="{{ $part->acronym }}" placeholder="Enterprise Part Acronym">
+                                        <input type="text" name="acronym" value="{{ $part->acronym }}" {!! !$is_super_admin ? 'class="form-control disabled" disabled' : 'class="form-control"' !!} placeholder="Enterprise Part Acronym">
                                     </div>
                                     <div class="col-md-6 my-2">
-                                        <button class="btn btn-dark w-100">Save</button>
+                                        <button {!! !$is_super_admin ? 'class="btn btn-dark w-100 disabled" disabled' : 'class="btn btn-dark w-100"' !!}>Save</button>
                                     </div>
                                 </div>
                             </form>
@@ -97,10 +97,10 @@
         
                                         <div class="row">
                                             <div class="col-md-10 my-1">
-                                                <input type="email" name="email" id="email" class="form-control" placeholder="Email Address of new head">
+                                                <input type="email" name="email" id="email" {!! !$is_super_admin ? 'class="form-control disabled" disabled' : 'class="form-control"' !!} placeholder="Email Address of new head">
                                             </div>
                                             <div class="col-md-2 my-1">
-                                                <button class="btn btn-dark w-100"><i class="fas fa-check"></i></button>
+                                                <button {!! !$is_super_admin ? 'class="btn btn-dark w-100 disabled" disabled' : 'class="btn btn-dark w-100"' !!}><i class="fas fa-check"></i></button>
                                             </div>
                                         </div>
                                     </form>
@@ -117,16 +117,16 @@
                                             <div class="col-md-10 my-1">
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-prepend">
-                                                        <select name="mode" class="form-control rounded-0" style="border-top-left-radius: 0.25rem !important;border-bottom-left-radius: 0.25rem !important;">
+                                                        <select name="mode" {!! !$is_super_admin ? 'class="form-control rounded-0 disabled" disabled' : 'class="form-control rounded-0"' !!} style="border-top-left-radius: 0.25rem !important;border-bottom-left-radius: 0.25rem !important;">
                                                             <option value="1">Add</option>
                                                             <option value="0">Remove</option>
                                                         </select>
                                                     </div>
-                                                    <input type="email" name="email" id="email" class="form-control" placeholder="Email Address of DCO">
+                                                    <input type="email" name="email" id="email" {!! !$is_super_admin ? 'class="form-control disabled" disabled' : 'class="form-control"' !!} placeholder="Email Address of DCO">
                                                 </div>
                                             </div>
                                             <div class="col-md-2 my-1">
-                                                <button class="btn btn-dark w-100"><i class="fas fa-check"></i></button>
+                                                <button {!! !$is_super_admin ? 'class="btn btn-dark w-100 disabled" disabled' : 'class="btn btn-dark w-100"' !!}><i class="fas fa-check"></i></button>
                                             </div>
                                         </div>
                                     </form>
@@ -168,12 +168,12 @@
                                             <div class="col-md-10 my-1">
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-prepend">
-                                                        <select name="mode" class="form-control rounded-0" style="border-top-left-radius: 0.25rem !important;border-bottom-left-radius: 0.25rem !important;">
+                                                        <select name="mode" {!! !$is_super_admin ? 'class="form-control rounded-0 disabled" disabled' : 'class="form-control rounded-0"' !!} style="border-top-left-radius: 0.25rem !important;border-bottom-left-radius: 0.25rem !important;">
                                                             <option value="1">Add</option>
                                                             <option value="0">Remove</option>
                                                         </select>
                                                     </div>
-                                                    <select name="child" class="form-control">
+                                                    <select name="child" {!! !$is_super_admin ? 'class="form-control disabled" disabled' : 'class="form-control"' !!}>
                                                         <option value="">Select a child to add or remove</option>
                                                         @foreach (App\Models\EnterprisePart::all() as $epart)
                                                             @if ($epart->id != $part->id)
@@ -184,7 +184,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-2 my-1">
-                                                <button class="btn btn-dark w-100"><i class="fas fa-check"></i></button>
+                                                <button {!! !$is_super_admin ? 'class="btn btn-dark w-100 disabled" disabled' : 'class="btn btn-dark w-100"' !!}><i class="fas fa-check"></i></button>
                                             </div>
                                         </div>
                                     </form>
@@ -196,7 +196,7 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-12 my-2">
-                                        <select name="type" class="form-control">
+                                        <select name="type" {!! !$is_super_admin ? 'class="form-control disabled" disabled' : 'class="form-control"' !!}>
                                             @if ($part->is_academic_part)
                                                 <option value="1">Academic</option>
                                                 <option value="0">Non academic</option>
@@ -207,7 +207,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-12 my-2">
-                                        <button class="btn btn-dark w-100"><i class="fas fa-check"></i></button>
+                                        <button {!! !$is_super_admin ? 'class="btn btn-dark w-100 disabled" disabled' : 'class="btn btn-dark w-100"' !!}><i class="fas fa-check"></i></button>
                                     </div>
                                 </div>
                             </form>

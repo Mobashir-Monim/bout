@@ -8,6 +8,7 @@
             @include('layouts.nav.items.faculty-info')
 
             @if (auth()->user()->hasRole('dco') || auth()->user()->hasRole('super-admin'))
+                @include('layouts.nav.items.enterprise-parts')
                 @include('layouts.nav.items.offered-courses')
             @endif
 
@@ -16,7 +17,6 @@
             @endif
             
             @if(auth()->user()->hasRole('super-admin'))
-                @include('layouts.nav.items.enterprise-parts')
                 @include('layouts.nav.items.permissions')
                 @include('layouts.nav.items.roles')
                 @include('layouts.nav.items.emailer')

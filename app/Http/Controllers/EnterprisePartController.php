@@ -15,7 +15,9 @@ class EnterprisePartController extends Controller
 {
     public function index()
     {
-        $parts = EnterprisePart::all();
+        $parts = auth()->user()->hasRole('super-admin') ?
+            EnterprisePart::all() :
+            EnterprisePart::where('id', auth()->user()->hasRole('dco%'))->get();
 
         return view('enterprise-part/index', ['parts' => $parts]);
     }
@@ -26,7 +28,12 @@ class EnterprisePartController extends Controller
         $dcos = $helper->membersWithRole(Role::where('name', 'dco')->first());
         $members = $helper->allMembers();
 
-        return view('enterprise-part/show', ['part' => $part, 'dcos' => $dcos, 'members' => $members]);
+        return view('enterprise-part/show', [
+            'part' => $part,
+            'dcos' => $dcos,
+            'members' => $members,
+            'is_super_admin' => auth()->user()->hasRole('super-admin')
+        ]);
     }
 
     public function changeHead(EnterprisePart $part, Request $request)

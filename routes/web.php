@@ -120,7 +120,7 @@ Route::middleware(['auth'])->group(function () {
     //     Route::post('/create', [App\Http\Controllers\CourseEvaluationAnalysisController::class, 'store'])->name('create');
     // });
 
-    Route::middleware(['checkRole:super-admin'])->group(function () {
+    Route::middleware(['checkRole:super-admin,dco'])->group(function () {
         Route::get('/permission', [App\Http\Controllers\PermissionController::class, 'index'])->name('permissions');
         Route::post('/permission/add', [App\Http\Controllers\PermissionController::class, 'addPermission'])->name('permissions.add');
         Route::post('/permission/create', [App\Http\Controllers\PermissionController::class, 'store'])->name('permissions.create');
@@ -128,13 +128,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/enterprise-parts', [App\Http\Controllers\EnterprisePartController::class, 'index'])->name('enterprise-parts');
         Route::name('enterprise-parts.')->prefix('enterprise-parts')->group(function () {
             Route::get('/{part}/show', [App\Http\Controllers\EnterprisePartController::class, 'show'])->name('show');
-            Route::post('/add', [App\Http\Controllers\EnterprisePartController::class, 'create'])->name('create');
-            Route::post('/{part}/type', [App\Http\Controllers\EnterprisePartController::class, 'changeType'])->name('change-type');
-            Route::post('/{part}/head', [App\Http\Controllers\EnterprisePartController::class, 'changeHead'])->name('change-head');
-            Route::post('/{part}/dco', [App\Http\Controllers\EnterprisePartController::class, 'changeDCO'])->name('change-dco');
+            Route::post('/add', [App\Http\Controllers\EnterprisePartController::class, 'create'])->name('create')->middleware('checkRole:super-admin');
+            Route::post('/{part}/type', [App\Http\Controllers\EnterprisePartController::class, 'changeType'])->name('change-type')->middleware('checkRole:super-admin');
+            Route::post('/{part}/head', [App\Http\Controllers\EnterprisePartController::class, 'changeHead'])->name('change-head')->middleware('checkRole:super-admin');
+            Route::post('/{part}/dco', [App\Http\Controllers\EnterprisePartController::class, 'changeDCO'])->name('change-dco')->middleware('checkRole:super-admin');
             Route::post('/{part}/member', [App\Http\Controllers\EnterprisePartController::class, 'changeMember'])->name('change-member');
-            Route::post('/{part}/children', [App\Http\Controllers\EnterprisePartController::class, 'changeChildren'])->name('change-children');
-            Route::post('/{part}/update', [App\Http\Controllers\EnterprisePartController::class, 'update'])->name('update');
+            Route::post('/{part}/children', [App\Http\Controllers\EnterprisePartController::class, 'changeChildren'])->name('change-children')->middleware('checkRole:super-admin');
+            Route::post('/{part}/update', [App\Http\Controllers\EnterprisePartController::class, 'update'])->name('update')->middleware('checkRole:super-admin');
         });
 
         Route::get('/emailer', [App\Http\Controllers\EmailerController::class, 'index'])->name('emailer');

@@ -24,11 +24,13 @@
         </div>
     </div>
     
-    <div class="row">
-        <div class="col-md-12 my-2 text-right">
-            @include('enterprise-part.add')
+    @if (auth()->user()->hasRole('super-admin'))
+        <div class="row">
+            <div class="col-md-12 my-2 text-right">
+                @include('enterprise-part.add')
+            </div>
         </div>
-    </div>
+    @endif
 @endsection
 
 @section('scripts')
