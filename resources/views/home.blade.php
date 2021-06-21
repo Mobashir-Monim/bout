@@ -64,6 +64,20 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-10 mt-4 my-2">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="border-bottom">Recent Announcements</h4>
+                    @if (count($announcements) == 0)
+                        @foreach ($announcements as $announcement)
+                            @include('faculty-info.announcements.parts.compact')
+                        @endforeach
+                    @else
+                        <h4 class="text-center text-secondary border-bottom my-5">No new announcements to show</h4>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 

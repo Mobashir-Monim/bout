@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Helpers\FacultyInfoHelpers\AnnouncementHelpers\Index as AnnouncementHelper;
 use Auth;
 
 class HomeController extends Controller
@@ -25,7 +26,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $helper = new AnnouncementHelper(['search_phrase' => null, 'validity' => null, 'semester' => null, 'year' => null]);
+        
+        return view('home', [
+            'announcements' => $helper->findAnnouncements()
+        ]);
     }
 
     public function descriptionBuilder()
