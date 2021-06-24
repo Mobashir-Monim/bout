@@ -51,4 +51,29 @@ class GsuiteTrackerController extends Controller
             'message' => 'Successfully added students'
         ]);
     }
+
+    public function export(Request $request)
+    {
+        $students = [];
+        $last = 0;
+
+        foreach (Student::where('id', '>', $request->last_id)->take(250)->get() as $student) {
+            $students[] = [
+                'student_id' => $student->id,
+                'name' => $student->name,
+                'usis_email' => $student->usisEmails,
+                'gsuite_email' => $student->gsuiteEmails,
+                'program' => $student->program,
+                'department' => $student->department,
+                'school' => $student->school
+            ];
+            $last = $student->id;
+        }
+
+        return response()->json([
+            'success' => true,
+            'students' => $students,
+            'has_more' => count(Student::where('id', '>', $last)->get()) > 0
+        ]);
+    }
 }

@@ -177,6 +177,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/student/search/{phrase}/results', [App\Http\Controllers\GsuiteTrackerController::class, 'searchResult'])->name('student.search.results');
         Route::post('/student/emails/{student}/update', [App\Http\Controllers\GsuiteTrackerController::class, 'update'])->name('student.emails.update');
         Route::post('/student/add/bulk-upload', [App\Http\Controllers\GsuiteTrackerController::class, 'upload'])->name('students.add');
+        Route::get('/student/export', [App\Http\Controllers\GsuiteTrackerController::class, 'export'])->name('students.export');
     });
 
     Route::post('/eval/semester-confirm', [App\Http\Controllers\EvalController::class, 'semesterConfirm'])->name('course-eval.semester-confirm');

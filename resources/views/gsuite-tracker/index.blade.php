@@ -29,4 +29,5 @@
     </div>
 
     @include('gsuite-tracker.parts.add')
+    @include('gsuite-tracker.parts.export')
 @endsection
