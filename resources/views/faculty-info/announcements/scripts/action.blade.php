@@ -126,11 +126,17 @@
                         alert(data.message);
                     } else {
                         let errors = ``;
-
+                        console.log(data.errors, 'henlo');
                         for (let e in data.errors) {
-                            data.errors[e].forEach(err => {
-                                errors = `${ errors }${ err }\n`;
-                            });
+                            for (let i in data.errors[e]) {
+                                if (typeof(data.errors[e][i]) == 'string') {
+                                    errors = `${ errors }${ data.errors[e][i] }\n`;
+                                } else {
+                                    for (let j in data.errors[e][i]) {
+                                        errors = `${ errors }${ data.errors[e][i][j] }\n`;
+                                    }
+                                }
+                            }
                         }
 
                         alert(errors);
