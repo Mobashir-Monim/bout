@@ -35,7 +35,7 @@ class Student extends Model
         return $emails;
     }
 
-    public function getGsuiteEmailAttribute()
+    public function getGsuiteEmailsAttribute()
     {
         $emails = "";
         // $rows = $this->maps->where('email', 'like', '%@g.bracu.ac.bd');

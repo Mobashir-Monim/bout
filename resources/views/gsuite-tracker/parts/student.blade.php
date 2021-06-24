@@ -24,7 +24,7 @@
                             </div>
                             <div class="row my-1">
                                 <div class="col-md-12">
-                                    <textarea name="gsuite" class="form-control border-right-0 border-left-0 border-top-0" cols="30" rows="1" placeholder="G-suite Address">{{ $student->gsuiteEmail }}</textarea>
+                                    <textarea name="gsuite" class="form-control border-right-0 border-left-0 border-top-0" cols="30" rows="1" placeholder="G-suite Address">{{ $student->gsuiteEmails }}</textarea>
                                     <span class="d-block text-right mr-1 text-secondary">G-suite Address</span>
                                 </div>
                             </div>
