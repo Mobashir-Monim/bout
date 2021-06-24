@@ -48,7 +48,7 @@ class EnterprisePartController extends Controller
     {
         $helper = new MembersHelper($part, $request->email);
 
-        if ($request->mode) {
+        if ($request->mode == 1) {
             $helper->addDCO();
         } else {
             $helper->removeDCO();
@@ -64,7 +64,7 @@ class EnterprisePartController extends Controller
     {
         $helper = new MembersHelper($part, $request->email);
 
-        if ($request->mode) {
+        if ($request->mode == 1) {
             $helper->addMember();
         } else {
             $helper->removeMember();

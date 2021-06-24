@@ -55,7 +55,7 @@ class MembersHelper extends Helper
         $role = Role::where('name', 'faculty')->first();
 
         if ($this->hasRoleInPart($role)) {
-            $this->addRole($role);
+            $this->removeRole($role);
         }
     }
 
@@ -91,12 +91,10 @@ class MembersHelper extends Helper
 
     public function removeRole($role)
     {
-        $role_instance = DB::table('role_user')
-            ->where('role_id', $role->id)
-            ->where('user_id', $this->member->id)
-            ->where('enterprise_part_id', $this->part->id)
-            ->first();
-
-        $role_instance->delete();
+        DB::delete(
+            'delete from role_user where role_id = "' .$role->id .
+            '" and user_id = "' . $this->member->id .
+            '" and enterprise_part_id = "' . $this->part->id . '"'
+        );
     }
 }
