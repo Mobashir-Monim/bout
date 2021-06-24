@@ -8,13 +8,19 @@ use App\Models\StudentMap;
 
 class InformationUpdater extends Helper
 {
+    public $errors = [];
+
     public function __construct($student, $request, $update_id_only = false)
     {
-        $this->updateStudentID($student, $request->student_id);
+        try {
+            $this->updateStudentID($student, $request->student_id);
         
-        if (!$update_id_only) {
-            $this->updateStudentInfo($student, $request);
-            $this->updateMaps($request);
+            if (!$update_id_only) {
+                $this->updateStudentInfo($student, $request);
+                $this->updateMaps($request);
+            }
+        } catch (\Throwable $error) {
+            $this->errors[] = $error->getMessage();
         }
     }
 

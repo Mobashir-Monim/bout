@@ -23,6 +23,11 @@
                         <button class="btn btn-dark w-100" type="button" onclick="massUploadStudents()">Add</button>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12 my-2" id="error-log">
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>

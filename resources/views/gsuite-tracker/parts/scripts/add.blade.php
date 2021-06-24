@@ -6,8 +6,10 @@
     const massUploadOut = document.getElementById('mass-upload');
     const students = [];
     let uploadIndex = 0;
+    let uploadErrors = [];
 
     const massUploadStudents = () => {
+        uploadErrors = [];
         uploadIndex = 0;
         massUploadOut.innerHTML = '<div class="mt-2 spinner-border" role="status"><span class="sr-only">Loading...</span></div>';
         setTimeout(() => {
@@ -57,8 +59,19 @@
                 if (data.success) {
                     if (uploadIndex < students.length) {
                         uploadIndex += 100;
+
+                        if (data.errors.length > 0) {
+                            for (let e in data.errors) {
+                                uploadErrors.push(data.errors[e]);
+                            }
+                        }
+
                         uploadStudents();
                     } else {
+                        if (uploadErrors.length > 0) {
+                            logErrors();
+                        }
+
                         massUploadOut.innerHTML = `<button class="btn btn-dark w-100" type="button" onclick="massUploadStudents()">Add</button>`;
                         alert('Successfully done uploading');
                     }
@@ -76,5 +89,15 @@
         }
 
         return temp;
+    }
+
+    const logErrors = () => {
+        let messages = ``;
+        
+        for (let e in uploadErrors) {
+            messages = `${ messages }<div class="alert alert-danger" role="alert">${ uploadErrors[e] }</div>`;
+        }
+
+        document.getElementById('error-log').innerHTML = messages;
     }
 </script>

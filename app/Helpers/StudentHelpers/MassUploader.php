@@ -9,6 +9,7 @@ use App\Models\StudentMap;
 class MassUploader extends Helper
 {
     public $students;
+    public $errors = [];
 
     public function __construct($students)
     {
@@ -19,8 +20,12 @@ class MassUploader extends Helper
     public function uploadStudents()
     {
         foreach ($this->students as $row) {
-            $student = $this->findStudent($this->extractStudentData($row), $row);
-            $this->updateStudentData($row, $student);
+            try {
+                $student = $this->findStudent($this->extractStudentData($row), $row);
+                $this->updateStudentData($row, $student);
+            } catch (\Throwable $error) {
+                $this->errors[] = $error->getMessage();
+            }
         }
     }
 

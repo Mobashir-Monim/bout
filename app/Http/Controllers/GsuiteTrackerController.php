@@ -20,7 +20,12 @@ class GsuiteTrackerController extends Controller
     public function update(Student $student, Request $request)
     {
         $helper = new InformationUpdater($student, $request);
-        flash('Successfully updated information of student')->success();
+        
+        if (sizeof($helper->errors) == 0) {
+            flash('Successfully updated information of student')->success();
+        } else {
+            flash("The following errors occured during update: ". implode(',', $helper->errors))->error();
+        }
 
         return redirect()->back();
     }
@@ -48,7 +53,8 @@ class GsuiteTrackerController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Successfully added students'
+            'message' => 'Successfully added students',
+            'errors' => $helper->errors
         ]);
     }
 
