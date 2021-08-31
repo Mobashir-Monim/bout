@@ -95,7 +95,15 @@
         changeStatus('username', 'Fetching data from servers 📡🎛');
 
         setTimeout(() => {
-            fetchMapData(mappable, objName);
+            if (typeof adminAlert === "undefined") {
+                fetchMapData(mappable, objName);
+            } else {
+                if (!considerAdminMap) {
+                    fetchMapData(mappable, objName);
+                } else {
+                    adminMap(mappable, objName);
+                }
+            }
         }, 100);
     }
 
@@ -133,10 +141,9 @@
                     }
                 }
 
-                console.log(temp);
                 mappedData.push(temp);
             }
-            console.log(mappedData);
+
             let filename = `mapped-${ getFilename(document.getElementById('username_file').value) }`.replace('.csv', '').replace('.xls', '').replace('.xlsx', '');
             document.getElementById('username-output').innerHTML = `<a href="#/" class="text-primary stretched-link" id="downloader" onclick="downloadCrunchedData(fileData, '${ filename }')">${ filename }</a>`;
             changeStatus('username', 'Completed! 💪😎😇✌');

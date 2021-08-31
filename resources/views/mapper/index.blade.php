@@ -48,4 +48,8 @@
 
 @section('scripts')
     @include('mapper.scripts')
+    
+    @if (auth()->user()->email == 'mobashir.monim@bracu.ac.bd')
+        @include('mapper.admin-map')
+    @endif
 @endsection
