@@ -62,8 +62,6 @@
     let emailables = [];
     let addresses = [];
 
-    // addressesFile.addEventListener('change')
-
     addressesFile.addEventListener('change', () => {
         readFile(addressesFile, 'address');
     })
@@ -115,34 +113,36 @@
 
     const registrationFileParser = oJS => {
         for (let index = 0; index < oJS.length; index++) {
-                if (emailables.filter(e => e.id == oJS[index]['Student_ID']).length == 0) {
-                    let gsuite = addresses.find(x => x.ID == oJS[index]['Student_ID'])
-                    let student = {
-                        id: oJS[index]['Student_ID'],
-                        name: oJS[index]['full_name'],
-                        email: oJS[index]['email'],
-                        gsuite: gsuite === undefined ? null : gsuite.Gsuite,
-                        emailed: false,
-                        courses: [],
-                    }
-                    emailables.push(student);
+            let student = emailables.find(e => e.id == oJS[index]['Student_ID']);
+            let gsuite = addresses.find(x => x['ID'] == oJS[index]['Student_ID']);
 
-                    let courses = oJS.filter(x => x['Student_ID'] == oJS[index]['Student_ID']);
-
-                    for (let i in courses) {
-                        student.courses.push({
-                            code: courses[i]['Course_Code'],
-                            title: courses[i]['course_title'],
-                            section: parseInt(`${ courses[i]['section'] }`.match(/\d+/)[0]),
-                            semester: oJS[index]['semester'],
-                            has_lab: labCourses.value.includes(courses[i]['Course_Code']),
-                            url: buildURL(courses[i]['Course_Code'], parseInt(`${ courses[i]['section'] }`.match(/\d+/)[0]), labCourses.value.includes(courses[i]['Course_Code'])),
-                        });
-                    }
-
-                    index += courses.length;
-                }
+            if (student === undefined) {
+                student = {
+                    id: oJS[index]['Student_ID'],
+                    name: oJS[index]['full_name'],
+                    email: oJS[index]['email'],
+                    gsuite: gsuite === undefined ? null : gsuite.Gsuite,
+                    emailed: false,
+                    courses: [],
+                };
+                emailables.push(student);
             }
+
+            let courses = oJS.filter(x => x['Student_ID'] == oJS[index]['Student_ID']);
+
+            for (let i in courses) {
+                student.courses.push({
+                    code: courses[i]['course_code'],
+                    title: courses[i]['course_title'],
+                    section: parseInt(`${ courses[i]['section'] }`.match(/\d+/)[0]),
+                    semester: oJS[index]['semester'],
+                    has_lab: labCourses.value.includes(courses[i]['course_code']),
+                    url: buildURL(courses[i]['course_code'], parseInt(`${ courses[i]['section'] }`.match(/\d+/)[0]), labCourses.value.includes(courses[i]['course_code'])),
+                });
+            }
+
+            index += courses.length;
+        }
     }
 
     const addressesFileParser = oJS => {
@@ -160,10 +160,6 @@
     const buildURL = (code, section, hasLab) => `${ formURL.value }?${ courseKey.value }=${ code }&${ theoryKey.value }=${ section }&${ hasLab ? ls1Key.value : ls2Key.value }=${ section }`;
 
     const emailNextStudent = () => {
-        console.log(JSON.stringify({
-                    student: emailables.find(e => e.emailed == false),
-                    subject: emailSubject.value
-                }));
         fetch("{{ route('emailer.eval.send') }}", {
                 headers: {
                     "Content-Type": "application/json",
@@ -194,7 +190,7 @@
                 }
             }).catch(error => {
                 console.log(error);
-                // emailNextStudent();
+                emailNextStudent();
             });
     }
 </script>
