@@ -23,6 +23,11 @@
             description: 'Convert Student ID of students to BracU G-suite email address <br><b><span class="text-danger">NOTE:</span> The file must contain a header column titled "student_id"</b>',
             to: 'gsuite_email',
         },
+        gsuite_to_id: {
+            id: 'email',
+            description: 'Convert G-Suite address of students to student_id <br><b><span class="text-danger">NOTE:</span> The file must contain a header column titled "email"</b>',
+            to: 'student_id',
+        },
     };
     let mapType = document.getElementById('map_type');
     let mapDescription = document.getElementById('map_description');
@@ -103,6 +108,8 @@
     }
 
     const fetchMapData = (mappable, objName) => {
+        console.log(mappable);
+        console.log(mapType.value)
         fetch("{{ route('student-map') }}", {
             headers: {
                 "Content-Type": "application/json",

@@ -21,8 +21,10 @@ class MapperHelper extends Helper
             return $this->studentIDToUsername($data);
         } elseif ($this->mapType == 'id_to_email') {
             return $this->studentIDToUSISEmail($data);
-        } else {
+        } elseif ($this->mapType == 'id_to_gsuite') {
             return $this->studentIDToGsuiteEmail($data);
+        } else {
+            return $this->gsuiteEmailToStudentID($data);
         }
     }
 
@@ -68,6 +70,18 @@ class MapperHelper extends Helper
             foreach ($row as $key => $value) {
                 $usernames = StudentMap::where($key, $value)->where('email', 'like', '%@g.bracu.ac.bd')->get();
                 $data[$k]['gsuite_email'] = sizeof($usernames) == 0 ? 'Not found, please let the devs know' : $this->stripAndGlue($usernames->pluck('email')->toArray());
+            }
+        }
+
+        return $data;
+    }
+
+    public function gsuiteEmailToStudentID($data)
+    {
+        foreach ($data as $k => $row) {
+            foreach ($row as $key => $value) {
+                $usernames = StudentMap::where($key, $value)->get();
+                $data[$k]['student_id'] = sizeof($usernames) == 0 ? 'Not found, please let the devs know' : $this->stripAndGlue($usernames->pluck('student_id')->toArray());
             }
         }
 
