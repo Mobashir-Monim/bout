@@ -160,6 +160,10 @@
     const buildURL = (code, section, hasLab) => `${ formURL.value }?${ courseKey.value }=${ code }&${ theoryKey.value }=${ section }&${ hasLab ? ls1Key.value : ls2Key.value }=${ section }`;
 
     const emailNextStudent = () => {
+        console.log(JSON.stringify({
+                    student: emailables.find(e => e.emailed == false),
+                    subject: emailSubject.value
+                }));
         fetch("{{ route('emailer.eval.send') }}", {
                 headers: {
                     "Content-Type": "application/json",
