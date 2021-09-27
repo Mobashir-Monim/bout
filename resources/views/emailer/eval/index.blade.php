@@ -8,7 +8,7 @@
                     <h5 class="border-bottom">Evaluation Emailer</h5>
                     <div class="row">
                         <div class="col-md-12 my-2">
-                            <input type="text" name="subject" id="subject" class="form-control" placeholder="Email Subject" value="lalaland">
+                            <input type="text" name="subject" id="subject" class="form-control" placeholder="Email Subject" value="Course Evlauation">
                         </div>
                     </div>
                     <div class="row">
