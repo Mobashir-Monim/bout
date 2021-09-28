@@ -32,7 +32,7 @@ class EmailerController extends Controller
                 $student['gsuite'] = StudentMap::where('student_id', $map->student_id)->where('email', 'like', '%@g.bracu.ac.bd')->first();
 
                 if (!is_null($student['gsuite']))
-                    $student['gsuite'] = $request->student['gsuite']->email;
+                    $student['gsuite'] = $student['gsuite']->email;
             }
         }
 
@@ -50,7 +50,6 @@ class EmailerController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Emailed student',
-            'fails' => $fails
         ]);
     }
 }
