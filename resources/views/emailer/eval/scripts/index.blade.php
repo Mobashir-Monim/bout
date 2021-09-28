@@ -105,7 +105,7 @@
         });
 
         if (file == 'registration') {
-            emailNextStudent();
+            // emailNextStudent();
         } else {
             emailBtnCont.innerHTML = '<button class="btn btn-dark w-100" type="button" onclick="startEmailing()">Start Emailing</button>'
         }
