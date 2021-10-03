@@ -188,14 +188,14 @@
                     emailables.find(e => e.emailed == false).emailed = true;
 
                     if (emailables.filter(e => e.emailed == false).length > 0) {
-                        // emailNextStudent();
+                        emailNextStudent();
                     } else {
                         emailBtnCont.innerHTML = 'Done emailing';
                     }
                 }
             }).catch(error => {
                 console.log(error);
-                // emailNextStudent();
+                emailNextStudent();
             });
     }
 </script>
