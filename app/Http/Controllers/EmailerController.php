@@ -24,7 +24,8 @@ class EmailerController extends Controller
     public function sendEvalMail(Request $request)
     {
         $student = $request->student;
-
+        $fails = [$student['id'] => []];
+        
         if (is_null($student['gsuite'])) {
             $map = StudentMap::where('email', $student['email'])->first();
 
@@ -37,19 +38,25 @@ class EmailerController extends Controller
         }
 
         try {
-            $email = str_replace(" ", "", $request->student['email']);
-            Mail::to($email)->send(new EvalMail($request->subject, $student));
-
-            if (!is_null($request->student['gsuite'])) {
-                $email = str_replace(" ", "", $request->student['gsuite']);
-                Mail::to($email)->send(new EvalMail($request->subject, $student));
+            $email = str_replace(" ", "", $student['email']);
+            Mail::to($email)->bcc('academic.standards@bracu.ac.bd')->send(new EvalMail($request->subject, $student));
+        } catch (\Throwable $th) {
+            $fails[$student['id']][] = $email;
+        }
+        
+        if (!is_null($student['gsuite'])) {
+            try {
+                $email = str_replace(" ", "", $student['gsuite']);
+                Mail::to($email)->bcc('academic.standards@bracu.ac.bd')->send(new EvalMail($request->subject, $student));
+            } catch (\Throwable $th) {
+                $fails[$student['id']][] = $email;
             }
-        } catch (\Throwable $th) {}
-
+        }
 
         return response()->json([
             'success' => true,
             'message' => 'Emailed student',
+            'fails' => $fails,
         ]);
     }
 }

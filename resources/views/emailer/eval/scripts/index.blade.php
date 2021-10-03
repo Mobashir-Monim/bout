@@ -61,6 +61,7 @@
     ];
     let emailables = [];
     let addresses = [];
+    let failuers = [];
 
     addressesFile.addEventListener('change', () => {
         readFile(addressesFile, 'address');
@@ -187,6 +188,8 @@
                     } else {
                         emailBtnCont.innerHTML = 'Done emailing';
                     }
+
+                    failuers.push(data.fails)
                 }
             }).catch(error => {
                 console.log(error);
