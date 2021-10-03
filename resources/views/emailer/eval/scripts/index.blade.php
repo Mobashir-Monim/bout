@@ -181,19 +181,21 @@
                 console.log(data);
 
                 if (data.success) {
+                    if (data.fails[emailables.find(e => e.emailed == false).id].emails.length > 0) {
+                        failuers.push(data.fails);
+                    }
+
                     emailables.find(e => e.emailed == false).emailed = true;
 
                     if (emailables.filter(e => e.emailed == false).length > 0) {
-                        emailNextStudent();
+                        // emailNextStudent();
                     } else {
                         emailBtnCont.innerHTML = 'Done emailing';
                     }
-
-                    failuers.push(data.fails)
                 }
             }).catch(error => {
                 console.log(error);
-                emailNextStudent();
+                // emailNextStudent();
             });
     }
 </script>

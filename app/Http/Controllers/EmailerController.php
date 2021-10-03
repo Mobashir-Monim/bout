@@ -24,8 +24,13 @@ class EmailerController extends Controller
     public function sendEvalMail(Request $request)
     {
         $student = $request->student;
-        $fails = [$student['id'] => []];
-        
+        $fails = [
+            $student['id'] => [
+                'emails' => [],
+                'errors' => []
+            ]
+        ];
+
         if (is_null($student['gsuite'])) {
             $map = StudentMap::where('email', $student['email'])->first();
 
@@ -41,7 +46,8 @@ class EmailerController extends Controller
             $email = str_replace(" ", "", $student['email']);
             Mail::to($email)->bcc('academic.standards@bracu.ac.bd')->send(new EvalMail($request->subject, $student));
         } catch (\Throwable $th) {
-            $fails[$student['id']][] = $email;
+            $fails[$student['id']]['emails'][] = $email;
+            $fails[$student['id']]['errors'][] = $th;
         }
         
         if (!is_null($student['gsuite'])) {
@@ -49,7 +55,8 @@ class EmailerController extends Controller
                 $email = str_replace(" ", "", $student['gsuite']);
                 Mail::to($email)->bcc('academic.standards@bracu.ac.bd')->send(new EvalMail($request->subject, $student));
             } catch (\Throwable $th) {
-                $fails[$student['id']][] = $email;
+                $fails[$student['id']]['emails'][] = $email;
+                $fails[$student['id']]['errors'][] = $th;
             }
         }
 
