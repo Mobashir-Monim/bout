@@ -7,35 +7,90 @@
             id: 'username',
             description: 'Convert buX usernames of students to Student ID <br><b><span class="text-danger">NOTE:</span> The file must contain a header column titled "username"</b>',
             to: 'id',
+            selector: document.getElementById('username_to_id')
         },
         id_to_username: {
             id: 'student_id',
             description: 'Convert Student ID of students to buX username <br><b><span class="text-danger">NOTE:</span> The file must contain a header column titled "student_id"</b>',
             to: 'username',
+            selector: document.getElementById('student_id')
+
         },
         id_to_email: {
             id: 'student_id',
             description: 'Convert Student ID of students to USIS email address <br><b><span class="text-danger">NOTE:</span> The file must contain a header column titled "student_id"</b>',
             to: 'usis_email',
+            selector: document.getElementById('id_to_email')
         },
         id_to_gsuite: {
             id: 'student_id',
             description: 'Convert Student ID of students to BracU G-suite email address <br><b><span class="text-danger">NOTE:</span> The file must contain a header column titled "student_id"</b>',
             to: 'gsuite_email',
+            selector: document.getElementById('id_to_gsuite')
         },
         gsuite_to_id: {
             id: 'email',
             description: 'Convert G-Suite address of students to student_id <br><b><span class="text-danger">NOTE:</span> The file must contain a header column titled "email"</b>',
             to: 'student_id',
+            selector: document.getElementById('gsuite_to_id')
         },
     };
     let mapType = document.getElementById('map_type');
     let mapDescription = document.getElementById('map_description');
+    let selectorCont = document.getElementById('selector-cont');
+    let fileInputBtn = document.getElementById('file_input_btn');
+    let textInputBtn = document.getElementById('text_input_btn');
+    let fileInputArea = document.getElementById('file_input_area');
+    let textInputArea = document.getElementById('text_input_area');
+    let textInputData = document.getElementById('text_data');
     let usernameFileHeaders = null;
     let fileData = [];
     let mappableState = 0;
     let mappedData = [];
     let returnee;
+
+    const changeMapTypeBtn = (el) => {
+        [...mapType.options].find(opt => opt.value == el.id).selected = true;
+        toggleActiveBtn(el);
+        changeMapDescription();
+    }
+
+    const changeMapTypeDropDown = () => {
+        toggleActiveBtn(mapTypesComplex[mapType.value].selector);
+        changeMapDescription();
+    }
+
+    const changeInputType = (el) => {
+        if (el.id == fileInputBtn.id) {
+            toggleInputBtn(fileInputBtn, 'dark', 'primary');
+            toggleInputBtn(textInputBtn, 'primary', 'dark');
+            fileInputArea.classList.remove('hidden');
+            textInputArea.classList.add('hidden');
+        } else {
+            toggleInputBtn(textInputBtn, 'dark', 'primary');
+            toggleInputBtn(fileInputBtn, 'primary', 'dark');
+            fileInputArea.classList.add('hidden');
+            textInputArea.classList.remove('hidden');
+        }
+    }
+
+    const toggleInputBtn = (el, from, to) => {
+        if (el.classList.contains(`btn-${ from }`)) {
+            el.classList.remove(`btn-${ from }`);
+        }
+        
+        if (!el.classList.contains(`btn-${ to }`)) {
+            el.classList.add(`btn-${ to }`);
+        }
+    }
+
+    const toggleActiveBtn = (el) => {
+        let prev = Array.from(selectorCont.children).find(btn => btn.classList.contains('btn-primary'));
+        prev.classList.remove('btn-primary');
+        prev.classList.add('btn-dark');
+        el.classList.remove('btn-dark');
+        el.classList.add('btn-primary');
+    }
 
     const changeMapDescription = () => {
         mapDescription.innerHTML = mapTypesComplex[mapType.value].description;
@@ -56,20 +111,34 @@
     }
 
     const checkForFile = marker => {
-        if (document.getElementById(`${ marker }_file`).value != "") {
-            return true;
-        }
+        if (textInputArea.classList.contains('hidden')) {
+            if (document.getElementById(`${ marker }_file`).value != "") {
+                return true;
+            }
 
-        alert('You forgot to select the file 😶😶😶');
-        
-        return false;
+            alert('You forgot to select the file 😶😶😶');
+            
+            return false;
+        } else {
+            if (textInputData.value != "") {
+                return true;
+            }
+
+            alert('You forgot to enter the data 😶😶😶');
+
+            return false;
+        }
     }
 
     const startFileProcess = (marker) => {
         if (checkForFile(marker)) {
-            changeStatus(marker, 'Reading file 📄🔍')
+            changeStatus(marker, 'Reading data 📄🔍')
             setTimeout(() => {
-                readFile(marker);
+                if (fileInputBtn.classList.contains('btn-primary')) {
+                    readFile(marker);
+                } else {
+                    readText(marker);
+                }
             }, 100);
         }
     }
@@ -108,8 +177,6 @@
     }
 
     const fetchMapData = (mappable, objName) => {
-        console.log(mappable);
-        console.log(mapType.value)
         fetch("{{ route('student-map') }}", {
             headers: {
                 "Content-Type": "application/json",
@@ -144,8 +211,15 @@
                 mappedData.push(temp);
             }
 
-            let filename = `mapped-${ getFilename(document.getElementById('username_file').value) }`.replace('.csv', '').replace('.xls', '').replace('.xlsx', '');
-            document.getElementById('username-output').innerHTML = `<a href="#/" class="text-primary stretched-link" id="downloader" onclick="downloadCrunchedData(fileData, '${ filename }')">${ filename }</a>`;
+            if (textInputArea.classList.contains('hidden')) {
+                let filename = `mapped-${ getFilename(document.getElementById('username_file').value) }`.replace('.csv', '').replace('.xls', '').replace('.xlsx', '');
+                document.getElementById('username-output').innerHTML = `<a href="#/" class="text-primary stretched-link" id="downloader" onclick="downloadCrunchedData(fileData, '${ filename }')">${ filename }</a>`;
+            } else {
+                textInputData.value = mappedData.map(item => {
+                    return item[mapTypesComplex[mapType.value].to];
+                }).join("\n");
+            }
+
             changeStatus('username', 'Completed! 💪😎😇✌');
             alert('Completed! 💪😎😇✌');
         }).catch(error => {
@@ -184,7 +258,19 @@
         };
 
         reader.readAsBinaryString(fileInput.files[0]);
+        postReaderOps[file]();
     };
+
+    const readText = () => {
+        let mappables = textInputData.value.replaceAll(" ", "").replaceAll(",", "||").replaceAll("\n", "||").replaceAll("||||", "||").split("||").filter(x => x != "");
+        
+        mappables = mappables.map(item => {
+            return {[mapTypesComplex[mapType.value].id]: item};
+        })
+
+        putResults("username", [mapTypesComplex[mapType.value].id], mappables);
+        postReaderOps["username"]();
+    }
 
     function exelToJSON(data, file) {
         let cfb = XLSX.read(data, {type: 'binary'});
