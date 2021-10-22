@@ -3,6 +3,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.8/xlsx.min.js"></script>
 <script>
     const registrationsFile = document.getElementById('registrations');
+    const addressesFile = document.getElementById('addresses');
     const emailSubject = document.getElementById('subject');
     const formURL = document.getElementById('form_url');
     const courseKey = document.getElementById('cc_key');
@@ -16,6 +17,11 @@
             check: registrationsFile,
             error: false,
             message: 'Please select a registration file to start emailing'
+        },
+        {
+            check: addressesFile,
+            error: false,
+            message: 'Please select a G-Suite Address file to start emailing'
         },
         {
             check: emailSubject,
@@ -54,6 +60,12 @@
         },
     ];
     let emailables = [];
+    let addresses = [];
+    let failuers = [];
+
+    addressesFile.addEventListener('change', () => {
+        readFile(addressesFile, 'address');
+    })
 
     const startEmailing = () => {
         for (let i in errors) {
@@ -67,55 +79,83 @@
         }
     }
 
-    const readFile = (fileInput) => {
+    const readFile = (fileInput, file = 'registration') => {
         emailBtnCont.innerHTML = '<div class="mt-2 spinner-border" role="status"><span class="sr-only">Loading...</span></div>';
         setTimeout(() => {
             let reader = new FileReader();
 
             reader.onload = function () {
-                exelToJSON(reader.result);
+                exelToJSON(reader.result, file);
             };
 
             reader.readAsBinaryString(fileInput.files[0]);
         }, 100);
     };
 
-    const exelToJSON = (data) => {
+    const exelToJSON = (data, file) => {
         let cfb = XLSX.read(data, {type: 'binary'});
             
         cfb.SheetNames.forEach(function(sheetName) {   
             let oJS = XLS.utils.sheet_to_json(cfb.Sheets[sheetName], {defval: ""});
 
-            for (let index = 0; index < oJS.length; index++) {
-                if (emailables.filter(e => e.id == oJS[index]['Student_ID']).length == 0) {
-                    let student = {
-                        id: oJS[index]['Student_ID'],
-                        name: oJS[index]['full_name'],
-                        email: oJS[index]['email'],
-                        emailed: false,
-                        courses: [],
-                    }
-                    emailables.push(student);
-
-                    let courses = oJS.filter(x => x['Student_ID'] == oJS[index]['Student_ID']);
-
-                    for (let i in courses) {
-                        student.courses.push({
-                            code: courses[i]['Course_Code'],
-                            title: courses[i]['course_title'],
-                            section: parseInt(`${ courses[i]['section'] }`.match(/\d+/)[0]),
-                            semester: oJS[index]['semester'],
-                            has_lab: labCourses.value.includes(courses[i]['Course_Code']),
-                            url: buildURL(courses[i]['Course_Code'], parseInt(`${ courses[i]['section'] }`.match(/\d+/)[0]), labCourses.value.includes(courses[i]['Course_Code'])),
-                        });
-                    }
-
-                    index += courses.length;
-                }
+            if (file == 'registration') {
+                registrationFileParser(oJS);
+            } else {
+                addressesFileParser(oJS);
             }
         });
 
-        emailNextStudent();
+        if (file == 'registration') {
+            // emailNextStudent();
+        } else {
+            emailBtnCont.innerHTML = '<button class="btn btn-dark w-100" type="button" onclick="startEmailing()">Start Emailing</button>'
+        }
+    }
+
+    const registrationFileParser = oJS => {
+        for (let index = 0; index < oJS.length; index++) {
+            let student = emailables.find(e => e.id == oJS[index]['Student_ID']);
+            let gsuite = addresses.find(x => x['ID'] == oJS[index]['Student_ID']);
+
+            if (student === undefined) {
+                student = {
+                    id: oJS[index]['Student_ID'],
+                    name: oJS[index]['full_name'],
+                    email: oJS[index]['email'],
+                    gsuite: gsuite === undefined ? null : gsuite.Gsuite,
+                    emailed: false,
+                    courses: [],
+                };
+                emailables.push(student);
+            }
+
+            let courses = oJS.filter(x => x['Student_ID'] == oJS[index]['Student_ID']);
+
+            for (let i in courses) {
+                student.courses.push({
+                    code: courses[i]['course_code'],
+                    title: courses[i]['course_title'],
+                    section: parseInt(`${ courses[i]['section'] }`.match(/\d+/)[0]),
+                    semester: oJS[index]['semester'],
+                    has_lab: labCourses.value.includes(courses[i]['course_code']),
+                    url: buildURL(courses[i]['course_code'], parseInt(`${ courses[i]['section'] }`.match(/\d+/)[0]), labCourses.value.includes(courses[i]['course_code'])),
+                });
+            }
+
+            index += courses.length;
+        }
+    }
+
+    const addressesFileParser = oJS => {
+        for (let index = 0; index < oJS.length; index++) {
+            let imm = {};
+
+            for (let header in oJS[index]) {
+                imm[header] = oJS[index][header];
+            }
+
+            addresses.push(imm);
+        }
     }
 
     const buildURL = (code, section, hasLab) => `${ formURL.value }?${ courseKey.value }=${ code }&${ theoryKey.value }=${ section }&${ hasLab ? ls1Key.value : ls2Key.value }=${ section }`;
@@ -135,11 +175,16 @@
                     subject: emailSubject.value
                 })
             }).then(response => {
+                console.log(response);
                 return response.json();
             }).then(data => {
                 console.log(data);
 
                 if (data.success) {
+                    if (data.fails[emailables.find(e => e.emailed == false).id].emails.length > 0) {
+                        failuers.push(data.fails);
+                    }
+
                     emailables.find(e => e.emailed == false).emailed = true;
 
                     if (emailables.filter(e => e.emailed == false).length > 0) {
