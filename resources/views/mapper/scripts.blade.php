@@ -13,7 +13,7 @@
             id: 'student_id',
             description: 'Convert Student ID of students to buX username <br><b><span class="text-danger">NOTE:</span> The file must contain a header column titled "student_id"</b>',
             to: 'username',
-            selector: document.getElementById('student_id')
+            selector: document.getElementById('id_to_username')
 
         },
         id_to_email: {
@@ -85,6 +85,7 @@
     }
 
     const toggleActiveBtn = (el) => {
+        console.log(el);
         let prev = Array.from(selectorCont.children).find(btn => btn.classList.contains('btn-primary'));
         prev.classList.remove('btn-primary');
         prev.classList.add('btn-dark');
