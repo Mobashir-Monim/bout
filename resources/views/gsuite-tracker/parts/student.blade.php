@@ -8,7 +8,7 @@
                         <div class="col-md-8">
                             <div class="row">
                                 <div class="col-md-4 my-1">
-                                    <input type="number" name="student_id" class="form-control border-right-0 border-left-0 border-top-0" style="font-size: 0.8em" placeholder="Student ID" value="{{ $student->id }}">
+                                    <input type="number" name="student_id" class="form-control border-right-0 border-left-0 border-top-0" style="font-size: 0.8em" placeholder="Student ID" value="{{ $student->student_id }}">
                                     <span class="d-block text-right mr-1 text-secondary" style="font-size: 0.8em">Student ID</span>
                                 </div>
                                 <div class="col-md-8 my-1">

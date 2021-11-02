@@ -32,17 +32,18 @@ class MassUploader extends Helper
     public function extractStudentData($data)
     {
         return [
-            'id' => $data['student_id'],
+            'student_id' => $data['student_id'],
             'name' => is_null($data['name']) ? 'N/A' : $data['name'],
             'program' => $data['program'],
             'department' => $data['department'],
+            'phone' => $data['phone'],
             'school' => $data['school']
         ];
     }
 
     public function findStudent($data, $row)
     {
-        $student = Student::find($data['id']);
+        $student = Student::where('student_id', $data['student_id'])->first();
         
         if (is_null($student)) {
             $student = StudentMap::where('email', $row['gsuite_email'])->first();

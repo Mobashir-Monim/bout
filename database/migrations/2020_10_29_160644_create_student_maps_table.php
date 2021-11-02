@@ -15,7 +15,7 @@ class CreateStudentMapsTable extends Migration
     {
         Schema::create('student_maps', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->unsignedBigInteger('student_id');
+            $table->uuid('student_id');
             $table->string('email')->unique();
             $table->string('username')->nullable();
             $table->timestamps();

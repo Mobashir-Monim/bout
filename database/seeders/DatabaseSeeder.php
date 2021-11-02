@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             RoleUserSeeder::class,
             EnterprisePartSeeder::class,
             RunSeeder::class,
-            StudentMapSeeder::class,
+            // StudentMapSeeder::class,
             CourseSeeder::class,
             CourseSectionSeeder::class,
             PermissionSeeder::class,

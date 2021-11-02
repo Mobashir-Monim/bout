@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\StudentMap;
+use App\Models\Student;
 
 class MapperHelper extends Helper
 {
@@ -33,7 +34,7 @@ class MapperHelper extends Helper
         foreach ($data as $k => $row) {
             foreach ($row as $key => $value) {
                 $data[$k]['id'] = StudentMap::where($key, $value)->first();
-                $data[$k]['id'] = is_null($data[$k]['id']) ? 'Not found, please let the devs know' : $data[$k]['id']->student_id;
+                $data[$k]['id'] = is_null($data[$k]['id']) ? 'Not found, please let the devs know' : $data[$k]['id']->student->student_id;
             }
         }
 
@@ -81,7 +82,7 @@ class MapperHelper extends Helper
         foreach ($data as $k => $row) {
             foreach ($row as $key => $value) {
                 $usernames = StudentMap::where($key, $value)->get();
-                $data[$k]['student_id'] = sizeof($usernames) == 0 ? 'Not found, please let the devs know' : $this->stripAndGlue($usernames->pluck('student_id')->toArray());
+                $data[$k]['student_id'] = sizeof($usernames) == 0 ? 'Not found, please let the devs know' : $this->stripAndGlue(Student::whereIn('id', $usernames->pluck('student_id')->toArray())->get()->pluck('student_id')->toArray());
             }
         }
 

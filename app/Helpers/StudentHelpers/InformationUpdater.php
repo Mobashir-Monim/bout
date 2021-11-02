@@ -26,7 +26,7 @@ class InformationUpdater extends Helper
 
     public function updateStudentID(&$student, $id)
     {
-        if ($student->id != $id) {
+        if ($student->student_id != $id) {
             foreach ($student->maps as $connection) {
                 $connection->student_id = $id;
                 $connection->save();
@@ -39,6 +39,7 @@ class InformationUpdater extends Helper
 
     public function updateStudentInfo(&$student, $request)
     {
+        $student->student_id = $request->student_id;
         $student->name = $request->name;
         $student->program = $request->program;
         $student->department = $request->department;
@@ -88,7 +89,7 @@ class InformationUpdater extends Helper
         foreach ($this->buildMapDiff($request) as $key => $content) {
             if (is_null($content)) {
                 $existing = StudentMap::where('email', $key)->first();
-                $create_data = ['student_id' => $request->student_id, 'email' => $key];
+                $create_data = ['student_id' => $request->student_id, 'email' => $key, 'username' => null];
 
                 if (!is_null($existing)) {
                     $create_data['username'] = $existing->username;
@@ -102,6 +103,7 @@ class InformationUpdater extends Helper
                 }
             } else {
                 $content->email = $key;
+                $content->save();
             }
         }
     }
