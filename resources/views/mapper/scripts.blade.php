@@ -85,7 +85,6 @@
     }
 
     const toggleActiveBtn = (el) => {
-        console.log(el);
         let prev = Array.from(selectorCont.children).find(btn => btn.classList.contains('btn-primary'));
         prev.classList.remove('btn-primary');
         prev.classList.add('btn-dark');
@@ -162,6 +161,8 @@
         }
 
         mappable = collectMapData(objName);
+        console.log(mappable);
+        console.log(encodeURI('http://127.0.0.1:8000/map/studentss?mapType=id_to_gsuite&data=' + JSON.stringify(mappable)))
         changeStatus('username', 'Fetching data from servers 📡🎛');
 
         setTimeout(() => {
@@ -194,6 +195,7 @@
         }).then(response => {
             return response.json();
         }).then(data => {
+            console.log(data);
             data = data.data;
             returnee = data;
             for (let fRowNum in fileData) {

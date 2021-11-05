@@ -45,7 +45,7 @@ class MapperHelper extends Helper
     {
         foreach ($data as $k => $row) {
             foreach ($row as $key => $value) {
-                $usernames = StudentMap::where($key, $value)->get();
+                $usernames = StudentMap::whereIn('student_id', Student::where($key, $value)->get()->pluck('id')->toArray())->get();
                 $data[$k]['username'] = sizeof($usernames) == 0 ? 'Not found, please let the devs know' : $this->stripAndGlue($usernames->pluck('username')->toArray());
             }
         }
@@ -57,7 +57,7 @@ class MapperHelper extends Helper
     {
         foreach ($data as $k => $row) {
             foreach ($row as $key => $value) {
-                $usernames = StudentMap::where($key, $value)->where('email', 'not like', '%@g.bracu.ac.bd')->get();
+                $usernames = StudentMap::whereIn('student_id', Student::where($key, $value)->get()->pluck('id')->toArray())->where('email', 'not like', '%@g.bracu.ac.bd')->get();
                 $data[$k]['usis_email'] = sizeof($usernames) == 0 ? 'Not found, please let the devs know' : $this->stripAndGlue($usernames->pluck('email')->toArray());
             }
         }
@@ -69,7 +69,7 @@ class MapperHelper extends Helper
     {
         foreach ($data as $k => $row) {
             foreach ($row as $key => $value) {
-                $usernames = StudentMap::where($key, $value)->where('email', 'like', '%@g.bracu.ac.bd')->get();
+                $usernames = StudentMap::whereIn('student_id', Student::where($key, $value)->get()->pluck('id')->toArray())->where('email', 'like', '%@g.bracu.ac.bd')->get();
                 $data[$k]['gsuite_email'] = sizeof($usernames) == 0 ? 'Not found, please let the devs know' : $this->stripAndGlue($usernames->pluck('email')->toArray());
             }
         }

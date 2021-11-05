@@ -33,7 +33,7 @@ class Search extends Helper
 
     public function matchID($phrase)
     {
-        return Student::where('id', 'like', "%$phrase%")->get();
+        return Student::where('student_id', 'like', "%$phrase%")->get();
     }
 
     public function getPage()
