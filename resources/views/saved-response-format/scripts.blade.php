@@ -45,7 +45,7 @@
     const traverseNConcat = (str, parts) => {
         if (typeof(parts) != 'string') {
             for (let p in parts) {
-                str = `${ str }${ traverseNConcat(str, parts[p]) }`;
+                str = `${ str }${ traverseNConcat("", parts[p]) }`;
             }
 
             return str;
