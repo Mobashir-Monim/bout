@@ -16,9 +16,11 @@ class FormulaHelper extends Helper
     public function __construct($eval)
     {
         $this->eval = $eval;
-        $this->factors = json_decode($eval->factors, true);
-        $this->constructPermissions();
-        $this->buildAccessList();
+        if (!is_null($this->eval)) {
+            $this->factors = json_decode($eval->factors, true);
+            $this->constructPermissions();
+            $this->buildAccessList();
+        }
     }
 
     public function constructPermissions()
