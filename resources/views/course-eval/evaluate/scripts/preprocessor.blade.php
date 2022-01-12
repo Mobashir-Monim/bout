@@ -44,8 +44,8 @@
                 method: 'post',
                 credentials: "same-origin",
                 body: JSON.stringify({
-                    data: ['id', 'gsuite_email'],
-                    index: gsuite.length == 0 ? 0 : gsuite[gsuite.length - 1].id
+                    data: ['student_id', 'gsuite_email'],
+                    index: gsuite.length == 0 ? 0 : gsuite[gsuite.length - 1].student_id
                 })
             }).then(response => {
                 return response.json();
@@ -250,11 +250,11 @@
 
     function generateIDMap() {
         gsuite.forEach(row => {
-            let sRegs = usisReg.filter(function (reg) { return reg["Student_ID"] == row["id"] });
+            let sRegs = usisReg.filter(function (reg) { return reg["Student_ID"] == row["student_id"] });
 
             if (sRegs.length > 0) {
                 sRegs.forEach(reg => {
-                    idMap.push({id: row["id"], email: row["gsuite_email"], course: reg["Course_ID"], section: reg["section"]})
+                    idMap.push({id: row["student_id"], email: row["gsuite_email"], course: reg["Course_ID"], section: reg["section"]})
                 })
             }
         })

@@ -24,7 +24,7 @@ class DataRetriever extends Helper
 
     public function buildTemplate($data)
     {
-        $accepted = ['id', 'name', 'email', 'gsuite_email', 'usis_email'];
+        $accepted = ['student_id', 'name', 'email', 'gsuite_email', 'usis_email'];
         $this->template = [];
 
         foreach ($data as $key) {
@@ -36,7 +36,7 @@ class DataRetriever extends Helper
 
     public function findStudents($index, $cluster)
     {
-        $this->students = Student::where('id', '>', $index)->take($cluster)->get();
+        $this->students = Student::where('student_id', '>', $index)->orderBy('student_id', 'ASC')->take($cluster)->get();
     }
 
     public function buildResults()
