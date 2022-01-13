@@ -21,12 +21,6 @@
                                     <input type="file" name="registrations" id="registrations" class="form-control">
                                 </div>
                                 <div class="col-4 my-auto">
-                                    Addresses:
-                                </div>
-                                <div class="col-8 my-2">
-                                    <input type="file" name="addresses" id="addresses" class="form-control">
-                                </div>
-                                <div class="col-4 my-auto">
                                     Form URL:
                                 </div>
                                 <div class="col-8 my-2">

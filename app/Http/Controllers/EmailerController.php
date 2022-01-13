@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Helpers\EmailerHelpers\EvalMailerHelpers\StudentUpdator;
+use App\Helpers\EmailerHelpers\EvalMailerHelpers\StudentFinder;
+use App\Helpers\EmailerHelpers\EvalMailerHelpers\StudentMailer;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EvalMail;
 use App\Models\Student;
@@ -21,7 +23,7 @@ class EmailerController extends Controller
         return view('emailer.eval.index');
     }
 
-    public function sendEvalMail(Request $request)
+    public function prev(Request $request)
     {
         $student = $request->student;
         $fails = [
@@ -64,6 +66,22 @@ class EmailerController extends Controller
             'success' => true,
             'message' => 'Emailed student',
             'fails' => $fails,
+        ]);
+    }
+
+    public function sendEvalMail(Request $request)
+    {
+        $student = $request->student;
+        $student_helper = new StudentFinder($student['id'], $student['email']);
+        $student['gsuite'] = $student_helper->getGsuiteAddresses();
+        $student['gsuite'] = sizeof($student['gsuite']) > 0 ? $student['gsuite'][0] : null;
+
+        $emailer = new StudentMailer($student, $request->subject);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Emailed student',
+            'fails' => $emailer->getFailureMessages(),
         ]);
     }
 }

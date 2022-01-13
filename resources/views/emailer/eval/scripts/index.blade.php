@@ -3,7 +3,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.8/xlsx.min.js"></script>
 <script>
     const registrationsFile = document.getElementById('registrations');
-    const addressesFile = document.getElementById('addresses');
     const emailSubject = document.getElementById('subject');
     const formURL = document.getElementById('form_url');
     const courseKey = document.getElementById('cc_key');
@@ -17,11 +16,6 @@
             check: registrationsFile,
             error: false,
             message: 'Please select a registration file to start emailing'
-        },
-        {
-            check: addressesFile,
-            error: false,
-            message: 'Please select a G-Suite Address file to start emailing'
         },
         {
             check: emailSubject,
@@ -60,12 +54,7 @@
         },
     ];
     let emailables = [];
-    let addresses = [];
     let failuers = [];
-
-    addressesFile.addEventListener('change', () => {
-        readFile(addressesFile, 'address');
-    })
 
     const startEmailing = () => {
         for (let i in errors) {
@@ -97,32 +86,28 @@
             
         cfb.SheetNames.forEach(function(sheetName) {   
             let oJS = XLS.utils.sheet_to_json(cfb.Sheets[sheetName], {defval: ""});
-
-            if (file == 'registration') {
-                registrationFileParser(oJS);
-            } else {
-                addressesFileParser(oJS);
-            }
+            registrationFileParser(oJS);
         });
 
-        if (file == 'registration') {
-            // emailNextStudent();
-        } else {
-            emailBtnCont.innerHTML = '<button class="btn btn-dark w-100" type="button" onclick="startEmailing()">Start Emailing</button>'
-        }
+        emailNextStudent();
+
+        // if (file == 'registration') {
+        //     // emailNextStudent();
+        // } else {
+        //     emailBtnCont.innerHTML = '<button class="btn btn-dark w-100" type="button" onclick="startEmailing()">Start Emailing</button>'
+        // }
     }
 
     const registrationFileParser = oJS => {
         for (let index = 0; index < oJS.length; index++) {
             let student = emailables.find(e => e.id == oJS[index]['Student_ID']);
-            let gsuite = addresses.find(x => x['ID'] == oJS[index]['Student_ID']);
 
             if (student === undefined) {
                 student = {
                     id: oJS[index]['Student_ID'],
                     name: oJS[index]['full_name'],
                     email: oJS[index]['email'],
-                    gsuite: gsuite === undefined ? null : gsuite.Gsuite,
+                    gsuite: null,
                     emailed: false,
                     courses: [],
                 };
@@ -143,18 +128,6 @@
             }
 
             index += courses.length;
-        }
-    }
-
-    const addressesFileParser = oJS => {
-        for (let index = 0; index < oJS.length; index++) {
-            let imm = {};
-
-            for (let header in oJS[index]) {
-                imm[header] = oJS[index][header];
-            }
-
-            addresses.push(imm);
         }
     }
 
@@ -181,8 +154,10 @@
                 console.log(data);
 
                 if (data.success) {
-                    if (data.fails[emailables.find(e => e.emailed == false).id].emails.length > 0) {
-                        failuers.push(data.fails);
+                    if (Object.keys(data.fails).length > 0) {
+                        for (let em in data.fails) {
+                            failuers.push(`Failed delivering to ${ em }: ${ data.fails[em] }`);
+                        }
                     }
 
                     emailables.find(e => e.emailed == false).emailed = true;
@@ -192,8 +167,13 @@
                     } else {
                         emailBtnCont.innerHTML = 'Done emailing';
                     }
+                } else {
+                    let student = emailables.find(e => e.emailed == false);
+                    failuers.push(`Failed emailing to ${ student.id }`);
+                    throw `Failed emailing to ${ student.id }`;
                 }
             }).catch(error => {
+                emailables.find(e => e.emailed == false).emailed = true;
                 console.log(error);
                 emailNextStudent();
             });
