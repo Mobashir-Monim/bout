@@ -18,14 +18,14 @@ class Student extends Model
         return $this->hasMany('App\Models\StudentMap');
     }
 
-    public function getUsisEmailsAttribute()
+    public function getUsisEmailsAttribute($implode = true)
     {
         $rows = \DB::table('student_maps')->where('student_id', $this->attributes['id'])->where('email', 'not like', '%@g.bracu.ac.bd')->get()->pluck('email')->toArray();
 
         return $implode ? implode(", ", $rows) : $rows;
     }
 
-    public function getGsuiteEmailsAttribute()
+    public function getGsuiteEmailsAttribute($implode = true)
     {
         $rows = \DB::table('student_maps')->where('student_id', $this->attributes['id'])->where('email', 'like', '%@g.bracu.ac.bd')->get()->pluck('email')->toArray();
 
