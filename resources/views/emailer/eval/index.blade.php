@@ -8,7 +8,7 @@
                     <h5 class="border-bottom">Evaluation Emailer</h5>
                     <div class="row">
                         <div class="col-md-12 my-2">
-                            <input type="text" name="subject" id="subject" class="form-control" placeholder="Email Subject" value="2021 Summer Course Evaluation">
+                            <input type="text" name="subject" id="subject" class="form-control" placeholder="Email Subject" value="2021 Fall Course Evaluation">
                         </div>
                     </div>
                     <div class="row">
@@ -30,7 +30,7 @@
                                     Form URL:
                                 </div>
                                 <div class="col-8 my-2">
-                                    <input type="text" name="form_url" id="form_url" class="form-control" placeholder="Form URL" value="https://docs.google.com/forms/d/e/1FAIpQLSeQTaQJHzeLiiC4AcpY0V9cxqLDjXLrFCj6_B_IvpncPtxZmQ/viewform">
+                                    <input type="text" name="form_url" id="form_url" class="form-control" placeholder="Form URL" value="https://docs.google.com/forms/d/e/1FAIpQLSew3As4WLsYUhl0VpNmMyQCVh2VVi-IGlFAL3wd2gdwMFVa3g/viewform">
                                 </div>
                                 <div class="col-4 my-auto">
                                     Course Code Key:
@@ -60,7 +60,7 @@
                         </div>
                         <div class="col-md-6 my-2">
                             <textarea name="lab_courses" id="lab_courses" class="form-control" cols="30" rows="12" placeholder="Lab Courses (comma separated)">
-CSE101, CSE103, CSE110, CSE111, CSE220, CSE221, CSE250, CSE251, CSE260, CSE310, CSE321, CSE330, CSE341, CSE350, CSE360, CSE370, CSE391, CSE419, CSE420, CSE421, CSE422, CSE423, CSE430, CSE460, CSE461, CSE471, CSE474, CSE490, CSE491
+CSE101, CSE103, CSE110, CSE111, CSE220, CSE221, CSE250, CSE251, CSE260, CSE310, CSE321, CSE330, CSE341, CSE350, CSE360, CSE370, CSE391, CSE419, CSE420, CSE421, CSE422, CSE423, CSE460, CSE461, CSE471, CSE474, CSE481, CSE484, CSE489
                             </textarea>
                         </div>
                         <div class="col-md-6 my-2" id="email-stats">
