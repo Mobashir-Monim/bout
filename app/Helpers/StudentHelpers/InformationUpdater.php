@@ -47,6 +47,7 @@ class InformationUpdater extends Helper
     {
         $extracted = [];
         $emails = explode(",", str_replace(" ", "", "$request->usis_emails, $request->gsuite"));
+        $emails = array_filter($emails, fn($value) => !is_null($value) && $value !== '');
         
         foreach ($emails as $email) {
             $email = str_replace(" ", "", $email);
@@ -61,7 +62,7 @@ class InformationUpdater extends Helper
         $excludables = [];
 
         foreach ($diff as $email => $change) {
-            if (!is_null($change)) {
+            if (!is_null($change) || $email == "" || $email == " ") {
                 $excludables[] = $change->id;
             }
         }
@@ -75,7 +76,7 @@ class InformationUpdater extends Helper
     {
         $diff = $this->extractEmails($request, $this->student->id);
         $diff = $this->includeDeletables($diff, $request->student->id);
-
+        
         return $diff;
     }
 
