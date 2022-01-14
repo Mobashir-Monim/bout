@@ -12,6 +12,7 @@ class InformationUpdater extends Helper
 
     public function __construct($student, $request, $update_id_only = false)
     {
+        $this->student = $student;
         try {
             $this->updateStudentID($student, $request->student_id);
         
@@ -27,12 +28,7 @@ class InformationUpdater extends Helper
     public function updateStudentID(&$student, $id)
     {
         if ($student->student_id != $id) {
-            foreach ($student->maps as $connection) {
-                $connection->student_id = $id;
-                $connection->save();
-            }
-
-            $student->id = $id;
+            $student->student_id = $id;
             $student->save();
         }
     }
@@ -50,12 +46,11 @@ class InformationUpdater extends Helper
     public function extractEmails($request, $id)
     {
         $extracted = [];
+        $emails = explode(",", str_replace(" ", "", "$request->usis_emails, $request->gsuite"));
         
-        foreach ([str_replace(" ", "", $request->usis_emails), str_replace(" ", "", $request->gsuite)] as $emails) {
-            foreach (explode(',', $emails) as $email) {
-                $email = str_replace(" ", "", $email);
-                $extracted[$email] = StudentMap::where('student_id', $id)->where('email', $email)->first();
-            }
+        foreach ($emails as $email) {
+            $email = str_replace(" ", "", $email);
+            $extracted[$email] = StudentMap::where('student_id', $id)->where('email', $email)->first();
         }
 
         return $extracted;
@@ -78,8 +73,8 @@ class InformationUpdater extends Helper
 
     public function buildMapDiff($request)
     {
-        $diff = $this->extractEmails($request, $request->student_id);
-        $diff = $this->includeDeletables($diff, $request->student_id);
+        $diff = $this->extractEmails($request, $this->student->id);
+        $diff = $this->includeDeletables($diff, $request->student->id);
 
         return $diff;
     }
@@ -89,7 +84,7 @@ class InformationUpdater extends Helper
         foreach ($this->buildMapDiff($request) as $key => $content) {
             if (is_null($content)) {
                 $existing = StudentMap::where('email', $key)->first();
-                $create_data = ['student_id' => $request->student_id, 'email' => $key, 'username' => null];
+                $create_data = ['student_id' => $this->student->id, 'email' => $key, 'username' => null];
 
                 if (!is_null($existing)) {
                     $create_data['username'] = $existing->username;
