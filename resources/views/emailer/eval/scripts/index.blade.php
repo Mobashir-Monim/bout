@@ -178,4 +178,11 @@
                 emailNextStudent();
             });
     }
+
+    const getStats = () => {
+        let completed = (100 * emailables.filter(e => e.emailed).length / emailables.length).toFixed(2);
+        let failed = (100 * failuers.length / emailables.length).toFixed(2);
+
+        console.log(`Completed %: ${ completed }\nCompleted: ${ emailables.filter(e => !e.emailed).length }\nFailure %: ${ failed }\nFailed: ${ failuers.length }`);
+    }
 </script>
