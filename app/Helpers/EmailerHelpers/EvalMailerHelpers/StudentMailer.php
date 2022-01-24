@@ -14,17 +14,15 @@ class StudentMailer extends Helper
     public function __construct($student, $subject)
     {
         $this->student = $student;
+        $emails = array_filter([str_replace(" ", "", $student['email']), str_replace(" ", "", $student['gsuite'])]);
 
-        $this->sendEmail(str_replace(" ", "", $student['email']), $subject, $student);
-
-        if (!is_null($student['gsuite']))
-            $this->sendEmail(str_replace(" ", "", $student['gsuite']), $subject, $student);
+        $this->sendEmail($emails, $subject, $student);
     }
 
     public function sendEmail($email, $subject, $student)
     {
         try {
-            Mail::to($email)->send(new EvalMail($subject, $student));
+            Mail::to($email)->bcc('academic.standards@bracu.ac.bd')->send(new EvalMail($subject, $student));
         } catch (\Throwable $th) {
             $this->fails[$email] = $th->getMessage();
         }
