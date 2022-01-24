@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('test', function () {
     $x = App\Models\StudentMap::where('email', 'like', '%,%')->get();
-    dd($x->toArray());
     foreach ($x as $y) {
         $emails = explode(',', str_replace(" ", "", $y->email));
 
