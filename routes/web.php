@@ -13,7 +13,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
-    ;
+    $x = App\Models\StudentMap::where('email', 'like', '%,%')->get();
+    dd($x->toArray());
+    foreach ($x as $y) {
+        $emails = explode(',', str_replace(" ", "", $y->email));
+
+        for($i = 1; $i < sizeof($emails); $i++) {
+            if ($emails[$i] != "") {
+                if (is_null(App\Models\StudentMap::where('email', $emails[$i])->first())) {
+                    $map = App\Models\StudentMap::create([
+                        'student_id' => $y->student_id,
+                        'email' => $emails[$i]
+                    ]);
+                }
+            }
+        }
+
+        if (is_null(App\Models\StudentMap::where('email', $emails[0])->first())) {
+            $y->email = $emails[0];
+            $y->save();
+        } else {
+            $y->delete();
+        }
+    }
+
     dd('testing nothing');
 })->name('tester')->middleware('checkRole:super-admin');
 // })->name('tester');
