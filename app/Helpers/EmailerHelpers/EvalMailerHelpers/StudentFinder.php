@@ -47,11 +47,11 @@ class StudentFinder extends Helper
 
     public function getUsisAddresses()
     {
-        return is_null($this->student) ? [] : $this->student->usisEmailsArray(false);
+        return is_null($this->student) ? [] : $this->student->usisEmailsArray;
     }
 
     public function getGsuiteAddresses()
     {
-        return is_null($this->student) ? [] : $this->student->gsuiteEmailsArray(false);
+        return is_null($this->student) ? [] : $this->student->gsuiteEmailsArray;
     }
 }
