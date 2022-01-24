@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
-    phpinfo();
     $x = App\Models\StudentMap::where('email', 'like', '%,%')->get();
     dd($x->toArray());
     foreach ($x as $y) {
