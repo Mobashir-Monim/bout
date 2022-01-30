@@ -126,90 +126,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><p><b>Lecture Quality</b></p></td>
-                                <td><p class="text-center">{{ $helper->report['cats']['lq'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['percentiles']['lq'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['deptCourseHighests']['lq'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['uniCourseHighests']['lq'] }}</p></td>
-                            </tr>
-                            <tr>
-                                <td><p><b>Course Quality</b></p></td>
-                                <td><p class="text-center">{{ $helper->report['cats']['cq'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['percentiles']['cq'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['deptCourseHighests']['cq'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['uniCourseHighests']['cq'] }}</p></td>
-                            </tr>
-                            <tr>                                
-                                <td><p><b>Lecture Effort</b></p></td>
-                                <td><p class="text-center">{{ $helper->report['cats']['le'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['percentiles']['le'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['deptCourseHighests']['le'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['uniCourseHighests']['le'] }}</p></td>
-                            </tr>
-                            <tr>                                
-                                <td><p><b>Assessment Effort</b></p></td>
-                                <td><p class="text-center">{{ $helper->report['cats']['ae'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['percentiles']['ae'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['deptCourseHighests']['ae'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['uniCourseHighests']['ae'] }}</p></td>
-                            </tr>
-                            <tr>                                
-                                <td><p><b>Learning Experince Effort</b></p></td>
-                                <td><p class="text-center">{{ $helper->report['cats']['lx'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['percentiles']['lx'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['deptCourseHighests']['lx'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['uniCourseHighests']['lx'] }}</p></td>
-                            </tr>
-                            <tr>                                
-                                <td><p><b>Student pressure factor</b></p></td>
-                                <td><p class="text-center">{{ $helper->report['cats']['sp'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['percentiles']['sp'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['deptCourseHighests']['sp'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['uniCourseHighests']['sp'] }}</p></td>
-                            </tr>
-                            <tr>                                
-                                <td><p><b>Course Administration</b></p></td>
-                                <td><p class="text-center">{{ $helper->report['cats']['ca'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['percentiles']['ca'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['deptCourseHighests']['ca'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['uniCourseHighests']['ca'] }}</p></td>
-                            </tr>
-                            <tr>                                
-                                <td><p><b>Technical Aptitude</b></p></td>
-                                <td><p class="text-center">{{ $helper->report['cats']['ta'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['percentiles']['ta'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['deptCourseHighests']['ta'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['uniCourseHighests']['ta'] }}</p></td>
-                            </tr>
-                            <tr>                                
-                                <td><p><b>Course Rating</b></p></td>
-                                <td><p class="text-center">{{ $helper->report['cats']['cr'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['percentiles']['cr'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['deptCourseHighests']['cr'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['uniCourseHighests']['cr'] }}</p></td>
-                            </tr>
-                            <tr>                                
-                                <td><p><b>Excellence Indicator</b></p></td>
-                                <td><p class="text-center">{{ $helper->report['cats']['ei'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['percentiles']['ei'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['deptCourseHighests']['ei'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['uniCourseHighests']['ei'] }}</p></td>
-                            </tr>
-                            <tr>                                
-                                <td><p><b>Irresponsibility Indicator</b></p></td>
-                                <td><p class="text-center">{{ $helper->report['cats']['ii'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['percentiles']['ii'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['deptCourseHighests']['ii'] }}</p></td>
-                                <td><p class="text-center">{{ $helper->report['overall']['uniCourseHighests']['ii'] }}</p></td>
-                            </tr>
-                            <tr>                                
-                                <td><p><b>Lab Rating</b></p></td>
-                                <td><p class="text-center">{{ is_null($helper->report['cats']['lr']) ? '---' : $helper->report['cats']['lr'] }}</p></td>
-                                <td><p class="text-center">{{ is_null($helper->report['overall']['percentiles']['lr']) ? '---' : $helper->report['overall']['percentiles']['lr'] }}</p></td>
-                                <td><p class="text-center">{{ is_null($helper->report['overall']['deptCourseHighests']['lr']) ? '---' : $helper->report['overall']['deptCourseHighests']['lr'] }}</p></td>
-                                <td><p class="text-center">{{ is_null($helper->report['overall']['uniCourseHighests']['lr']) ? '---' : $helper->report['overall']['uniCourseHighests']['lr'] }}</p></td>
-                            </tr>
+                            @foreach ($helper->factors as $key => $factor)
+                                <tr>
+                                    <td><p><b>[ <i class="text-primary">{{ $key }}</i> ] {{ $factor['name'] }}</b></p></td>
+                                    <td><p class="text-center">{{ !array_key_exists($key, $helper->report['cats']) ? '---' : $helper->report['cats'][$key] }}</p></td>
+                                    <td><p class="text-center">{{ !array_key_exists($key, $helper->report['overall']['percentiles']) ? '---' : $helper->report['overall']['percentiles'][$key] }}</p></td>
+                                    <td><p class="text-center">{{ !array_key_exists($key, $helper->report['overall']['deptCourseHighests']) ? '---' : $helper->report['overall']['deptCourseHighests'][$key] }}</p></td>
+                                    <td><p class="text-center">{{ !array_key_exists($key, $helper->report['overall']['uniCourseHighests']) ? '---' : $helper->report['overall']['uniCourseHighests'][$key] }}</p></td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

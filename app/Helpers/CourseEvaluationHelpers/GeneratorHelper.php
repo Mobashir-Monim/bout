@@ -24,6 +24,7 @@ class GeneratorHelper extends Helper
     public $accessList = [];
     public $userPermissions = ['isHead' => false, 'dept-report' => false, 'course-report' => false, 'section-report' => false, 'lab-report' => false];
     public $sem;
+    public $factors;
 
 
     public function __construct($year, $semester, $dept = null, $course = null, $section = null, $lab = false)
@@ -31,6 +32,7 @@ class GeneratorHelper extends Helper
         $this->year = $year;
         $this->semester = $semester;
         $this->eval = CE::find($year . "_" . ucfirst($semester));
+        $this->factors = json_decode($this->eval->factors, true);
         $this->dept = $dept; $this->course = $course; $this->section = $section; $this->lab = $lab;
         $this->contructPermissions();
 
