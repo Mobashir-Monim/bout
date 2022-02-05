@@ -71,8 +71,8 @@ class Index extends Helper
 
     public function updateCourseInfo($offered)
     {
-        dd('here');
         $course = Course::where('code', 'undefined')->first();
+        dd($course);
 
         if ($offered->evaluation != null || $offered->evaluation != "N/A" || $offered->evaluation != "") {
             $eval = json_decode($offered->evaluation, true);
