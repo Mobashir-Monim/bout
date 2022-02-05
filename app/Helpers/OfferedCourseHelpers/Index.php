@@ -57,6 +57,9 @@ class Index extends Helper
         $this->courses = [];
 
         foreach ($courses as $offered) {
+            if (is_null($offered->course))
+                $offered = $this->updateCourseInfo($offered);
+            
             $this->addSections(
                 $offered->sections,
                 $offered->course->provider,
@@ -64,6 +67,25 @@ class Index extends Helper
                 $offered,
             );
         }
+    }
+
+    public function updateCourseInfo($offered)
+    {
+        dd('here');
+        $course = Course::where('code', 'undefined')->first();
+
+        if ($offered->evaluation != null || $offered->evaluation != "N/A" || $offered->evaluation != "") {
+            $eval = json_decode($offered->evaluation, true);
+            $course = Course::where('code', $eval['name'])->first();
+            
+        } else {
+            $undefined = is_null($undefined) ? Course::create(['code' => 'undefined', 'title' => 'undefined', 'provider' => 'undefined']) : $undefined;
+        }
+
+        $offered->course_id = $course->id;
+        $offered->save();
+
+        return $offered;
     }
 
     public function addSections($sections, $provider, $code, $offered)
