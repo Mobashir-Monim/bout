@@ -72,6 +72,8 @@ class Index extends Helper
     public function updateCourseInfo($offered)
     {
         $course = Course::where('code', 'undefined')->first();
+        $course = is_null($course) ? Course::create(['code' => 'undefined', 'title' => 'undefined', 'provider' => 'undefined']) : $course;
+
         dd($course);
 
         if ($offered->evaluation != null || $offered->evaluation != "N/A" || $offered->evaluation != "") {
@@ -79,7 +81,7 @@ class Index extends Helper
             $course = Course::where('code', $eval['name'])->first();
             
         } else {
-            $undefined = is_null($undefined) ? Course::create(['code' => 'undefined', 'title' => 'undefined', 'provider' => 'undefined']) : $undefined;
+            $course = is_null($course) ? Course::create(['code' => 'undefined', 'title' => 'undefined', 'provider' => 'undefined']) : $course;
         }
 
         $offered->course_id = $course->id;
