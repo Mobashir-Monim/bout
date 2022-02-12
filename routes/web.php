@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
-    $ocss = App\Models\OfferedCourseSection::all();
+    $ocss = App\Models\OfferedCourse::all();
 
     foreach ($ocss as $ocs) {
         try {
