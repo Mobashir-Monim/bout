@@ -13,6 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
+    $ocss = App\Models\CourseEvaluationResult::all();
+
+    foreach ($ocss as $ocs) {
+        try {
+            json_encode($ocs->evaluation);
+        } catch (\Throwable $th) {
+            dd($ocs);
+        }
+    }
+
     dd('testing nothing');
 })->name('tester')->middleware('checkRole:super-admin');
 // })->name('tester');

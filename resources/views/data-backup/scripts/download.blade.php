@@ -96,6 +96,7 @@
                 }
             }).catch(error => {
                 console.log(error);
+                console.log(tables[downloadTableIndex].name);
                 toggleDownloadStatusVisual();
                 alert(`Whoops! Something went wrong while trying to download. Please try again later.`);
             });
