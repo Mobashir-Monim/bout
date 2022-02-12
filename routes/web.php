@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
+    $x = new App\Helpers\DataBackupHelpers\DownloadHelper(request()->table, request()->index);
+    dd($x);
     $ocss = App\Models\OfferedCourseSection::paginate();
     
     foreach ($ocss as $ocs) {
