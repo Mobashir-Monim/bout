@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('test', function () {
     $ocss = App\Models\OfferedCourseSection::all();
-
+    dd(count($ocss));
     foreach ($ocss as $ocs) {
         try {
             json_encode($ocs->evaluation);
