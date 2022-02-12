@@ -92,6 +92,7 @@
                         makeNextDownloadCall();
                     }
                 } else {
+                    console.log(data);
                     throw `${ data.message }`;
                 }
             }).catch(error => {
