@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
-    $ocss = App\Models\OfferedCourseSection::all();
-    dd(count($ocss));
+    $ocss = App\Models\OfferedCourseSection::paginate();
+    dd($ocss[0]->id);
     foreach ($ocss as $ocs) {
         try {
             json_encode($ocs->evaluation);
