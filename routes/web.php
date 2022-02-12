@@ -17,7 +17,7 @@ Route::get('test', function () {
     
     foreach ($ocss as $ocs) {
         try {
-            json_encode($ocs->evaluation);
+            json_decode($ocs->evaluation);
         } catch (\Throwable $th) {
             dd($ocs);
         }
