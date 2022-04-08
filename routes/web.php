@@ -13,18 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
-    $x = new App\Helpers\DataBackupHelpers\DownloadHelper(request()->table, request()->index);
-    dd($x);
-    $ocss = App\Models\OfferedCourseSection::paginate();
-    
-    foreach ($ocss as $ocs) {
-        try {
-            json_decode($ocs->evaluation);
-        } catch (\Throwable $th) {
-            dd($ocs);
-        }
-    }
-
     dd('testing nothing');
 })->name('tester')->middleware('checkRole:super-admin');
 // })->name('tester');
@@ -219,4 +207,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/gbc', function() {
         return view('gsuite-bux-consolidate');
     })->middleware('checkRole:super-admin');
+
+    Route::name('eval-export.')->prefix('/eval-export')->middleware(['checkRole:super-admin'])->group(function () {
+        Route::get('/index', [App\Http\Controllers\EvalExportController::class, 'index'])->name('index');
+        Route::post('/stats', [App\Http\Controllers\EvalExportController::class, 'stats'])->name('stats');
+    });
 });
