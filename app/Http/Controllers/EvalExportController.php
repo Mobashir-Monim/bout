@@ -29,4 +29,37 @@ class EvalExportController extends Controller
             'sections' => $ocs
         ]);
     }
+
+    public function exportSection(Request $request)
+    {
+        $ocs = OCS::find($request->section);
+        $ocs = $ocs === null ? null : $ocs->toArray();
+
+        return response()->json([
+            'success' => $ocs !== null,
+            'section' => $ocs
+        ]);
+    }
+
+    public function exportCourse(Request $request)
+    {
+        $oc = OC::find($request->course);
+        $oc = $oc === null ? null : $oc->toArray();
+
+        return response()->json([
+            'success' => $oc !== null,
+            'course' => $oc
+        ]);
+    }
+
+    public function exportDepartment(Request $request)
+    {
+        $cer = CER::where('course_evaluation_id', $request->cer_id)->where('dept', $request->dept)->first();
+        $cer = $cer === null ? null : $cer->toArray();
+
+        return response()->json([
+            'success' => $cer !== null,
+            'department' => $cer
+        ]);
+    }
 }

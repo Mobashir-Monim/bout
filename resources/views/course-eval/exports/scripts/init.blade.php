@@ -14,14 +14,19 @@
         },
         values: {
             target: {
-                department: 0,
-                course: 0,
-                section: 0
+                department: null,
+                course: null,
+                section: null
             },
             progress: {
-                department: 0,
-                course: 0,
-                section: 0
+                department: [],
+                course: [],
+                section: []
+            },
+            errors: {
+                department: [],
+                course: [],
+                section: []
             }
         }
     }
@@ -32,19 +37,30 @@
     }
 
     const exportEval = () => {
+        initStats();
         getStats();
-        initProgressValues();
     }
 
-    const initProgressValues = () => {
+    const initStats = () => {
         stats.holders.progress.department.value = 0;
         stats.holders.progress.course.value = 0;
         stats.holders.progress.section.value = 0;
-    }
-
-    const initFetchIndex = () => {
-        fetchIndexer.department = 0;
-        fetchIndexer.course = 0;
-        fetchIndexer.section = 0;
+        stats.values = {
+            target: {
+                department: null,
+                course: null,
+                section: null
+            },
+            progress: {
+                department: [],
+                course: [],
+                section: []
+            },
+            errors: {
+                department: [],
+                course: [],
+                section: []
+            }
+        };
     }
 </script>

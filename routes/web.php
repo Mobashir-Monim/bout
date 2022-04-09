@@ -211,5 +211,8 @@ Route::middleware(['auth'])->group(function () {
     Route::name('eval-export.')->prefix('/eval-export')->middleware(['checkRole:super-admin'])->group(function () {
         Route::get('/index', [App\Http\Controllers\EvalExportController::class, 'index'])->name('index');
         Route::post('/stats', [App\Http\Controllers\EvalExportController::class, 'stats'])->name('stats');
+        Route::post('/section', [App\Http\Controllers\EvalExportController::class, 'exportSection'])->name('section');
+        Route::post('/course', [App\Http\Controllers\EvalExportController::class, 'exportCourse'])->name('course');
+        Route::post('/department', [App\Http\Controllers\EvalExportController::class, 'exportDepartment'])->name('department');
     });
 });
