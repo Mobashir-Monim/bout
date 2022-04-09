@@ -214,5 +214,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/section', [App\Http\Controllers\EvalExportController::class, 'exportSection'])->name('section');
         Route::post('/course', [App\Http\Controllers\EvalExportController::class, 'exportCourse'])->name('course');
         Route::post('/department', [App\Http\Controllers\EvalExportController::class, 'exportDepartment'])->name('department');
+        Route::post('/metadata', [App\Http\Controllers\EvalExportController::class, 'exportMetadata'])->name('metadata');
+        Route::get('/metadata', [App\Http\Controllers\EvalExportController::class, 'exportMetadata'])->name('metadata');
     });
 });

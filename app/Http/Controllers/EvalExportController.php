@@ -19,7 +19,7 @@ class EvalExportController extends Controller
 
     public function stats(Request $request)
     {
-        $depts = array_values(array_unique(Course::whereIn("id", OC::select('course_id')->where('run_id', $request->year . "_" . $request->semester))->get()->pluck("provider")->toArray()));
+        $depts = CER::where('course_evaluation_id', $request->year . "_" . $request->semester)->where('dept', "!=", "skeleton")->pluck('dept')->toArray();
         $oc = OC::where('run_id', $request->year . "_" . $request->semester)->get()->pluck('id')->toArray();
         $ocs = OCS::whereIn('offered_course_id', $oc)->get()->pluck('id')->toArray();
         
@@ -60,6 +60,25 @@ class EvalExportController extends Controller
         return response()->json([
             'success' => $cer !== null,
             'department' => $cer
+        ]);
+    }
+
+    public function exportMetadata(Request $request)
+    {
+        $factors = json_decode(CE::find($request->run)->factors);
+        $m_parts = CEM::where('course_evaluation_id', $request->run)->orderBy("part", "ASC")->get();
+        $matrix = "";
+
+        foreach ($m_parts as $part) {
+            $matrix .= $part->value;
+        }
+
+        $matrix = json_decode($matrix);
+
+        return response()->json([
+            'success' => true,
+            'factors' => $factors,
+            'matrix' => $matrix
         ]);
     }
 }

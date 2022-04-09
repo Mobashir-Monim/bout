@@ -31,6 +31,14 @@
         }
     }
 
+    let exportable = {
+        sem: "",
+        year: "",
+        factors: {},
+        matrix: {},
+        depts: []
+    }
+
     const inputs = {
         semester: document.getElementById("semester"),
         year: document.getElementById("year")
@@ -62,5 +70,15 @@
                 section: []
             }
         };
+    }
+
+    const initExportable = () => {
+        exportable = {
+            sem: "",
+            year: "",
+            factors: {},
+            matrix: {},
+            depts: []
+        }
     }
 </script>
