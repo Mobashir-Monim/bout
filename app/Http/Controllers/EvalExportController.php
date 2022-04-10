@@ -44,11 +44,11 @@ class EvalExportController extends Controller
     public function exportCourse(Request $request)
     {
         $oc = OC::find($request->course);
-        $oc = $oc === null ? null : $oc->toArray();
+        $oc = $oc === null ? null : array_merge(['department' => $oc->course->provider, 'code' => $oc->course->code], $oc->toArray());
 
         return response()->json([
             'success' => $oc !== null,
-            'course' => $oc
+            'course' => $oc,
         ]);
     }
 

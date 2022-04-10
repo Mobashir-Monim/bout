@@ -103,7 +103,6 @@
     }
 
     const getDepartmentEval = () => {
-        console.log(`call ${stats.values.progress.department.length + stats.values.errors.department.length}`);
         fetch("{{ route('eval-export.department') }}", {
                 headers: {
                     "Content-Type": "application/json",
@@ -123,7 +122,6 @@
                 if (data.success) {
                     stats.values.progress.department.push(data.department);
                 } else {
-                    console.log(stats.values.target.department[stats.holders.progress.department.value]);
                     stats.values.errors.department.push(stats.values.target.department[stats.holders.progress.department.value]);
                 }
                 callNextAPI();
