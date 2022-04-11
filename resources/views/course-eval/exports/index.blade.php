@@ -87,6 +87,7 @@
 @endsection
 
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@9.3.2/lib/browser/math.min.js"></script>
     @include('course-eval.exports.scripts.init')
     @include('course-eval.exports.scripts.status')
     @include('course-eval.exports.scripts.api-caller')
