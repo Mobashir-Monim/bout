@@ -4,6 +4,7 @@
             @include('layouts.nav.items.mapper')
             @include('layouts.nav.items.formatter')
             @include('layouts.nav.items.evaluations')
+            @include('layouts.nav.items.eval-tracker')
             @include('layouts.nav.items.description-builder')
             @include('layouts.nav.items.faculty-info')
 

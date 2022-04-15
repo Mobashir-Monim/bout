@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStudentEnrollmentsTable extends Migration
+class CreateEvalTrackersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateStudentEnrollmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('student_enrollments', function (Blueprint $table) {
+        Schema::create('eval_trackers', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('run_id', 15);
-            $table->uuid('student_id');
-            $table->uuid('offered_course_section_id');
+            $table->string("course_evaluation_id");
+            $table->text("meta");
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateStudentEnrollmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_enrollments');
+        Schema::dropIfExists('eval_trackers');
     }
 }

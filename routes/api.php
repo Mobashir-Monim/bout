@@ -21,3 +21,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::name('sbout.')->prefix('sbout')->group(function () {
     Route::post('/login', [App\Http\Controllers\PlatformAccessControllers\SBoutController::class, 'login']);
 });
+
+Route::post('/enroll', [App\Http\Controllers\EnrollmentController::class, 'enroll'])->name('enroll');

@@ -217,4 +217,21 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/metadata', [App\Http\Controllers\EvalExportController::class, 'exportMetadata'])->name('metadata');
         Route::get('/metadata', [App\Http\Controllers\EvalExportController::class, 'exportMetadata'])->name('metadata');
     });
+
+    Route::name('student-admin.')->prefix('/student-admin')->group(function () {
+        Route::name('enrollment.')->prefix('/enrollment')->group(function () {
+            Route::get('/', [App\Http\Controllers\EnrollmentController::class, 'index'])->name('index');
+            Route::post('/enroll', [App\Http\Controllers\EnrollmentController::class, 'enroll'])->name('enroll');
+        });
+    });
+
+    Route::name('eval-tracker.')->prefix('/eval-tracker')->group(function () {
+        Route::get('/', [App\Http\Controllers\EvalTrackerController::class, 'index'])->name('index');
+        Route::post('/', [App\Http\Controllers\EvalTrackerController::class, 'semesterConfrim'])->name('semester-confirm');
+
+        Route::middleware(['checkRole:super-admin'])->group(function () {
+            Route::get('/create', [App\Http\Controllers\EvalTrackerController::class, 'create'])->name('create');
+            Route::post('/store', [App\Http\Controllers\EvalTrackerController::class, 'store'])->name('store');
+        });
+    });
 });
