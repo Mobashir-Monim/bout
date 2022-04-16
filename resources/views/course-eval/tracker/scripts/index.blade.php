@@ -108,8 +108,9 @@
         let targetStudents = sectionData.students.filter(x => x.email.length !== 1);
 
         for (let s in targetStudents) {
-            document.getElementById(`t-${ targetStudents[s] }`).innerHTML = 'Gsuite not found';
-            document.getElementById(`l-${ targetStudents[s] }`).innerHTML = 'Collect from student';
+            console.log(targetStudents[s]);
+            document.getElementById(`t-${ targetStudents[s].student_id }`).innerHTML = 'Gsuite not found, collect from student';
+            document.getElementById(`l-${ targetStudents[s].student_id }`).innerHTML = 'Gsuite not found, collect from student';
         }
     }
 </script>

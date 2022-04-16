@@ -35,7 +35,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 text-right hidden my-auto my-2" id="upload-spinner">
-                            <p class="mb-0">Uploading Data, please do not close browser/tab. The page will automatically refresh after completion</p>
+                            <p class="mb-0">Uploading Data, please do not close browser/tab.</p>
                             <div class="mt-2 spinner-border" role="status"><span class="sr-only">Loading...</span></div>
                         </div>
                     </div>

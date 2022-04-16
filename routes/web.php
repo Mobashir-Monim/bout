@@ -13,6 +13,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
+    dd();
+    $oc = App\Models\OfferedCourse::where('run_id', "2022_Spring")->get();
+
+    if (request()->mode == 'delete') {
+
+        foreach ($oc as $key => $c) {
+            foreach ($c->sections as $section) {
+                $section->delete();
+            }
+    
+            $c->delete();
+        }
+    
+        dd('done');
+    } elseif (request()->mode == 'count') {
+        $ocs = App\Models\OfferedCourseSection::whereIn('offered_course_id', $oc->pluck('id')->toArray())->get();
+        dd(count($ocs), count($ocs->whereNull('enrollments')));
+    }
+
+
     dd('testing nothing');
 })->name('tester')->middleware('checkRole:super-admin');
 // })->name('tester');
@@ -227,7 +247,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::name('eval-tracker.')->prefix('/eval-tracker')->group(function () {
         Route::get('/', [App\Http\Controllers\EvalTrackerController::class, 'index'])->name('index');
-        Route::get('/{tracker}', [App\Http\Controllers\EvalTrackerController::class, 'show'])->name('show');
+        Route::get('/{tracker}/show', [App\Http\Controllers\EvalTrackerController::class, 'show'])->name('show');
         Route::post('/', [App\Http\Controllers\EvalTrackerController::class, 'semesterConfrim'])->name('semester-confirm');
         Route::post('/student-list', [App\Http\Controllers\EvalTrackerController::class, 'studentList'])->name('student-list');
         Route::post('/responses', [App\Http\Controllers\EvalTrackerController::class, 'responses'])->name('responses');

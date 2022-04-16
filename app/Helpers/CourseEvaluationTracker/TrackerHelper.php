@@ -38,7 +38,7 @@ class TrackerHelper extends Helper
     {
         $students = [];
 
-        foreach (OCS::find($section)->enrollments as $enrollment) {
+        foreach (OCS::find($section)->students as $student) {
             $students[] = [
                 'student_id' => $student->student_id,
                 'name' => $student->name,

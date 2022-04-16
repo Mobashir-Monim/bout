@@ -20,8 +20,12 @@ class OfferedCourseSection extends Model
         return $this->belongsTo('App\Models\OfferedCourse', 'offered_course_id');
     }
 
-    public function getEnrollmentsAttribute()
+    public function getStudentsAttribute()
     {
+        if (is_null($this->attributes['enrollments'])) {
+            return [];    
+        }
+
         return Student::whereIn('id', json_decode($this->attributes['enrollments'], true))->get();
     }
 
