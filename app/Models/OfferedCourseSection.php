@@ -17,6 +17,11 @@ class OfferedCourseSection extends Model
         return $this->belongsTo('App\Models\OfferedCourse', 'offered_course_id');
     }
 
+    public function enrollments()
+    {
+        return $this->hasMany(StudentEnrollment::class);
+    }
+
     public function getSectionDetailsAttribute()
     {
         $offered = $this->sectionOf;

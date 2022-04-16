@@ -16,3 +16,7 @@
         @include('course-eval.tracker.parts.student-list')    
     @endisset
 @endsection
+
+@section('scripts')
+    @include('course-eval.tracker.scripts.index')
+@endsection

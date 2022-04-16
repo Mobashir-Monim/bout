@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\EvalTracker;
+use App\Models\StudentEnrollment as SE;
 use App\Helpers\CourseEvaluationTracker\TrackerHelper;
+use App\Helpers\CourseEvaluationTracker\SheetConnector;
 
 class EvalTrackerController extends Controller
 {
@@ -20,6 +22,28 @@ class EvalTrackerController extends Controller
         
         return view('course-eval.tracker.index', [
             'helper' => $helper
+        ]);
+
+    }
+
+    public function studentList(Request $request)
+    {
+        $helper = new TrackerHelper(ucfirst($request->semester), $request->year);
+
+        return response()->json([
+            'success' => true,
+            'students' => $helper->getStudentList($request->section),
+            'section' => $helper->getSectionDetails($request->section)
+        ]);
+    }
+
+    public function responses(Request $request)
+    {
+        $helper = new SheetConnector($request->year . "_" . $request->semester, $request->section);
+
+        return response()->json([
+            'success' => true,
+            'collated' => $helper->collated
         ]);
     }
 

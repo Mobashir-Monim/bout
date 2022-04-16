@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Models\EvalTracker;
 use App\Models\OfferedCourseSection as OCS;
 use App\Models\OfferedCourse as OC;
+use App\Models\StudentEnrollment as SE;
 
 class TrackerHelper extends Helper
 {
@@ -34,6 +35,34 @@ class TrackerHelper extends Helper
         return !is_null($this->tracker_instance);
     }
 
+    public function getStudentList($section)
+    {
+        $students = [];
+
+        foreach (SE::where('run_id', $this->year . "_" . $this->semester)->where('offered_course_section_id', $section)->get() as $enrollment) {
+            $students[] = [
+                'student_id' => $enrollment->student->student_id,
+                'name' => $enrollment->student->name,
+                'email' => $enrollment->student->gsuiteEmailsArray
+            ];
+        }
+        
+        return $students;
+    }
+
+    public function getSectionDetails($section)
+    {
+        $ocs = OCS::find($section);
+
+        return [
+            'id' => $ocs->id,
+            'code' => $ocs->sectionOf->course->code,
+            'title' => $ocs->sectionOf->course->title,
+            'section' => $ocs->section,
+            'has_lab' => $ocs->sectionOf->has_lab,
+            'is_lab' => $ocs->sectionOf->is_lab,
+        ];
+    }
 
     public function setStatusToTrue($message)
     {

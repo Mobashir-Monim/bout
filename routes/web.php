@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
+    $x = new App\Helpers\CourseEvaluationTracker\SheetConnector('2022_Spring', '3c6bd1f5-9bbe-42bb-a5f8-518f67b8d4ff');
+    dd($x);
     dd('testing nothing');
 })->name('tester')->middleware('checkRole:super-admin');
 // })->name('tester');
@@ -228,6 +230,8 @@ Route::middleware(['auth'])->group(function () {
     Route::name('eval-tracker.')->prefix('/eval-tracker')->group(function () {
         Route::get('/', [App\Http\Controllers\EvalTrackerController::class, 'index'])->name('index');
         Route::post('/', [App\Http\Controllers\EvalTrackerController::class, 'semesterConfrim'])->name('semester-confirm');
+        Route::post('/student-list', [App\Http\Controllers\EvalTrackerController::class, 'studentList'])->name('student-list');
+        Route::post('/responses', [App\Http\Controllers\EvalTrackerController::class, 'responses'])->name('responses');
 
         Route::middleware(['checkRole:super-admin'])->group(function () {
             Route::get('/create', [App\Http\Controllers\EvalTrackerController::class, 'create'])->name('create');

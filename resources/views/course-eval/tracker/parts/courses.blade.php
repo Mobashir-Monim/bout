@@ -7,7 +7,7 @@
                 @else
                     <h5 class="border-bottom">Course Section Trackers</h5>
                     @foreach ($helper->getCourseSections() as $section)
-                        <button class="btn btn-dark d-inline-block m-1">{{ $section->sectionOf->course->code }} - {{ $section->section }} - {{ $section->is_lab_faculty ? 'Lab' : 'Theory' }} Tracker</button>
+                        <button class="btn btn-dark d-inline-block m-1" onclick="getStudentList(`{{ $section->id }}`)">{{ $section->sectionOf->course->code }} - {{ $section->section }} - {{ $section->is_lab_faculty ? 'Lab' : 'Theory' }} Tracker</button>
                     @endforeach
                 @endif
             </div>

@@ -18,7 +18,6 @@ class Enroller extends Helper
 
     public function __construct($department, $course, $section, $students, $semester, $year)
     {
-        // dd($department, $course, $section);
         $this->section = $this->findSection($department, $course, $section, $semester, $year);
         $this->findStudents($students);
         $this->enrollStudents($semester, $year);
@@ -96,7 +95,7 @@ class Enroller extends Helper
     {
         $run = $year . "_" . $semester;
         foreach ($this->students as $student) {
-            if (!is_null(SE::where('run_id', $run)
+            if (is_null(SE::where('run_id', $run)
                 ->where('student_id', $student)
                 ->where('offered_course_section_id', $this->section->id)
             ->first())) {
