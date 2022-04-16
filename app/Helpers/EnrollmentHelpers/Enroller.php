@@ -15,11 +15,11 @@ class Enroller extends Helper
     public $students = [];
     public $newAdditions = [];
 
-    public function __construct($department, $course, $section, $students, $semester, $year)
+    public function __construct($department, $course, $section, $students, $semester, $year, $stream)
     {
         $this->section = $this->findSection($department, $course, $section, $semester, $year);
         $this->findStudents($students);
-        $this->enrollStudents();
+        $this->enrollStudents($stream);
     }
 
     public function findSection($department, $course, $section, $semester, $year)
@@ -90,9 +90,14 @@ class Enroller extends Helper
         return $returnee;
     }
 
-    public function enrollStudents()
+    public function enrollStudents($stream)
     {
-        $this->section->enrollments = $this->students;
+        if ($stream == 0) {
+            $this->section->enrollments = $this->students;
+        } else {
+            $this->section->enrollments = array_merge($this->section->enrollments->pluck('id')->toArray(), $this->students);
+        }
+
         $this->section->save();
     }
 }

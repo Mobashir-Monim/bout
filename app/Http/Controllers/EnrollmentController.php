@@ -20,7 +20,8 @@ class EnrollmentController extends Controller
             $request->section,
             $request->students,
             $request->semester,
-            $request->year
+            $request->year,
+            $request->stream
         );
 
         return response()->json([
