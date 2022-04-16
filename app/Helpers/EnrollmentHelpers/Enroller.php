@@ -109,4 +109,3 @@ class Enroller extends Helper
         }
     }
 }
-// select * from courses where code = "EEE361" and provider = "DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING";
