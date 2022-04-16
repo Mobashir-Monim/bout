@@ -229,6 +229,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::name('eval-tracker.')->prefix('/eval-tracker')->group(function () {
         Route::get('/', [App\Http\Controllers\EvalTrackerController::class, 'index'])->name('index');
+        Route::get('/{tracker}', [App\Http\Controllers\EvalTrackerController::class, 'show'])->name('show');
         Route::post('/', [App\Http\Controllers\EvalTrackerController::class, 'semesterConfrim'])->name('semester-confirm');
         Route::post('/student-list', [App\Http\Controllers\EvalTrackerController::class, 'studentList'])->name('student-list');
         Route::post('/responses', [App\Http\Controllers\EvalTrackerController::class, 'responses'])->name('responses');

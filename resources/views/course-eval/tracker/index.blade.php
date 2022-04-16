@@ -11,9 +11,12 @@
         </div>
     </div>
     
+
+    @include('course-eval.tracker.parts.trackers')
+
     @isset($helper)
         @include('course-eval.tracker.parts.courses')
-        @include('course-eval.tracker.parts.student-list')    
+        @include('course-eval.tracker.parts.student-list')
     @endisset
 @endsection
 

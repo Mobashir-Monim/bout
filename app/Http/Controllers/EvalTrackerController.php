@@ -13,7 +13,9 @@ class EvalTrackerController extends Controller
 {
     public function index()
     {
-        return view('course-eval.tracker.index');
+        return view('course-eval.tracker.index', [
+            'trackers' => EvalTracker::all()
+        ]);
     }
 
     public function semesterConfrim(Request $request)
@@ -21,7 +23,8 @@ class EvalTrackerController extends Controller
         $helper = new TrackerHelper(ucfirst($request->semester), $request->year);
         
         return view('course-eval.tracker.index', [
-            'helper' => $helper
+            'helper' => $helper,
+            'trackers' => EvalTracker::all()
         ]);
 
     }
