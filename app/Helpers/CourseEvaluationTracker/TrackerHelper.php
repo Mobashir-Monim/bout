@@ -6,7 +6,6 @@ use App\Helpers\Helper;
 use App\Models\EvalTracker;
 use App\Models\OfferedCourseSection as OCS;
 use App\Models\OfferedCourse as OC;
-use App\Models\StudentEnrollment as SE;
 
 class TrackerHelper extends Helper
 {
@@ -39,11 +38,11 @@ class TrackerHelper extends Helper
     {
         $students = [];
 
-        foreach (SE::where('run_id', $this->year . "_" . $this->semester)->where('offered_course_section_id', $section)->get() as $enrollment) {
+        foreach (OCS::find($section)->enrollments as $enrollment) {
             $students[] = [
-                'student_id' => $enrollment->student->student_id,
-                'name' => $enrollment->student->name,
-                'email' => $enrollment->student->gsuiteEmailsArray
+                'student_id' => $student->student_id,
+                'name' => $student->name,
+                'email' => $student->gsuiteEmailsArray
             ];
         }
         

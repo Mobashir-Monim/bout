@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('test', function () {
-    $x = new App\Helpers\CourseEvaluationTracker\SheetConnector('2022_Spring', '3c6bd1f5-9bbe-42bb-a5f8-518f67b8d4ff');
-    dd($x);
     dd('testing nothing');
 })->name('tester')->middleware('checkRole:super-admin');
 // })->name('tester');

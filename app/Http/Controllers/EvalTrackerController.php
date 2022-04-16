@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\EvalTracker;
-use App\Models\StudentEnrollment as SE;
 use App\Helpers\CourseEvaluationTracker\TrackerHelper;
 use App\Helpers\CourseEvaluationTracker\SheetConnector;
 

@@ -3,7 +3,7 @@
     const year = document.getElementById('year');
     const enrollments = document.getElementById('enrollments');
     const uploadSpinner = document.getElementById('upload-spinner');
-    const uploadIndex = {department: 0, course: 0, section: 0, student: 0};
+    const uploadIndex = {department: 0, course: 0, section: 0};
     let uploadable = {};
 
     $("#uploader").click(function(){
@@ -75,7 +75,7 @@
             department: department,
             course: course,
             section: section,
-            students: [uploadable[department][course][section][uploadIndex.student]],
+            students: uploadable[department][course][section],
         }
     }
 
@@ -84,30 +84,23 @@
         let courses = Object.keys(uploadable[departments[department]]);
         let sections = Object.keys(uploadable[departments[department]][courses[course]]);
         
-        if (uploadIndex.student + 1 < uploadable[departments[uploadIndex.department]][courses[uploadIndex.course]][sections[uploadIndex.section]].length) {
-            uploadIndex.student += 1;
+        if (sections[section + 1] !== undefined) {
+            uploadIndex.section = section + 1;
             enrollStudents();
         } else {
-            uploadIndex.student = 0;
+            uploadIndex.section = 0;
 
-            if (sections[section + 1] !== undefined) {
-                uploadIndex.section = section + 1;
+            if (courses[course + 1] !== undefined) {
+                uploadIndex.course = course + 1;
                 enrollStudents();
             } else {
-                uploadIndex.section = 0;
+                uploadIndex.course = 0;
 
-                if (courses[course + 1] !== undefined) {
-                    uploadIndex.course = course + 1;
+                if (departments[department + 1] !== undefined) {
+                    uploadIndex.department = department + 1;
                     enrollStudents();
                 } else {
-                    uploadIndex.course = 0;
-
-                    if (departments[department + 1] !== undefined) {
-                        uploadIndex.department = department + 1;
-                        enrollStudents();
-                    } else {
-                        uploadSpinner.classList.add('hidden');
-                    }
+                    uploadSpinner.classList.add('hidden');
                 }
             }
         }

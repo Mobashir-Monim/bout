@@ -8,7 +8,6 @@ use App\Helpers\StudentHelpers\MassUploader;
 use App\Models\Course;
 use App\Models\OfferedCourse as OC;
 use App\Models\OfferedCourseSection as OCS;
-use App\Models\StudentEnrollment as SE;
 
 class Enroller extends Helper
 {
@@ -20,7 +19,7 @@ class Enroller extends Helper
     {
         $this->section = $this->findSection($department, $course, $section, $semester, $year);
         $this->findStudents($students);
-        $this->enrollStudents($semester, $year);
+        $this->enrollStudents();
     }
 
     public function findSection($department, $course, $section, $semester, $year)
@@ -91,20 +90,9 @@ class Enroller extends Helper
         return $returnee;
     }
 
-    public function enrollStudents($semester, $year)
+    public function enrollStudents()
     {
-        $run = $year . "_" . $semester;
-        foreach ($this->students as $student) {
-            if (is_null(SE::where('run_id', $run)
-                ->where('student_id', $student)
-                ->where('offered_course_section_id', $this->section->id)
-            ->first())) {
-                SE::create([
-                    'run_id' => $run,
-                    'student_id' => $student,
-                    'offered_course_section_id' => $this->section->id
-                ]);
-            }
-        }
+        $this->section->enrollments = $this->students;
+        $this->section->save();
     }
 }

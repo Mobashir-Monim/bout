@@ -11,15 +11,18 @@ class OfferedCourseSection extends Model
     use \App\Models\Concerns\UsesUuid;
 
     protected $guarded = [];
+    protected $casts = [
+        'enrollments' => 'array',
+    ];
 
     public function sectionOf()
     {
         return $this->belongsTo('App\Models\OfferedCourse', 'offered_course_id');
     }
 
-    public function enrollments()
+    public function getEnrollmentsAttribute()
     {
-        return $this->hasMany(StudentEnrollment::class);
+        return Student::whereIn('id', json_decode($this->attributes['enrollments'], true))->get();
     }
 
     public function getSectionDetailsAttribute()

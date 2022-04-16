@@ -20,7 +20,7 @@ class BackupHelper extends Helper
         ['type' => 'application','model' => 'Permission', 'name' => 'permissions'],
         ['type' => 'application','model' => 'Role', 'name' => 'roles'],
         ['type' => 'application','model' => 'Run', 'name' => 'runs'],
-        ['type' => 'application','model' => 'StudentEnrollment', 'name' => 'student_enrollments'],
+        // ['type' => 'application','model' => 'StudentEnrollment', 'name' => 'student_enrollments'],
         ['type' => 'application','model' => 'StudentMap', 'name' => 'student_maps'],
         ['type' => 'application','model' => 'Student', 'name' => 'students'],
         ['type' => 'application','model' => 'User', 'name' => 'users'],
