@@ -57,12 +57,8 @@ class SheetConnector extends Helper
     public function fetchResponseData()
     {
         $responses = [];
-
-        if (!$this->section->sectionOf->is_lab)
-            $responses['theory'] = $this->readRanges('theory');
-
-        if ($this->section->sectionOf->has_lab)
-            $responses['lab'] = $this->readRanges('lab');
+        $responses['theory'] = $this->readRanges('theory');
+        $responses['lab'] = $this->readRanges('lab');
 
         $this->collated = $this->collateResponses($responses);
     }

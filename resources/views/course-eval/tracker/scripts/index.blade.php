@@ -99,7 +99,10 @@
                 let records = responses[r].filter(row => row.email === targetStudents[s].email[0]);
                 records = records.filter(t => t.course === sectionData.section.code);
                 records = records.filter(t => t.section == sectionData.section.section);
-                document.getElementById(`${r[0]}-${targetStudents[s].student_id}`).innerHTML = records.length !== 0 ? evaluated : notEvaluated;
+                
+                if ((r === 'theory' && !sectionData.section.is_lab) || (r === 'lab' && sectionData.section.has_lab)) {
+                    document.getElementById(`${r[0]}-${targetStudents[s].student_id}`).innerHTML = records.length !== 0 ? evaluated : notEvaluated;
+                }
             }
         }
     }
