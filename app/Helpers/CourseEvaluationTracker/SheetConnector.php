@@ -88,9 +88,9 @@ class SheetConnector extends Helper
         foreach ($responses as $key => $response) {
             $temp = [];
             $collated[$key] = [
-                'emails' => array_map(function ($x) { return $x[0]; }, $response[$this->keyPairing['email']]->values),
-                'courses' => array_map(function ($x) { return $x[0]; }, $response[$this->keyPairing['course']]->values),
-                'sections' => array_map(function ($x) { return $x[0]; }, $response[$this->keyPairing['section']]->values)
+                'emails' => array_map(function ($x) { return sizeof($x) > 0 ? $x[0] : null; }, $response[$this->keyPairing['email']]->values),
+                'courses' => array_map(function ($x) { return sizeof($x) > 0 ? $x[0] : null; }, $response[$this->keyPairing['course']]->values),
+                'sections' => array_map(function ($x) { return sizeof($x) > 0 ? $x[0] : null; }, $response[$this->keyPairing['section']]->values)
             ];
 
             

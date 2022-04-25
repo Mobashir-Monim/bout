@@ -65,6 +65,11 @@
     }
 
     const fetchResponseData = (section) => {
+        console.log(JSON.stringify({
+                    semester: semester.value,
+                    year: year.value,
+                    section: section
+                }));
         fetch("{{ route('eval-tracker.responses') }}", {
                 headers: {
                     "Content-Type": "application/json",

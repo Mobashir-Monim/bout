@@ -67,4 +67,9 @@ class EvalTrackerController extends Controller
 
         return redirect()->route('eval-tracker.index');
     }
+
+    public function show()
+    {
+        dd('not implemented yet');
+    }
 }
