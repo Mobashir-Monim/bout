@@ -63,9 +63,9 @@
             studentBody = `
                 ${ studentBody }
                 <tr>
-                    <th class="my-auto">${ students[s].student_id }</th>
-                    <td class="my-auto">${ students[s].name }</td>
-                    <td class="my-auto text-center" id="r-${ students[s].student_id }"></td>
+                    <th class="my-auto py-1">${ students[s].student_id }</th>
+                    <td class="my-auto py-1">${ students[s].name }</td>
+                    <td class="my-auto py-1 text-center" id="r-${ students[s].student_id }"></td>
                 </tr>
             `
 
