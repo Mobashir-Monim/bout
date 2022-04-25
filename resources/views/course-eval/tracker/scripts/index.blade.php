@@ -6,6 +6,18 @@
         course: document.getElementById('tracker-course'),
         body: document.getElementById('tracker-body'),
     }
+    const statsConts = {
+        theory: {
+            percentage: document.getElementById('theory-p'),
+            count: document.getElementById('theory-c'),
+            remaining: document.getElementById('theory-r'),
+        },
+        lab: {
+            percentage: document.getElementById('lab-p'),
+            count: document.getElementById('lab-c'),
+            remaining: document.getElementById('lab-r'),
+        },
+    }
     let sectionData = {};
     let responses = {};
     const evaluated = `<span class="material-icons-outlined" style="color: green">done</span>`
@@ -53,10 +65,12 @@
                 <tr>
                     <th class="my-auto">${ students[s].student_id }</th>
                     <td class="my-auto">${ students[s].name }</td>
-                    <td class="my-auto text-center" id="t-${ students[s].student_id }">${ section.is_lab ? 'N/A' : '<div class="mt-2 spinner-border" role="status"><span class="sr-only">Loading...</span></div>' }</td>
-                    <td class="my-auto text-center" id="l-${ students[s].student_id }">${ section.has_lab ? '<div class="mt-2 spinner-border" role="status"><span class="sr-only">Loading...</span></div>' : 'N/A' }</td>
+                    <td class="my-auto text-center" id="r-${ students[s].student_id }"></td>
                 </tr>
             `
+
+            // <td class="my-auto text-center" id="t-${ students[s].student_id }">${ section.is_lab ? 'N/A' : '<div class="mt-2 spinner-border" role="status"><span class="sr-only">Loading...</span></div>' }</td>
+            // <td class="my-auto text-center" id="l-${ students[s].student_id }">${ section.has_lab ? '<div class="mt-2 spinner-border" role="status"><span class="sr-only">Loading...</span></div>' : 'N/A' }</td>
         }
 
         studentTable.course.innerText = `${ section.code }: ${ section.title } - Section ${ section.section }`;
@@ -97,6 +111,7 @@
 
     const markResponses = () => {
         markNoEmails();
+        let stats = {'theory': 0, 'lab': 0};
         let targetStudents = sectionData.students.filter(x => x.email.length === 1);
         
         for (let s in targetStudents) {
@@ -106,9 +121,20 @@
                 records = records.filter(t => t.section == sectionData.section.section);
                 
                 if ((r === 'theory' && !sectionData.section.is_lab) || (r === 'lab' && sectionData.section.has_lab)) {
-                    document.getElementById(`${r[0]}-${targetStudents[s].student_id}`).innerHTML = records.length !== 0 ? evaluated : notEvaluated;
+                    // document.getElementById(`${r[0]}-${targetStudents[s].student_id}`).innerHTML = records.length !== 0 ? evaluated : notEvaluated;
+                    stats[r] += records.length !== 0 ? 1 : 0;
                 }
             }
+        }
+
+        computeStats(stats);
+    }
+
+    const computeStats = stats => {
+        for (let r in stats) {
+            statsConts[r].count.innerHTML = stats[r];
+            statsConts[r].remaining.innerHTML = sectionData.students.length - stats[r];
+            statsConts[r].percentage.innerHTML = (100 * stats[r] / sectionData.students.length).toFixed(2);
         }
     }
 
@@ -117,8 +143,9 @@
 
         for (let s in targetStudents) {
             console.log(targetStudents[s]);
-            document.getElementById(`t-${ targetStudents[s].student_id }`).innerHTML = 'Gsuite not found, collect from student';
-            document.getElementById(`l-${ targetStudents[s].student_id }`).innerHTML = 'Gsuite not found, collect from student';
+            document.getElementById(`r-${ targetStudents[s].student_id }`).innerHTML = 'Gsuite not found, collect from student';
+            // document.getElementById(`t-${ targetStudents[s].student_id }`).innerHTML = 'Gsuite not found, collect from student';
+            // document.getElementById(`l-${ targetStudents[s].student_id }`).innerHTML = 'Gsuite not found, collect from student';
         }
     }
 </script>
